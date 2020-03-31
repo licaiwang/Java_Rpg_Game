@@ -7,6 +7,7 @@ public class Inn extends JPanel{
  
     public Inn() {
         super();
+     
     }
 
 	private static final long serialVersionUID = 1L;

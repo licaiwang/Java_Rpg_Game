@@ -1,15 +1,14 @@
 package Gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Insets;
-import net.miginfocom.swing.MigLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -17,12 +16,29 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
+import net.miginfocom.swing.MigLayout;
+
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
 
 public class Gui extends JFrame {
+	private static final long serialVersionUID = 1L;
+	String content;
 	Integer travelPoint = 15;
 	Container mContainer;
+	JPanel bottomPanel;
+	JTextArea jTextArea;
+	JScrollPane jScrollPane;
 	FirstTown mainPage;
+	Market market;
+	AudioInputStream audioIn;
 	Inn inn;
 	School school;
 	JLabel travelPointLabel;
@@ -63,6 +79,7 @@ public class Gui extends JFrame {
 
 		// Inside the Side - Top
 		Avatar topInsidePanel = new Avatar();
+
 		topInsidePanel.setBorder(new LineBorder(Color.RED, 3, true));
 		sidePanel.add(topInsidePanel);
 
@@ -92,39 +109,73 @@ public class Gui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				resetTravelPointLabel();
 				resetPannel(2);
+				readText("inn");
+				resetTextArea();
+				Thread playMusic = new MusicHelper("sleep.wav");
+				playMusic.start();
 			}
 		});
 		btn_3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				resetPannel(3);
+				readText("school");
+				resetTextArea();
+			}
+		});
+		btn_5.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				resetPannel(5);
+				readText("market");
+				resetTextArea();
 			}
 		});
 		btn_6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				resetPannel(6);
+				readText("FirstTown");
+				resetTextArea();
 			}
 		});
 		// Middle - init
 		mainPage = new FirstTown();
 		inn = new Inn();
 		school = new School();
+		market = new Market();
 		mainPage.setFocusable(true);
 		mainPage.setOpaque(true);
 		mainPage.setBorder(new LineBorder(Color.black, 3));
 
 		// buttom
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(new FlowLayout(50, 50, 50));
+		bottomPanel = new JPanel();
+		// bottomPanel.setLayout(new FlowLayout(50, 50, 50));
 		bottomPanel.setBackground(Color.white);
 		bottomPanel.setBorder(new LineBorder(Color.BLUE, 3));
-
+		// init text on buttom
+		jTextArea = new JTextArea();
+		jScrollPane = new JScrollPane(jTextArea);
+		readText("FirstTown");
+		resetTextArea();
 		// Add to Container
 		mContainer.add(topPanel, BorderLayout.NORTH);
 		mContainer.add(mainPage);
 		mContainer.add(sidePanel, BorderLayout.EAST);
 		mContainer.add(bottomPanel, BorderLayout.SOUTH);
+
+		// 背景音樂
+		try {
+			audioIn = AudioSystem
+					.getAudioInputStream(new File("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/music/firstTown.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioIn);
+			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+			e1.printStackTrace();
+		}
+
 	}
 
 	void resetTravelPointLabel() {
@@ -141,46 +192,98 @@ public class Gui extends JFrame {
 			case 3:
 				showSchool();
 				break;
+			case 5:
+				showMarket();
+				break;
 			case 6:
 				showTown();
 				break;
 		}
 	}
 
+	void showInn() {
+		inn.setVisible(true);
+		inn.setBackground(Color.BLACK);
+		//
+		mainPage.setVisible(false);
+		school.setVisible(false);
+		market.setVisible(false);
+		//
+		mContainer.remove(market);
+		mContainer.remove(mainPage);
+		mContainer.remove(school);
+		//
+		mContainer.add(inn);
+		mContainer.invalidate();
+		inn.repaint();
+	}
+
 	void showSchool() {
 		school.setVisible(true);
+		school.setFocusable(true);
+		//
 		mainPage.setVisible(false);
 		inn.setVisible(false);
-		school.setFocusable(true);
+		market.setVisible(false);
+		//
+		mContainer.remove(market);
 		mContainer.remove(mainPage);
 		mContainer.remove(inn);
+		//
 		mContainer.add(school);
 		mContainer.invalidate();
 		school.repaint();
 	}
 
-	void showTown() {
-		mainPage.setVisible(true);
+	void showMarket() {
+		market.setVisible(true);
+		market.setFocusable(true);
+		//
+		mainPage.setVisible(false);
 		inn.setVisible(false);
 		school.setVisible(false);
+		//
+		mContainer.remove(school);
+		mContainer.remove(mainPage);
+		mContainer.remove(inn);
+		//
+		mContainer.add(market);
+		mContainer.invalidate();
+		market.repaint();
+	}
+
+	void showTown() {
+		mainPage.setVisible(true);
+		//
+		inn.setVisible(false);
+		school.setVisible(false);
+		market.setVisible(false);
+		//
+		mContainer.remove(market);
 		mContainer.remove(inn);
 		mContainer.remove(school);
+		//
 		mContainer.add(mainPage);
 		mContainer.invalidate();
 		mainPage.repaint();
 	}
 
-	void showInn() {
-		inn.setVisible(true);
-		mainPage.setVisible(false);
-		school.setVisible(false);
+	void resetTextArea() {
+		jTextArea.setFont(new Font("Serif", Font.PLAIN, 20));
+		jTextArea.setColumns(getWidth() / 20);
+		jTextArea.setEditable(false);
+		jTextArea.setLineWrap(true);
+		jTextArea.setText(content);
+		jScrollPane.setOpaque(false);
+		bottomPanel.add(jScrollPane);
+	}
 
-		inn.setBackground(Color.BLACK);
-		mContainer.remove(mainPage);
-		mContainer.remove(school);
-		mContainer.add(inn);
-		mContainer.invalidate();
-		inn.repaint();
+	void readText(String name) {
+		try {
+			content = FileReaderHelper.readTextFromTxt(name);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) {
