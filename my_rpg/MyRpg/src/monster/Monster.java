@@ -1,86 +1,94 @@
 package monster;
+
 import Basic.Power;
 import java.util.Random;
 
 public class Monster extends Power {
-
+    public static Integer HP;
+    public static Integer ATK;
+    public static Integer DEF;
+    public static Integer SP_ATK;
+    public static Integer SP_DEF;
+    public static Integer SPEED;
+    public static Integer LUCK;
+    public static Integer MP;
+    public static Integer COIN;
+    public static Integer EXP;
+    public static Integer LEVEL;
 
     public Monster(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp,
             int level) {
-        super(hp, atk, def, sp_atk, sp_def, speed, luck, mp, coin, exp, level);
+        super(hp, atk, def, sp_atk, sp_def, speed, luck, mp, exp, level);
         // ATK, DEF, SP_ATK, SP_DEF, SPEED, LUCK, MP, COIN, EXP, LEVEL
+        HP = hp;
+        ATK = atk;
+        DEF = def;
+        SP_ATK = sp_atk;
+        SP_DEF = sp_def;
+        SPEED = speed;
+        LUCK = luck;
+        MP = mp;
+        COIN = coin;
+        EXP = exp;
+        LEVEL = level;
+    }
+
+    public Monster(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp,
+            int level, int rarity) {
+        super(hp, atk, def, sp_atk, sp_def, speed, luck, mp, coin, exp, level, rarity);
+        Random r = new Random();
+        LEVEL = r.nextInt(level);
+        COIN = ((r.nextInt(10) + LEVEL) * (1 + (rarity / 100)));
+        EXP = ((r.nextInt(3) + LEVEL) * (1 + (rarity / 100)));
+        HP = ((hp + LEVEL) * (1 + (rarity / 100)));
+        ATK = ((atk + LEVEL) * (1 + (rarity / 100)));
+        DEF = ((def + LEVEL) * (1 + (rarity / 100)));
+        SP_ATK = ((sp_atk + LEVEL) * (1 + (rarity / 100)));
+        SP_DEF = ((sp_def + LEVEL) * (1 + (rarity / 100)));
+        SPEED = ((speed + LEVEL) * (1 + (rarity / 100)));
+        LUCK = ((luck + LEVEL) * (1 + (rarity / 100)));
+        MP = ((mp + LEVEL) * (1 + (rarity / 100)));
     }
 
 
-    public Monster(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp, int level, int rarity)
-    {
-        super(hp, atk, def, sp_atk, sp_def,speed, luck, mp, coin, exp,  level, rarity);
-    }
-
-    private Random r = new Random();
-
-    
-
-    public void upAtk(Integer amount) {
-        this.ATK += amount;
-    }
-
-    public void upDef(Integer amount) {
-        this.DEF += amount;
-    }
-
-    public void upSpAtk(Integer amount) {
-        this.SP_ATK += amount;
-    }
-
-    public void upSpDef(Integer amount) {
-        this.SP_DEF += amount;
-    }
-
-    public void upSpeed(Integer amount) {
-        this.SPEED += amount;
-    }
-
-    public void upLuck(Integer amount) {
-        this.LUCK += amount;
-    }
-
-    public Integer DropCoin(Integer level) {
-
+    public static Integer DropCoin(Integer level) {
+        Random r = new Random();
         if (level < 5) {
             Integer money = r.nextInt(10);
             return money;
         }
         if (level >= 5 && level < 10) {
-            Integer money = r.nextInt(50)+5;
+            Integer money = r.nextInt(50) + 5;
             return money;
         }
         if (level >= 10 && level < 15) {
-            Integer money = r.nextInt(300)+75;
+            Integer money = r.nextInt(300) + 75;
             return money;
         }
         if (level >= 15 && level < 20) {
-            Integer money = r.nextInt(600)+150;
+            Integer money = r.nextInt(600) + 150;
             return money;
         }
         if (level >= 20 && level < 25) {
-            Integer money = r.nextInt(1200)+300;
+            Integer money = r.nextInt(1200) + 300;
             return money;
         }
         if (level >= 25 && level < 30) {
-            Integer money = r.nextInt(2400)+600;
+            Integer money = r.nextInt(2400) + 600;
             return money;
         }
         return 0;
     }
 
-    public void DropExp(Integer amount) {
-        this.EXP += amount;
 
-    }
-
-    public Monster getMonster()
+    public static Integer getHp()
     {
-        return this;
+        return HP;
     }
+    public static Integer[] getAll() {
+        Integer[] all = { Monster.HP, Monster.ATK, Monster.DEF, Monster.SP_ATK, Monster.SP_DEF, Monster.SPEED,
+                Monster.LUCK, Monster.MP, Monster.COIN, Monster.EXP, Monster.LEVEL };
+        return all;
+    }
+
 }

@@ -16,9 +16,9 @@ public class Power {
     public Integer COIN;
     public Integer EXP;
     public Integer LEVEL;
+    
 
-    public Power(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp,
-            int level) {
+    public Power(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int exp,int level) {
         this.HP = hp;
         this.ATK = atk;
         this.DEF = def;
@@ -27,10 +27,8 @@ public class Power {
         this.SPEED = speed;
         this.LUCK = luck;
         this.MP = mp;
-        this.COIN = coin;
         this.EXP = exp;
         this.LEVEL = level;
-
     }
     public Power(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp, int level, int rarity) {
         switch (rarity) {
@@ -53,54 +51,9 @@ public class Power {
         }
     }
 
-    public Integer getHp() {
-        return HP;
-    }
+    
 
-    public Integer getAtk() {
-        return ATK;
-    }
-
-    public Integer getDef() {
-        return DEF;
-    }
-
-    public Integer getSpatk() {
-        return SP_ATK;
-    }
-
-    public Integer getSpdef() {
-        return SP_DEF;
-    }
-
-    public Integer getSpeed() {
-        return SPEED;
-    }
-
-    public Integer getLuck() {
-        return LUCK;
-    }
-
-    public Integer getMp() {
-        return MP;
-    }
-
-    public Integer getCoin() {
-        return COIN;
-    }
-
-    public Integer getExp() {
-        return EXP;
-    }
-
-    public Integer getLevel() {
-        return LEVEL;
-    }
-
-    public Integer[] getAll() {
-        Integer[] all = { ATK, DEF, SP_ATK, SP_DEF, SPEED, LUCK, MP, COIN, EXP, LEVEL };
-        return all;
-    }
+ 
 
     public void montserPower(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp, int level, int rarity) {
         if (level <= 5) {

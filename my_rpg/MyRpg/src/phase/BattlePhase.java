@@ -1,115 +1,93 @@
 package phase;
 
 import Basic.Player;
+import Gui.Advanture.BattleSidePanel;
+import Skill.BattleSkillBase;
+import monster.CreateMonster;
 import monster.Monster;
 
 public class BattlePhase {
-    static Integer damage = 0;
+    // 傳給畫怪物血量用
+    public static Integer to_M_damage = -1;
 
-    public static Integer countSpeed(Player player, Monster monster) {
-        if (player.SPEED > monster.SPEED) {
-            return 0;
-        } else {
-            return 1;
+    public static void playerTurn(int index, int whichAct) {
+        switch (whichAct) {
+            case 1:
+                countDamage(getSkill(index));
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+
         }
     }
 
-    public static Integer countDamage(Player player, Monster monster, Integer whoAtk, boolean isSpatk) {
-        if (isSpatk) {
-            switch (whoAtk) {
-                case 0:
-                    damage = (player.SP_ATK - monster.SP_DEF);
-                    damage = isDamage(damage);
-                    break;
-                case 1:
-                    damage = (monster.SP_ATK - player.SP_DEF);
-                    damage = isDamage(damage);
-                    break;
-            }
+    public static void MonsterTurn() {
+        M_countDamage(CreateMonster.Movement());
+    }
 
-        } else {
-            switch (whoAtk) {
-                case 0:
-                    damage = (player.ATK - monster.DEF);
-                    damage = isDamage(damage);
-                    break;
-                case 1:
-
-                    damage = (monster.ATK - player.DEF) * (1 + ((monster.LUCK - player.LUCK) / 100));
-                    damage = isDamage(damage);
-                    break;
-            }
+    public static int getSkill(int index) {
+        int damage = 0;
+        switch (index) {
+            case 0:
+                damage = BattleSkillBase.Basic_Atk();
+                break;
+            case 1:
+                damage = BattleSkillBase.Basic_SpAtk();
+                break;
+            case 2:
+                damage = BattleSkillBase.Basic_Penetrate();
+                break;
+            case 3:
+                damage = BattleSkillBase.Basic_SP_Penetrate();
+                break;
         }
-
         return damage;
     }
 
-    public static Integer countCritical(Player player, Monster monster, Integer whoLuck) {
-        switch (whoLuck) {
-            case 0:
-                if (player.LUCK - monster.LUCK > 0) {
-                    return (player.LUCK - monster.LUCK);
-                } else {
-                    return 1;
-                }
-            case 1:
-                if (monster.LUCK - player.LUCK > 0) {
-                    return (monster.LUCK - player.LUCK);
-                } else {
-                    return 1;
-                }
+    public static int checkMonsterDeadOPlayer() {
+        /*
+         *
+         * 怪物死亡回傳 0 角色死亡回傳 1 
+         * 
+         */
+        if (BattleTemp.M_HP <= 0) {
+            to_M_damage = -1;
+            Player.COIN += Monster.DropCoin(BattleTemp.LEVEL);
+            return 0;
         }
-        return 0;
-    }
-
-    public static Integer countDodge(Player player, Monster monster, Integer whoDodge) {
-        switch (whoDodge) {
-            case 0:
-                if (player.SPEED - monster.SPEED > 0) {
-                    return (player.SPEED - monster.SPEED);
-                } else {
-                    return 1;
-                }
-            case 1:
-                if (monster.SPEED - player.SPEED > 0) {
-                    return (monster.SPEED - player.SPEED);
-                } else {
-                    return 1;
-                }
-        }
-        return 0;
-    }
-
-    public static Integer subHp(Player player, Monster monster, Integer whoHp, Integer damage, Boolean IsCritical) {
-        switch (whoHp) {
-            case 0:
-                if (IsCritical) {
-
-                    return (player.HP - 2 * damage);
-                } else
-
-                    return (player.HP - damage);
-            case 1:
-                if (IsCritical) {
-                    System.out.println("玩家發出了暴擊，對史萊姆造成了");
-                    System.out.println(2 * damage);
-                    System.out.println("點傷害");
-                    return (monster.HP - (2 * damage));
-                } else
-                    System.out.println("玩家攻擊，對史萊姆造成了");
-                    System.out.println(damage);
-                    System.out.println("點傷害");
-                    return (monster.HP - damage);
-        }
-        return 0;
-    }
-
-    public static Integer isDamage(Integer damage) {
-        if (damage > 0) {
-            return damage;
-        } else {
+        if (BattleTemp.HP <= 0) {
             return 1;
         }
+        return 2;
+    }
+
+    public static void countDamage(int damage) {
+        if (BattleTemp.countSpeed() == 0 && BattleTemp.Dodge()) {
+            damage -= damage;
+        }
+        if (BattleTemp.countCritical() == 1 && BattleTemp.Critical()) {
+            damage += damage;
+        }
+        BattleTemp.M_HP -= damage;
+        to_M_damage = Math.round(((BattleTemp.M_HP.floatValue()/(BattleTemp.M_HP.floatValue()+damage)))* 250 ); 
+        System.out.println("造成了" +damage+ "點傷害，血剩下" +  BattleTemp.M_HP);
+    }
+
+    public static void M_countDamage(int damage) {
+        if( BattleTemp.countSpeed() == 1 && BattleTemp.Dodge())
+        {damage -= damage;}
+        if( BattleTemp.countCritical() == 0 && BattleTemp.Critical())
+        {damage += damage;}
+        BattleTemp.HP -= damage;
+        BattleSidePanel.HpLabel.setText("生命值：" + BattleTemp.HP);
+        System.out.println("受到了" + damage+ "點傷害，血剩下" + BattleTemp.HP);
     }
 
 }

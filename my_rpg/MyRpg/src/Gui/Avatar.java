@@ -4,9 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Avatar extends JPanel {
+    /*
 
+    繪製頭像
+    
+    */
     public Avatar() {
         super();
+        setPreferredSize( new Dimension( 100, 180 ) );
     }
 
 	private static final long serialVersionUID = 1L;
