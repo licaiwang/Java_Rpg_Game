@@ -8,16 +8,23 @@ import javax.swing.border.LineBorder;
 import Basic.Player;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
+import Gui.Helper.MusicHelper;
 import Gui.Town.FirstTown;
 import Gui.Town.Inn;
 import Gui.Town.Market;
 import Gui.Town.School;
+import Gui.Town.Storage;
 import Gui.Town.TownSidePanel;
+import Skill.BattleSkillBase;
+import item.Item;
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
@@ -35,10 +42,10 @@ public class Gui extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public static Gui main;
 	public static Player player;
-	AudioInputStream audioIn;
-	static Container mContainer;
+	public static Container mContainer;
 	static FirstTown mainPage;
 	static Market market;
+	static Storage storage;
 	static Inn inn;
 	static School school;
 	static BattleSidePanel battleSidePanel;
@@ -48,9 +55,14 @@ public class Gui extends JFrame {
 	static Canvas c;
 	static JPanel p;
 	static EmbeddedMediaPlayer emp;
+
+
+
+
+	AudioInputStream audioIn;
 	public Gui(final String title) {
 		super(title);
-		this.setSize(1150, 600);
+		this.setSize(1280, 900);
 		this.setLocation(100, 100);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.WHITE));
@@ -60,7 +72,7 @@ public class Gui extends JFrame {
 	}
 
 	static void init() {
-		
+
 		// Top
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(Color.black);
@@ -70,6 +82,7 @@ public class Gui extends JFrame {
 		mainPage = new FirstTown();
 		inn = new Inn();
 		school = new School();
+		storage = new Storage();
 		market = new Market();
 		// bottom - init
 		bottomPanel = new BottomPanel();
@@ -101,15 +114,30 @@ public class Gui extends JFrame {
 				break;
 			case 2:
 				showInn();
+				Thread playMusic = new MusicHelper("sleep.wav");
+				playMusic.start();
+				BottomPanel.readText("inn");
+				BottomPanel.resetTextArea();
 				break;
 			case 3:
 				showSchool();
+				BottomPanel.readText("school");
+				BottomPanel.resetTextArea();
 				break;
+			case 4:
+				showStorage();
+				BottomPanel.readText("storage");
+				BottomPanel.resetTextArea();
+				break;	
 			case 5:
 				showMarket();
+				BottomPanel.readText("market");
+				BottomPanel.resetTextArea();
 				break;
 			case 6:
 				showTown();
+				BottomPanel.readText("FirstTown");
+				BottomPanel.resetTextArea();
 				break;
 		}
 	}
@@ -148,10 +176,12 @@ public class Gui extends JFrame {
 		mainPage.setVisible(false);
 		school.setVisible(false);
 		market.setVisible(false);
+		storage.setVisible(false);
 		inn.setVisible(false);
 		//
+		mContainer.remove(storage);
 		mContainer.remove(market);
-		mContainer.remove(mainPage);
+		//mContainer.remove(mainPage);
 		mContainer.remove(school);
 		mContainer.remove(inn);
 		//
@@ -167,9 +197,11 @@ public class Gui extends JFrame {
 		mainPage.setVisible(false);
 		school.setVisible(false);
 		market.setVisible(false);
+		storage.setVisible(false);
 		//
 		mContainer.remove(market);
-		mContainer.remove(mainPage);
+		mContainer.remove(storage);
+		//mContainer.remove(mainPage);
 		mContainer.remove(school);
 		//
 		mContainer.add(inn);
@@ -178,16 +210,18 @@ public class Gui extends JFrame {
 	}
 
 	static void showSchool() {
-		school.resetCdAmount();
+		School.resetCdAmount();
 		school.setVisible(true);
 		school.setFocusable(true);
 		//
 		mainPage.setVisible(false);
 		inn.setVisible(false);
 		market.setVisible(false);
+		storage.setVisible(false);
 		//
 		mContainer.remove(market);
-		mContainer.remove(mainPage);
+		mContainer.remove(storage);
+		//mContainer.remove(mainPage);
 		mContainer.remove(inn);
 		//
 		mContainer.add(school);
@@ -203,9 +237,11 @@ public class Gui extends JFrame {
 		mainPage.setVisible(false);
 		inn.setVisible(false);
 		school.setVisible(false);
+		storage.setVisible(false);
 		//
 		mContainer.remove(school);
-		mContainer.remove(mainPage);
+		mContainer.remove(storage);
+		//mContainer.remove(mainPage);
 		mContainer.remove(inn);
 		//
 		mContainer.add(market);
@@ -213,27 +249,50 @@ public class Gui extends JFrame {
 		market.repaint();
 	}
 
-	static void showTown() {
-		mainPage.setVisible(true);
+
+	static void showStorage() {
+		storage.setBackground(Color.YELLOW);
+		storage.setVisible(true);
+		storage.setFocusable(true);
 		//
-		AdvantureBackground.advPanel.setVisible(false);
+		mainPage.setVisible(false);
 		inn.setVisible(false);
 		school.setVisible(false);
 		market.setVisible(false);
-		advBackground.setVisible(false);
 		//
-		mContainer.remove(AdvantureBackground.advPanel);
+		mContainer.remove(market);
+		mContainer.remove(school);
+		//mContainer.remove(mainPage);
+		mContainer.remove(inn);
+		//
+		mContainer.add(storage);
+		mContainer.invalidate();
+		storage.repaint();
+	}
+
+	static void showTown() {
+		AdvantureBackground.advPanel.setVisible(false);
+		mainPage.setVisible(true);
+		//
+	
+		inn.setVisible(false);
+		school.setVisible(false);
+		market.setVisible(false);
+		storage.setVisible(false);
+		//
 		mContainer.remove(market);
 		mContainer.remove(inn);
 		mContainer.remove(school);
+		mContainer.remove(storage);
 		//
 		mContainer.add(mainPage);
 		mContainer.invalidate();
 		mainPage.repaint();
 	}
 
-	public static void reset() {
-		player = new Player();
+
+	public static void reset() throws IOException {
+		Player.UpgradePlayer(Integer.valueOf(Player.LEVEL));
 		mContainer.removeAll();
 		init();
 		mContainer.validate();
@@ -256,6 +315,7 @@ public class Gui extends JFrame {
 				main.validate();
 				mContainer.repaint();
 			}
+
 			@Override
 			public void error(MediaPlayer mediaPlayer) {
 				main.remove(p);
@@ -269,20 +329,34 @@ public class Gui extends JFrame {
 		emp.play();
 	}
 
-	static void stopVideo()
-	{
+	static void stopVideo() {
 		emp.stop();
 		emp.release();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		//
 		player = new Player();
+		
+	
+		try {
+			Item.readAllData();
+			Player.readAllData();
+			BattleSkillBase.readAllData();
+			BattleSkillBase.initSkill();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		// 要先 init player
 		main = new Gui("Test");
 		main.setVisible(true);
-		
+		init();
+		main.validate();
+		mContainer.repaint();
+		/*
 		c = new Canvas();
 		c.setBackground(Color.BLACK);
 		c.setFocusable(true);
@@ -308,7 +382,8 @@ public class Gui extends JFrame {
 		p.setLayout(new BorderLayout());
 		p.add(c);
 		main.add(p);
-		playVideo();		
+		playVideo();	
+		*/	
 	}
 
 }

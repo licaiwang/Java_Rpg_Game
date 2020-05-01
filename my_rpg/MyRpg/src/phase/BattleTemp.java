@@ -1,15 +1,19 @@
 package phase;
 
+import java.io.IOException;
 import java.util.Random;
 
 import Basic.Player;
 import monster.Monster;
 
 public class BattleTemp extends Player {
+    public BattleTemp() throws IOException {
+        super();
+    }
     /*
      * 存旅行時戰鬥的數據，除了 HP 以外其他數值每次進入戰鬥皆會刷新
      */
-    public static Integer Hp;
+
     public static Integer ATK;
     public static Integer DEF;
     public static Integer SP_ATK;
@@ -31,11 +35,16 @@ public class BattleTemp extends Player {
     public static Integer M_COIN;
     public static Integer M_EXP;
     public static Integer M_LEVEL;
+    public static Integer[] Temp_P;
+ 
+
+    // 0 ~ 5
+    // ATK, DEF, SP_ATK, SP_DEF, SPEED , LUCK;
+    public static Integer[] Enhance_counter = {0,0,0,0,0,0};
 
     public static void init() {
-        Integer[] Temp_P = Player.getAll();
+        Temp_P = Player.getAll();
         Integer[] Temp_M = Monster.getAll();
-        HP = Player.HP;
         ATK = Temp_P[1];
         DEF = Temp_P[2];
         SP_ATK = Temp_P[3];
@@ -114,6 +123,63 @@ public class BattleTemp extends Player {
             return true;
         }
         return false;
+    }
+
+    public static Boolean isUpgrade() {
+        if (Player.EXP <= 0) {
+            return true;
+        }
+        return false;
+
+    }
+
+    public static void startCounter(String string, int turn) {
+        if (string == "atk") {
+            Enhance_counter[0] = turn;
+        }
+        if (string == "def") {
+            Enhance_counter[1] = turn;
+        }
+        if (string == "sp_atk") {
+            Enhance_counter[2] = turn;
+        }
+        if (string == "sp_def") {
+            Enhance_counter[3] = turn;
+        }
+        if (string == "speed") {
+            Enhance_counter[4] = turn;
+        }
+        if (string == "luck") {
+            Enhance_counter[5] = turn;
+        }
+    }
+
+    public static void resetPower(int i) {
+        switch (i) {
+            case 0:
+                ATK = Temp_P[1];
+                break;
+            case 1:
+                DEF = Temp_P[2];
+
+                break;
+            case 2:
+                SP_ATK = Temp_P[3];
+
+                break;
+            case 3:
+                SP_DEF = Temp_P[4];
+
+                break;
+            case 4:
+                SPEED = Temp_P[5];
+
+                break;
+            case 5:
+                LUCK = Temp_P[6];
+                break;
+
+        }
     }
 
 }

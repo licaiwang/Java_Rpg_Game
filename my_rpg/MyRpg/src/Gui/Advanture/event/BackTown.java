@@ -1,6 +1,8 @@
 package Gui.Advanture.event;
 
 import Gui.Gui;
+import Gui.Advanture.AdvantureBackground;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -24,6 +26,7 @@ public class BackTown extends JPanel {
         btn_move.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AdvantureBackground.advPanel.removeAll();
                 Gui.showTownSidePanel();
 				Gui.resetPannel(6);
             }

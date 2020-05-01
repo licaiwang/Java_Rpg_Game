@@ -10,6 +10,6 @@ public class Slime extends Monster {
     }
     public Integer Atkskill()
     {
-        return Monster.ATK;
+        return Monster.ATK ;
     }
 }

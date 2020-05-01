@@ -69,7 +69,7 @@ public class AdvantureBackground extends JPanel {
         advPanel.validate();
         backTown.repaint();
     }
-    static void showDead()
+    public static void showDead()
     {
         advPanel.removeAll();
         advPanel.add(dead);
@@ -108,8 +108,6 @@ public class AdvantureBackground extends JPanel {
             case 6:
                 showRoad();
                 break;
-
-
         }
     }
 

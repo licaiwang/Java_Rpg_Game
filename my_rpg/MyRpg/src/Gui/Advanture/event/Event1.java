@@ -3,9 +3,13 @@ package Gui.Advanture.event;
 import java.awt.*;
 import javax.swing.*;
 
+import Basic.Player;
 import Gui.Advanture.AdvantureBackground;
+import Gui.Advanture.BattleSidePanel;
+import Gui.Town.School;
 
 import java.awt.event.*;
+import java.util.Random;
 
 public class Event1 extends JPanel {
     /*
@@ -13,20 +17,27 @@ public class Event1 extends JPanel {
      * 德魯伊向玩家伸手
      * 
      */
+
     JButton btn_hand;
     JButton btn_ignore;
     JPanel box;
+    boolean Isclick = false;
+    boolean SecIsclick = false;
+    Integer[] shard = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    int id;
 
     public Event1() {
         super();
-        box = new JPanel();
 
+        box = new JPanel();
         btn_hand = new JButton("  伸手 ");
         btn_hand.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_hand);
+
         btn_ignore = new JButton("  無視 ");
         btn_ignore.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_ignore);
+
         box.setOpaque(false);
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 80, 20));
@@ -35,7 +46,40 @@ public class Event1 extends JPanel {
         btn_ignore.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AdvantureBackground.showRoad();
+                if(id == 2 && Isclick)
+                {
+                    SecIsclick = true;
+                    id = 0;
+                    btn_ignore.setText(" 自認倒楣 "); 
+                    box.repaint();
+                    validate();
+                    repaint();
+                }
+                else{
+                    AdvantureBackground.showRoad();
+                    Isclick = false;
+                    SecIsclick = false;
+                    btn_ignore.setText(" 無視 ");
+                    box.add(btn_hand);
+                    box.add(btn_ignore);
+                    box.repaint();
+                    validate();
+                    repaint();
+                }
+            }
+        });
+
+        btn_hand.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Isclick = true;
+                String content[] = { "收下", "掙脫這個瘋子", "調查鐘聲來源" };
+                btn_ignore.setText(content[id - 1]);
+                box.remove(btn_hand);
+                box.validate();
+                box.repaint();
+                validate();
+                repaint();
             }
         });
 
@@ -43,14 +87,78 @@ public class Event1 extends JPanel {
 
     private static final long serialVersionUID = 1L;
 
+    private static int getRandom() {
+        /*
+         *
+         * 1- 獲得 1,2,3,4,5,6,7,8,9,10 記憶碎片 - 50% 2- 50 % 損失持有金幣的 10 %, 20% 或損失 5 點生命 -
+         * 40% 3- 下次觸發此事件將會遇見山中老人 - 10%
+         * 
+         */
+        Integer[] rad = { 1, 1, 1, 1, 1, 2, 2, 2, 2, 3 };
+        Random r = new Random();
+        int index = r.nextInt(10);
+        return rad[index];
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawEvent(g);
+        if (!Isclick && !SecIsclick) {
+            drawEvent(g);
+            id = getRandom();
+        }
+        if (Isclick && !SecIsclick) {
+            drawConsequence(g);
+        }
+        if (Isclick && SecIsclick) {
+            drawSecondConsequence(g);
+        }
+
     }
 
     public void drawEvent(Graphics g) {
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event1_1.jpg").getImage();
+        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event/event1_1.jpg").getImage();
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+    }
+
+    public void drawConsequence(Graphics g) {
+        switch (id) {
+            case 1:
+                Random r = new Random();
+                int getShard = r.nextInt(10);
+                Player.memoryShard += shard[getShard];
+                School.resetshardAmount();
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event/event1_1_" + id + ".jpg")
+                .getImage();
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+    }
+
+    public void drawSecondConsequence(Graphics g) {
+        Random r = new Random();
+        int id = r.nextInt(2);
+        switch (id) {
+            case 0:
+                Player.COIN /= 10;
+                Player.COIN *= 9;
+                BattleSidePanel.resetCoin();
+                break;
+            case 1:
+                Player.HP -= 5;
+                BattleSidePanel.resetHp();
+                if (Player.HP <= 0) {
+                    AdvantureBackground.showDead();
+                }
+                break;
+        }
+        id +=1;
+        Image image = new ImageIcon(
+                "D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event/event1_1_2_" + id + ".jpg").getImage();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
     }
 

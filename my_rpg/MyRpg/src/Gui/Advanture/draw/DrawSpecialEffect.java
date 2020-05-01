@@ -7,10 +7,11 @@ public class DrawSpecialEffect extends JPanel {
      */
     private static final long serialVersionUID = 1L;
     String skillName;
+
     public DrawSpecialEffect(String name) {
         super();
         skillName = name;
-        setBorder(BorderFactory.createEmptyBorder(180,180, 180, 180));
+        setPreferredSize(new Dimension(400,400));
     }
     @Override
     protected void paintComponent(Graphics g) {

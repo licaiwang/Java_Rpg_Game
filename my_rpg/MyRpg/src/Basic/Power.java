@@ -17,18 +17,7 @@ public class Power {
     public Integer EXP;
     public Integer LEVEL;
     
-
-    public Power(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int exp,int level) {
-        this.HP = hp;
-        this.ATK = atk;
-        this.DEF = def;
-        this.SP_ATK = sp_atk;
-        this.SP_DEF = sp_def;
-        this.SPEED = speed;
-        this.LUCK = luck;
-        this.MP = mp;
-        this.EXP = exp;
-        this.LEVEL = level;
+    public Power() {
     }
     public Power(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp, int level, int rarity) {
         switch (rarity) {
@@ -52,8 +41,6 @@ public class Power {
     }
 
     
-
- 
 
     public void montserPower(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp, int level, int rarity) {
         if (level <= 5) {

@@ -1,6 +1,14 @@
 package Basic;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+
+import au.com.bytecode.opencsv.CSVReader;
+
 public class Player extends Power {
+    public static List<String[]> Upgrade;
+    public static Integer Max_HP;
     public static Integer HP;
     public static Integer ATK;
     public static Integer DEF;
@@ -9,81 +17,92 @@ public class Player extends Power {
     public static Integer SPEED;
     public static Integer LUCK;
     public static Integer MP;
+    public static Integer Max_MP;
     public static Integer COIN;
     public static Integer EXP;
     public static Integer LEVEL;
-    public Integer TP;
-    public Integer memoryShard;
-    public Integer memoryCd;
-    public Player() {
-        super(20, 10, 10, 10, 10, 10, 10, 10, 0, 1);
-        HP = 20;
-        ATK = 10;
-        DEF = 10;
-        SP_ATK = 10;
-        SP_DEF = 10;
-        SPEED = 100;
-        LUCK = 10;
-        MP = 10;
-        EXP = 0;
-        LEVEL = 1;
+    public static Integer TP;
+    public static Integer memoryShard;
+    public static Integer memoryCd;
+    public static Integer stop_pain;
+    public static Integer magic_box;
+    public static Integer godness_bless;
+    public Player() throws IOException {
+        super();
+        readAllData();
+        LEVEL = Integer.valueOf(Upgrade.get(1)[0]);
+        EXP = Integer.valueOf(Upgrade.get(1)[1]);
+        HP = Integer.valueOf(Upgrade.get(1)[2]);
+        Max_HP = HP;
+        ATK = Integer.valueOf(Upgrade.get(1)[3]);
+        DEF = Integer.valueOf(Upgrade.get(1)[4]);
+        SP_ATK = Integer.valueOf(Upgrade.get(1)[5]);
+        SP_DEF = Integer.valueOf(Upgrade.get(1)[6]);
+        SPEED = Integer.valueOf(Upgrade.get(1)[7]);
+        LUCK = Integer.valueOf(Upgrade.get(1)[8]);
+        MP = Integer.valueOf(Upgrade.get(1)[9]);
+        Max_MP = MP;
         TP = 15;
         COIN = 1000;
-        memoryShard = 0;
+        memoryShard = 1000;
         memoryCd = 0;
+        stop_pain = 0;
+        magic_box = 0;
+        godness_bless = 0;
     }
 
     // HP, ATK, DEF, SP_ATK, SP_DEF, SPEED, LUCK, MP, COIN, EXP, LEVEL
-    public void upHp(Integer amount) {
+    public void upHp( Integer amount) {
         HP += amount;
     }
 
-    public void upAtk(Integer amount) {
+    public void upAtk( Integer amount) {
         ATK += amount;
     }
 
-    public void upDef(Integer amount) {
+    public void upDef( Integer amount) {
         DEF += amount;
     }
 
-    public void upSpAtk(Integer amount) {
+    public void upSpAtk( Integer amount) {
         SP_ATK += amount;
     }
 
-    public void upSpDef(Integer amount) {
+    public void upSpDef( Integer amount) {
         SP_DEF += amount;
     }
 
-    public void upSpeed(Integer amount) {
+    public void upSpeed( Integer amount) {
         SPEED += amount;
     }
 
-    public void upLuck(Integer amount) {
+    public void upLuck( Integer amount) {
         LUCK += amount;
     }
 
-    public void upGrade(Integer amount) {
+    public void upGrade( Integer amount) {
         LEVEL += amount;
     }
 
-    public void gainCoin(Integer amount) {
+    public void gainCoin( Integer amount) {
         COIN += amount;
     }
 
-    public void gainExp(Integer amount) {
-       EXP += amount;
+    public void gainExp( Integer amount) {
+        EXP += amount;
     }
 
-    public void gainMp(Integer amount) {
-       MP += amount;
+    public void gainMp( Integer amount) {
+        MP += amount;
     }
-    public void gainCD(Integer amount) {
+
+    public void gainCD( Integer amount) {
         memoryCd += amount;
     }
-    public void gainShard(Integer amount) {
-       memoryShard += amount;
-    }
 
+    public void gainShard( Integer amount) {
+        memoryShard += amount;
+    }
 
     public Integer getHp() {
         return HP;
@@ -129,21 +148,42 @@ public class Player extends Power {
         return LEVEL;
     }
 
-    public Integer getTP()
-    {
+    public Integer getTP() {
         return TP;
     }
-    public Integer getShard()
-    {
+
+    public Integer getShard() {
         return memoryShard;
     }
-    public Integer getCd()
-    {
+
+    public Integer getCd() {
         return memoryCd;
     }
+
     public static Integer[] getAll() {
-        Integer[] all = { Player.HP, Player.ATK, Player.DEF, Player.SP_ATK, Player.SP_DEF, Player.SPEED, Player.LUCK, Player.MP, Player.COIN, Player.EXP, Player.LEVEL };
+        Integer[] all = { Player.HP, Player.ATK, Player.DEF, Player.SP_ATK, Player.SP_DEF, Player.SPEED,
+                Player.LUCK, Player.MP, Player.COIN, Player.EXP, Player.LEVEL };
         return all;
     }
+
+    public static void readAllData() throws IOException {
+        CSVReader reader = new CSVReader(new FileReader("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/data/player.csv"));
+        Upgrade = reader.readAll();
+        // System.out.println(Upgrade.get(1)[1]); 
+    }
+
+	public static void UpgradePlayer(int i) {
+        EXP = Integer.valueOf(Upgrade.get(i)[1]);
+        HP = Integer.valueOf(Upgrade.get(i)[2]);
+        Max_HP = HP;
+        ATK = Integer.valueOf(Upgrade.get(i)[3]);
+        DEF = Integer.valueOf(Upgrade.get(i)[4]);
+        SP_ATK = Integer.valueOf(Upgrade.get(i)[5]);
+        SP_DEF = Integer.valueOf(Upgrade.get(i)[6]);
+        SPEED = Integer.valueOf(Upgrade.get(i)[7]);
+        LUCK = Integer.valueOf(Upgrade.get(i)[8]);
+        MP = Integer.valueOf(Upgrade.get(i)[9]);
+        Max_MP = MP;
+	}
 }
 

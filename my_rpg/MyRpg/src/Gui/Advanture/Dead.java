@@ -7,8 +7,9 @@ import Gui.Gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
-public class Dead extends JPanel{
+public class Dead extends JPanel {
     JButton btn_move;
     JPanel box;
 
@@ -26,10 +27,13 @@ public class Dead extends JPanel{
 
         btn_move.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {    
-                Gui.reset();
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Gui.reset();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
                 Player.COIN = 0;
-                Player.EXP = 0;
             }
         });
 

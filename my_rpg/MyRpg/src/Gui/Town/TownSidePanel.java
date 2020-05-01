@@ -1,14 +1,14 @@
 package Gui.Town;
 
 import Gui.Avatar;
-import Gui.BottomPanel;
 import Gui.Gui;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+
+import Basic.Player;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.*;
 import java.awt.*;
-import Gui.Helper.MusicHelper;
 
 
 public class TownSidePanel {
@@ -74,38 +74,37 @@ public class TownSidePanel {
 		btn_2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Thread playMusic = new MusicHelper("sleep.wav");
-				Gui.player.TP = 25;
-				travelPointLabel.setText(" 體力值：" + Gui.player.TP);
-				playMusic.start();
-				Gui.resetPannel(2);
-				BottomPanel.readText("inn");
-				BottomPanel.resetTextArea();
-				
+				Player.TP = 25;
+				Player.HP = Integer.valueOf(Player.Upgrade.get(Player.LEVEL)[2]);
+				Player.Max_HP = Player.HP;
+				Player.MP = Integer.valueOf(Player.Upgrade.get(Player.LEVEL)[9]);
+				travelPointLabel.setText(" 體力值：" + Player.TP);
+				Gui.resetPannel(2);	
 			}
 		});
 		btn_3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Gui.resetPannel(3);
-				BottomPanel.readText("school");
-				BottomPanel.resetTextArea();
 			}
 		});
+		btn_4.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							Gui.resetPannel(4);							
+						}
+					});
+
 		btn_5.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Gui.resetPannel(5);
-				BottomPanel.readText("market");
-				BottomPanel.resetTextArea();
 			}
 		});
 		btn_6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Gui.resetPannel(6);
-				BottomPanel.readText("FirstTown");
-				BottomPanel.resetTextArea();
 			}
 		});
 		boxb.add(gridPanel);

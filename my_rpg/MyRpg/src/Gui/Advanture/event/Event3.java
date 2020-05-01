@@ -3,7 +3,9 @@ package Gui.Advanture.event;
 import java.awt.*;
 import javax.swing.*;
 
+import Basic.Player;
 import Gui.Advanture.AdvantureBackground;
+import Gui.Town.School;
 
 import java.awt.event.*;
 
@@ -16,6 +18,8 @@ public class Event3 extends JPanel {
     JButton btn_hand;
     JButton btn_ignore;
     JPanel box;
+    boolean Isclick;
+    Integer helpCount = 0;
 
     public Event3() {
         super();
@@ -32,11 +36,29 @@ public class Event3 extends JPanel {
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(0, 0, 80, 20));
         this.add(box, BorderLayout.SOUTH);
-
         btn_ignore.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AdvantureBackground.showRoad();
+                Isclick = false;
+                btn_ignore.setText(" 無視 ");
+                box.add(btn_hand);
+                box.add(btn_ignore);
+                box.repaint();
+                validate();
+                repaint();
+            }
+        });
+        btn_hand.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Isclick = true;
+                helpCount += 1;
+                box.remove(btn_hand);
+                btn_ignore.setText("好");
+                box.repaint();
+                validate();
+                repaint();
             }
         });
     }
@@ -46,11 +68,35 @@ public class Event3 extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawEvent(g);
+        if (!Isclick) {
+            drawEvent(g);
+        } else {
+            drawConsequence(g);
+        }
     }
 
     public void drawEvent(Graphics g) {
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event1_3.jpg").getImage();
+        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event/event1_3.jpg").getImage();
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+    }
+
+    public void drawConsequence(Graphics g) {
+
+        int id = 1;
+        if (helpCount == 5) {
+            id = 2;
+            helpCount = 0;
+        }
+        switch (id) {
+            case 1:
+                break;
+            case 2:
+                Player.memoryCd += 1;
+                School.resetCdAmount();
+                break;
+        }
+        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event/event1_3_" + id + ".jpg")
+                .getImage();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
     }
 }

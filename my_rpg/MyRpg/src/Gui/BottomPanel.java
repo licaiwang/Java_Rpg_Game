@@ -5,6 +5,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.awt.Font;
 import Gui.Helper.FileReaderHelper;
@@ -17,11 +18,12 @@ public class BottomPanel {
     static JPanel bottomPanel;
     static JTextArea jTextArea;
     static JScrollPane jScrollPane;
-    static String content;
-
+    public static String content;
+  
     public BottomPanel() {
         super();
         // buttom
+        
         bottomPanel = new JPanel();
         // bottomPanel.setLayout(new FlowLayout(50, 50, 50));
         bottomPanel.setBackground(Color.white);
@@ -29,6 +31,7 @@ public class BottomPanel {
         // init text on buttom
         jTextArea = new JTextArea();
         jScrollPane = new JScrollPane(jTextArea);
+        jScrollPane.setPreferredSize(new Dimension(1000, 100));
         readText("FirstTown");
         resetTextArea();
     }
@@ -42,6 +45,7 @@ public class BottomPanel {
         jScrollPane.setOpaque(false);
         bottomPanel.add(jScrollPane);
     }
+
 
     public static void readText(String name) {
         try {

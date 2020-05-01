@@ -16,30 +16,14 @@ public class Monster extends Power {
     public static Integer EXP;
     public static Integer LEVEL;
 
-    public Monster(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp,
-            int level) {
-        super(hp, atk, def, sp_atk, sp_def, speed, luck, mp, exp, level);
-        // ATK, DEF, SP_ATK, SP_DEF, SPEED, LUCK, MP, COIN, EXP, LEVEL
-        HP = hp;
-        ATK = atk;
-        DEF = def;
-        SP_ATK = sp_atk;
-        SP_DEF = sp_def;
-        SPEED = speed;
-        LUCK = luck;
-        MP = mp;
-        COIN = coin;
-        EXP = exp;
-        LEVEL = level;
-    }
 
     public Monster(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp,
             int level, int rarity) {
         super(hp, atk, def, sp_atk, sp_def, speed, luck, mp, coin, exp, level, rarity);
         Random r = new Random();
         LEVEL = r.nextInt(level);
-        COIN = ((r.nextInt(10) + LEVEL) * (1 + (rarity / 100)));
-        EXP = ((r.nextInt(3) + LEVEL) * (1 + (rarity / 100)));
+        COIN = ((r.nextInt(10) + 2*LEVEL) * (1 + (rarity / 10)));
+        EXP = ((r.nextInt(5) + 2*LEVEL) * (1 + (rarity / 10)));
         HP = ((hp + LEVEL) * (1 + (rarity / 100)));
         ATK = ((atk + LEVEL) * (1 + (rarity / 100)));
         DEF = ((def + LEVEL) * (1 + (rarity / 100)));

@@ -17,17 +17,12 @@ public class DrawMonster extends JPanel{
     String monsterName;
     int y=0;
     public static JPanel monsterPanel;
-    public static JPanel effectPanel;
     public DrawMonster(String name) {
         super();
         monsterName = name;
         monsterPanel= new JPanel();
-        effectPanel = new JPanel();
-        effectPanel.setPreferredSize(new Dimension(400,400));
-        effectPanel.setOpaque(false);
         monsterPanel.setPreferredSize(new Dimension(400,400));
         monsterPanel.setOpaque(false);
-        monsterPanel.add(effectPanel);
         add(monsterPanel);  
     }
 
