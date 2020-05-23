@@ -6,13 +6,17 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.SourceDataLine;
+
+import Basic.ResReader;
+
 import java.io.File;
 import java.io.IOException;
+
 
 public class MusicHelper extends Thread {
     private String music;
     public MusicHelper(String music) {
-        this.music = "D:/JavaWorkSpace/my_rpg/MyRpg/src/res/music/"+music;
+        this.music = ResReader.path+"/res/music/"+music;
     }
     public void run(){
         play(music);

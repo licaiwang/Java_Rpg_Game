@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import Basic.Player;
+import Basic.ResReader;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
 import Gui.Town.School;
@@ -117,8 +118,7 @@ public class Event1 extends JPanel {
     }
 
     public void drawEvent(Graphics g) {
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event/event1_1.jpg").getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(ResReader.event1_1, 0, 0, getWidth(), getHeight(), this);
     }
 
     public void drawConsequence(Graphics g) {
@@ -134,9 +134,7 @@ public class Event1 extends JPanel {
             case 3:
                 break;
         }
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event/event1_1_" + id + ".jpg")
-                .getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(ResReader.event1_1_, 0, 0, getWidth(), getHeight(), this);
     }
 
     public void drawSecondConsequence(Graphics g) {
@@ -157,9 +155,7 @@ public class Event1 extends JPanel {
                 break;
         }
         id +=1;
-        Image image = new ImageIcon(
-                "D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event/event1_1_2_" + id + ".jpg").getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(ResReader.event1_1_2_, 0, 0, getWidth(), getHeight(), this);
     }
 
 }

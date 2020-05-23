@@ -1,11 +1,16 @@
 package Gui;
 
 import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import Basic.Player;
+import Basic.ResReader;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
 import Gui.Helper.MusicHelper;
@@ -15,9 +20,9 @@ import Gui.Town.Market;
 import Gui.Town.School;
 import Gui.Town.Storage;
 import Gui.Town.TownSidePanel;
+import Magic.MagicBase;
 import Skill.BattleSkillBase;
 import item.Item;
-
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -56,16 +61,15 @@ public class Gui extends JFrame {
 	static JPanel p;
 	static EmbeddedMediaPlayer emp;
 
+	static AudioInputStream audioIn;
 
-
-
-	AudioInputStream audioIn;
 	public Gui(final String title) {
 		super(title);
-		this.setSize(1280, 900);
+		this.setSize(1280, 840);
 		this.setLocation(100, 100);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.WHITE));
+		this.setResizable(false);
 		mContainer = this.getContentPane();
 		mContainer.setLayout(new BorderLayout(8, 6));
 		mContainer.setBackground(Color.BLACK);
@@ -78,6 +82,7 @@ public class Gui extends JFrame {
 		topPanel.setBackground(Color.black);
 		// Side - init
 		townSidePanel = new TownSidePanel();
+
 		// Middle - init
 		mainPage = new FirstTown();
 		inn = new Inn();
@@ -94,16 +99,23 @@ public class Gui extends JFrame {
 		// Add to Container
 		mContainer.add(topPanel, BorderLayout.NORTH);
 		mContainer.add(mainPage);
-		mContainer.add(TownSidePanel.sidePanel, BorderLayout.EAST);
+		mContainer.add(townSidePanel, BorderLayout.EAST);
 		mContainer.add(BottomPanel.bottomPanel, BorderLayout.SOUTH);
 		// 背景音樂
+
 		/*
-		 * try { audioIn = AudioSystem .getAudioInputStream(new
-		 * File("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/music/firstTown.wav")); Clip clip
-		 * = AudioSystem.getClip(); clip.open(audioIn); clip.start();
-		 * clip.loop(Clip.LOOP_CONTINUOUSLY); } catch (UnsupportedAudioFileException |
-		 * IOException | LineUnavailableException e1) { e1.printStackTrace(); }
-		 */
+		try {
+			audioIn = AudioSystem
+					.getAudioInputStream(new File("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/music/firstTown.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioIn);
+			clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+			e1.printStackTrace();
+		}
+		*/
+
 	}
 
 	public static void resetPannel(Integer which) {
@@ -128,7 +140,7 @@ public class Gui extends JFrame {
 				showStorage();
 				BottomPanel.readText("storage");
 				BottomPanel.resetTextArea();
-				break;	
+				break;
 			case 5:
 				showMarket();
 				BottomPanel.readText("market");
@@ -144,29 +156,29 @@ public class Gui extends JFrame {
 
 	public static void showTownSidePanel() {
 		townSidePanel = new TownSidePanel();
-		TownSidePanel.sidePanel.setVisible(true);
-		TownSidePanel.sidePanel.setFocusable(true);
+		townSidePanel.setVisible(true);
+		townSidePanel.setFocusable(true);
 		//
 		BattleSidePanel.sidePanel.setVisible(false);
 		//
 		mContainer.remove(BattleSidePanel.sidePanel);
 		//
-		mContainer.add(TownSidePanel.sidePanel, BorderLayout.EAST);
+		mContainer.add(townSidePanel, BorderLayout.EAST);
 		mContainer.validate();
-		TownSidePanel.sidePanel.repaint();
+		townSidePanel.repaint();
 	}
 
 	static void showBattleSidePanel() {
 		battleSidePanel = new BattleSidePanel();
-		BattleSidePanel.sidePanel.setVisible(true);
+		battleSidePanel.setVisible(true);
 		//
-		TownSidePanel.sidePanel.setVisible(false);
+		townSidePanel.setVisible(false);
 		//
-		mContainer.remove(TownSidePanel.sidePanel);
+		mContainer.remove(townSidePanel);
 		//
-		mContainer.add(BattleSidePanel.sidePanel, BorderLayout.EAST);
+		mContainer.add(battleSidePanel, BorderLayout.EAST);
 		mContainer.validate();
-		BattleSidePanel.sidePanel.repaint();
+		battleSidePanel.repaint();
 	}
 
 	static void showBattleMainPanel() {
@@ -181,7 +193,7 @@ public class Gui extends JFrame {
 		//
 		mContainer.remove(storage);
 		mContainer.remove(market);
-		//mContainer.remove(mainPage);
+		mContainer.remove(mainPage);
 		mContainer.remove(school);
 		mContainer.remove(inn);
 		//
@@ -201,7 +213,7 @@ public class Gui extends JFrame {
 		//
 		mContainer.remove(market);
 		mContainer.remove(storage);
-		//mContainer.remove(mainPage);
+		mContainer.remove(mainPage);
 		mContainer.remove(school);
 		//
 		mContainer.add(inn);
@@ -221,7 +233,7 @@ public class Gui extends JFrame {
 		//
 		mContainer.remove(market);
 		mContainer.remove(storage);
-		//mContainer.remove(mainPage);
+		mContainer.remove(mainPage);
 		mContainer.remove(inn);
 		//
 		mContainer.add(school);
@@ -241,14 +253,13 @@ public class Gui extends JFrame {
 		//
 		mContainer.remove(school);
 		mContainer.remove(storage);
-		//mContainer.remove(mainPage);
+		mContainer.remove(mainPage);
 		mContainer.remove(inn);
 		//
 		mContainer.add(market);
 		mContainer.invalidate();
 		market.repaint();
 	}
-
 
 	static void showStorage() {
 		storage.setBackground(Color.YELLOW);
@@ -262,7 +273,7 @@ public class Gui extends JFrame {
 		//
 		mContainer.remove(market);
 		mContainer.remove(school);
-		//mContainer.remove(mainPage);
+		mContainer.remove(mainPage);
 		mContainer.remove(inn);
 		//
 		mContainer.add(storage);
@@ -271,10 +282,9 @@ public class Gui extends JFrame {
 	}
 
 	static void showTown() {
-		AdvantureBackground.advPanel.setVisible(false);
+
 		mainPage.setVisible(true);
 		//
-	
 		inn.setVisible(false);
 		school.setVisible(false);
 		market.setVisible(false);
@@ -290,13 +300,14 @@ public class Gui extends JFrame {
 		mainPage.repaint();
 	}
 
-
 	public static void reset() throws IOException {
 		Player.UpgradePlayer(Integer.valueOf(Player.LEVEL));
 		mContainer.removeAll();
 		init();
 		mContainer.validate();
 		mContainer.repaint();
+		battleSidePanel.validate();
+		battleSidePanel.repaint();
 	}
 
 	static void playVideo() {
@@ -324,7 +335,7 @@ public class Gui extends JFrame {
 				mContainer.repaint();
 			}
 		});
-		String file = "open.wmv";
+		String file = "res/video/open.wmv";
 		emp.prepareMedia(file);
 		emp.play();
 	}
@@ -335,55 +346,57 @@ public class Gui extends JFrame {
 	}
 
 	public static void main(String[] args) throws IOException {
-
-		//
+		// 先 init player
 		player = new Player();
-		
 	
 		try {
 			Item.readAllData();
 			Player.readAllData();
 			BattleSkillBase.readAllData();
 			BattleSkillBase.initSkill();
+			MagicBase.readAllData();
+			MagicBase.initMagic();
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		// 要先 init player
-		main = new Gui("Test");
-		main.setVisible(true);
-		init();
-		main.validate();
-		mContainer.repaint();
-		/*
+		// 開頭動畫
 		c = new Canvas();
 		c.setBackground(Color.BLACK);
 		c.setFocusable(true);
 		c.addKeyListener(new KeyListener() {
+
 			@Override
 			public void keyTyped(KeyEvent e) {
 			}
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 				stopVideo();
 				main.remove(p);
-				main.validate();			
+				main.validate();
 				init();
 				main.validate();
 				mContainer.repaint();
 			}
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 
 			}
 		});
+
+		
+		main = new Gui("Test");
+		main.setVisible(true);
+
+		mContainer.repaint();
 		p = new JPanel();
 		p.setLayout(new BorderLayout());
 		p.add(c);
 		main.add(p);
-		playVideo();	
-		*/	
+		playVideo();
 	}
 
 }

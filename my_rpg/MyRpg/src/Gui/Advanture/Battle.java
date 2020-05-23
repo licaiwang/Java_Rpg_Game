@@ -4,13 +4,13 @@ import java.awt.*;
 import javax.swing.*;
 
 import Basic.Player;
+import Basic.ResReader;
 import Gui.Advanture.draw.DrawBlood;
 import Gui.Advanture.draw.DrawMonster;
 import Gui.Advanture.draw.DrawPlayerUP;
 import Gui.Advanture.draw.DrawSpecialEffect;
-import Gui.Advanture.BattleSidePanel;
 import Gui.Helper.MusicHelper;
-import Gui.Town.Market;
+import Magic.MagicBase;
 import Skill.BattleSkillBase;
 import item.Item;
 import monster.CreateMonster;
@@ -34,10 +34,9 @@ public class Battle extends JPanel {
     public static DrawPlayerUP drawPlayerUP;
     public static JPanel box;
     public static JPanel drawPlayer;
-    public static JPanel drawSideEffect;
 
     public static List<String> monster_list = Arrays.asList("slime", "giant_rat", "fanatic");
-    JPanel monsterPanel;
+
     static JPanel gridPanel;
     static JButton btn_1;
     static JButton btn_2;
@@ -48,12 +47,15 @@ public class Battle extends JPanel {
     public static Integer[] Strik = { 0, 0, 0, 0 };
     public static Boolean[] IsEnhance = { false, false, false, false };
     public static Boolean[] IsStatus = { false, false, false, false };
+    JPanel monsterPanel;
+    public static Boolean isActivate = false;
+    public static Integer id;
 
     public Battle() {
         super();
-        // shuffle 打亂順序
+      
         Collections.shuffle(monster_list);
-        // 初始畫怪的地方，血條，玩家特效
+      
         drawMonster = new DrawMonster(monster_list.get(0));
         drawMonster.setOpaque(false);
         drawMonster.validate();
@@ -68,15 +70,11 @@ public class Battle extends JPanel {
         drawPlayer.setLayout(new BoxLayout(drawPlayer, BoxLayout.Y_AXIS));
         drawPlayer.add(Box.createRigidArea(new Dimension(0, 200)));
 
-        // 生成怪物
+    
         CreateMonster.createLevelOne(monster_list.get(0));
-        // 初始化戰鬥臨時數據
         BattleTemp.init();
-
-        // 初始化戰鬥畫面
         box = new JPanel();
         gridPanel = new JPanel();
-        // 初始化戰鬥按鈕
         initButton();
         gridPanel.setLayout(new MigLayout("wrap 2", "30[]30", "30[]30"));
         gridPanel.add(btn_1);
@@ -100,11 +98,20 @@ public class Battle extends JPanel {
 
     static void normalPhase(int type, int id, int damage) {
         if (BattleSkillBase.IsDamage) {
-            drawSpecialEffect(type, id);
+            drawSkillEffect(type, id);
             BattlePhase.playerTurn(type, damage);
         } else if (BattleSkillBase.IsEnhance) {
             drawPlayerEffect();
             BattlePhase.playerTurn(type, damage);
+        }
+    }
+    static void magicPhase(int type, int id, int damage) {
+        if (MagicBase.IsDamage) {
+            drawMagicEffect(type, id);
+            BattlePhase.playerCastMagic(type, damage);
+        } else if (MagicBase.IsEnhance) {
+            drawPlayerEffect();
+            BattlePhase.playerCastMagic(999+type, damage);
         }
     }
 
@@ -114,30 +121,51 @@ public class Battle extends JPanel {
         timer.schedule(new TimerTask() {
             public void run() {
                 if (BattleSkillBase.Strik > 0) {
+                    makeButtonEnable();
                     BattleSkillBase.Strik -= 1;
                     normalPhase(0, id, damage);
                     if (!damageCountPhase()) {
                         timer.cancel();
+                        Timer timer_M = new Timer();
+                        timer_M.schedule(new TimerTask() {
+                            public void run() {
+                                makeButtonable();
+                                monsterPhase();
+                            }
+                        }, 1000);
                     }
-                } else {
+                } else {                 
                     normalPhase(0, id, damage);
                     damageCountPhase();
-                    timer.cancel();
+                    monsterPhase();
+                    timer.cancel();                
                 }
             }
-        }, 100, 1000);
-        monsterPhase();
+        }, 10, 1000);
+
     }
 
-    static void monsterPhase() {
-        BattlePhase.MonsterTurn();
+
+    static void castMagic(int id) {
+        int damage = MagicBase.getMagic(id - 1);
+        magicPhase(0, id, damage);   
+        damageCountPhase();
+    }
+
+    static void monsterPhase() {  
+        drawMonster.isAtacking = true; 
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                BattlePhase.MonsterTurn();     
+            }
+        }, 1000);       
     }
 
     public static boolean damageCountPhase() {
 
         switch (BattlePhase.checkMonsterDeadOPlayer()) {
             case 0:
-                makeButtonEnable();
                 drawBlood();
                 Player.EXP -= Monster.EXP;
                 Player.COIN += Monster.DropCoin(Monster.LEVEL);
@@ -153,11 +181,13 @@ public class Battle extends JPanel {
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     public void run() {
-                        AdvantureBackground.showRoad();
-                        makeButtonable();
-                        DrawBlood.isBattle = false;
+                        if(!Player.isDead)
+                        {
+                            AdvantureBackground.showRoad();
+                            DrawBlood.isBattle = false;
+                        }              
                     }
-                }, 2000);// 五百毫秒
+                }, 2000);
                 return false;
             case 1:
                 DrawBlood.isBattle = false;
@@ -165,6 +195,7 @@ public class Battle extends JPanel {
             default:
                 drawBlood();
                 initButton();
+                playerPause();
                 return true;
         }
     }
@@ -177,7 +208,7 @@ public class Battle extends JPanel {
         BattleSidePanel.btn_4.setEnabled(false);
     }
 
-    private static void makeButtonable() {
+    public static void makeButtonable() {
         btn_1.setEnabled(true);
         btn_2.setEnabled(true);
         btn_3.setEnabled(true);
@@ -195,9 +226,21 @@ public class Battle extends JPanel {
         drawBlood.repaint();
     }
 
-    public static void drawSpecialEffect(int type, int id) {
-        // 畫砍怪物的特效
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id));
+    public static void playerPause()
+    {
+        makeButtonEnable();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() { 
+                makeButtonable();           
+            }
+        }, 2000);
+    }
+
+
+
+    public static void drawSkillEffect(int type, int id) {
+        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id),0);
         DrawMonster.monsterPanel.add(effect);
         effect.setOpaque(false);
         Timer timer = new Timer();
@@ -210,8 +253,23 @@ public class Battle extends JPanel {
         }, 250);
     }
 
+    public static void drawMagicEffect(int type, int id) {
+        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id),1);
+        DrawMonster.monsterPanel.add(effect);
+        effect.setOpaque(false);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                DrawMonster.monsterPanel.remove(effect);
+                DrawMonster.monsterPanel.validate();
+                DrawMonster.monsterPanel.repaint();
+            }
+        }, 250);
+    }
+
+
+
     public static void drawPlayerEffect() {
-        // 畫玩家提升特效
         DrawPlayerUP effect2 = new DrawPlayerUP("def_up");
         effect2.setOpaque(false);
         drawPlayer.add(effect2);
@@ -226,6 +284,7 @@ public class Battle extends JPanel {
             }
         }, 550);
     }
+
 
     static void buttonCommonSetting() {
         btn_1.setMargin(new Insets(10, 10, 10, 10));
@@ -250,35 +309,42 @@ public class Battle extends JPanel {
         btn_1 = new JButton("  戰技  ");
         btn_2 = new JButton("  魔法  ");
         btn_3 = new JButton("  寶具  ");
-        btn_4 = new JButton("  道具  ");
+        btn_4 = new JButton("  藥物  ");
         buttonCommonSetting();
         btn_1.addActionListener(new ActionListener() {
+          
             @Override
             public void actionPerformed(ActionEvent e) {
+                Thread playButton = new MusicHelper("button.wav");
+                playButton.start();
                 buttonNameSetting(BattleSkillBase.in_use_name);
                 resetGridPanel();
                 btn_1.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         doBattle(1);
+                        playerPause();
                     }
                 });
                 btn_2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         doBattle(2);
+                        playerPause();
                     }
                 });
                 btn_3.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         doBattle(3);
+                        playerPause();
                     }
                 });
                 btn_4.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         doBattle(4);
+                        playerPause();
                     }
                 });
             }
@@ -286,96 +352,69 @@ public class Battle extends JPanel {
         btn_2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Thread playButton = new MusicHelper("button.wav");
+                playButton.start();
+                buttonNameSetting(MagicBase.in_use_name);
+                resetGridPanel();
+                btn_1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        castMagic(1);
+                        playerPause();
+                    }
+
+                });
+                btn_2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        doBattle(2);
+                        playerPause();
+                    }
+                });
+                btn_3.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        doBattle(3);
+                        playerPause();
+                    }
+                });
+                btn_4.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        doBattle(4);
+                        playerPause();
+                    }
+                });
             }
         });
 
         btn_3.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                Thread playButton = new MusicHelper("button.wav");
+                playButton.start();
                 int mType = JOptionPane.QUESTION_MESSAGE;
                 int oType = JOptionPane.YES_NO_CANCEL_OPTION;
                 String[] options = Item.in_use_item;
-                int opt = JOptionPane.showOptionDialog(null, "啟動哪個寶具?", "請選擇", oType, mType, null, options, "啟動");
+                int opt = JOptionPane.showOptionDialog(null, "寶具", "啟動", oType, mType, null, options, "確定");
                 activate(opt);
             }
         });
         btn_4.addActionListener(new ActionListener() {
+            // ??????
             @Override
             public void actionPerformed(ActionEvent e) {
+                Thread playButton = new MusicHelper("button.wav");
+                playButton.start();
                 int mType = JOptionPane.QUESTION_MESSAGE;
                 int oType = JOptionPane.YES_NO_CANCEL_OPTION;
-                String[] options = { " 痛立停 ", "魔力香爐", "女神的祝福" };
-                int opt = JOptionPane.showOptionDialog(null, "使用哪個道具?", "請選擇", oType, mType, null, options, "使用");
+                String[] options = { " 痛立停 ", " 魔力香爐 ", " 女神的祝福 " };
+                int opt = JOptionPane.showOptionDialog(null, "道具", "使用", oType, mType, null, options, "確定");
                 choseResult(opt);
             }
         });
         resetGridPanel();
-    }
-
-    protected static void activate(int opt) {
-        if (opt == 0) {
-            if (!Item.in_use_isAttack[0]) {
-                JOptionPane.showMessageDialog(null, "此為被動式寶具,效果為：");
-            }else{
-               Item.getAbility(Item.in_use_item[0]);
-            }
-        }
-        if (opt == 1) {
-            if (!Item.in_use_isAttack[1]) {
-                JOptionPane.showMessageDialog(null, "此為被動式寶具,效果為：");
-            }else{
-                Item.getAbility(Item.in_use_item[1]);
-            }
-        }
-        if (opt == 2) {
-            if (!Item.in_use_isAttack[2]) {
-                JOptionPane.showMessageDialog(null, "此為被動式寶具,效果為：");
-            }else{
-                Item.getAbility(Item.in_use_item[2]);
-            }
-        }
-    }
-
-    protected static void choseResult(int opt) {
-        if (opt == 0) {
-            if (Player.stop_pain > 1) {
-                JOptionPane.showMessageDialog(null, " 回復 15% 血量！剩下(" + Player.stop_pain + ")個");
-                Player.stop_pain -= 1;
-                Player.HP += (int) (Player.Max_HP * 0.15);
-                if (Player.HP > Player.Max_HP) {
-                    Player.HP = Player.Max_HP;
-                }
-                BattleSidePanel.resetHp();
-            } else {
-                JOptionPane.showMessageDialog(null, " 沒有藥了！");
-            }
-        }
-        if (opt == 1) {
-            if (Player.magic_box > 1) {
-                JOptionPane.showMessageDialog(null, " 回復 15% 魔力！剩下(" + Player.magic_box + ")個");
-                Player.magic_box -= 1;
-                Player.MP += (int) (Player.Max_MP * 0.15);
-                if (Player.MP > Player.Max_MP) {
-                    Player.MP = Player.Max_MP;
-                }
-                BattleSidePanel.resetMp();
-            } else {
-                JOptionPane.showMessageDialog(null, " 沒有藥了！");
-            }
-
-        }
-        if (opt == 2) {
-            if (Player.godness_bless > 1) {
-                JOptionPane.showMessageDialog(null, " 全回覆！剩下(" + Player.godness_bless + ")個");
-                Player.godness_bless -= 1;
-                Player.HP = Player.Max_HP;
-                Player.MP = Player.Max_MP;
-                BattleSidePanel.resetMp();
-                BattleSidePanel.resetHp();
-            } else {
-                JOptionPane.showMessageDialog(null, " 沒有藥了！");
-            }
-        }
     }
 
     public static void resetGridPanel() {
@@ -389,15 +428,100 @@ public class Battle extends JPanel {
         gridPanel.setFocusable(true);
     }
 
+    public static void setGridPanel(boolean isVisible) {
+        if (isVisible) {
+            gridPanel.setVisible(true);
+        } else {
+            gridPanel.setVisible(false);
+        }
+
+    }
+
+    protected static void activate(int opt) {
+        if (opt == 0) {
+            if (!Item.in_use_isAttack[0]) {
+                JOptionPane.showMessageDialog(null, "");
+            } else {
+                Item.getAbility(Item.in_use_item[0]);
+            }
+            if (opt == 1) {
+                if (!Item.in_use_isAttack[1]) {
+                    JOptionPane.showMessageDialog(null, "");
+                } else {
+                    Item.getAbility(Item.in_use_item[1]);
+                }
+            }
+            if (opt == 2) {
+                if (!Item.in_use_isAttack[2]) {
+                    JOptionPane.showMessageDialog(null, "");
+                } else {
+                    Item.getAbility(Item.in_use_item[2]);
+                }
+            }
+        }
+    }
+
+    protected static void choseResult(int opt) {
+        Thread playMusic = new MusicHelper("potion.wav");
+        if (opt == 0) {
+            if (Player.stop_pain >= 1) {
+                playMusic.start();
+                Player.stop_pain -= 1;
+                JOptionPane.showMessageDialog(null, " 回復 15% 的血量，藥剩下(" + Player.stop_pain + ")個");
+                Player.HP += (int) (Player.Max_HP * 0.15);
+                if (Player.HP > Player.Max_HP) {
+                    Player.HP = Player.Max_HP;
+                }
+                BattleSidePanel.resetHp();
+            } else {
+                JOptionPane.showMessageDialog(null, " 藥吃完了!");
+            }
+        }
+        if (opt == 1) {
+            if (Player.magic_box >= 1) {
+                playMusic.start();
+                Player.magic_box -= 1;
+                JOptionPane.showMessageDialog(null, "  回復 15% 的魔力，藥剩下(" + Player.magic_box + ")個");
+                Player.MP += (int) (Player.Max_MP * 0.15);
+                if (Player.MP > Player.Max_MP) {
+                    Player.MP = Player.Max_MP;
+                }
+                BattleSidePanel.resetMp();
+            } else {
+                JOptionPane.showMessageDialog(null, " 藥吃完了! ");
+            }
+
+        }
+        if (opt == 2) {
+            if (Player.godness_bless >= 1) {
+                playMusic.start();
+                Player.godness_bless -= 1;
+                JOptionPane.showMessageDialog(null, " 你彷彿重生了，藥剩下(" + Player.godness_bless + ")個");
+                Player.HP = Player.Max_HP;
+                Player.MP = Player.Max_MP;
+                BattleSidePanel.resetMp();
+                BattleSidePanel.resetHp();
+            } else {
+                JOptionPane.showMessageDialog(null, " 藥吃完了! ");
+            }
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawBattleBase(g);
+        if (Battle.isActivate) {
+            drawItem(g, Battle.id);
+        }
     }
 
     public void drawBattleBase(Graphics g) {
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/battleBase.jpg").getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(ResReader.battleBase,0, 0, getWidth(), getHeight(), this);
     }
 
+    public void drawItem(Graphics g, int id) {
+        Image image = new ImageIcon(ResReader.path + "res/item/" + id + ".gif").getImage();
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+    }
 }

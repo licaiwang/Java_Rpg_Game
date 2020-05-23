@@ -31,7 +31,7 @@ public class BottomPanel {
         // init text on buttom
         jTextArea = new JTextArea();
         jScrollPane = new JScrollPane(jTextArea);
-        jScrollPane.setPreferredSize(new Dimension(1000, 100));
+        jScrollPane.setPreferredSize(new Dimension(1000, 80));
         readText("FirstTown");
         resetTextArea();
     }

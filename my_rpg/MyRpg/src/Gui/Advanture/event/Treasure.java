@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import Basic.Player;
+import Basic.ResReader;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
 import Gui.Town.School;
@@ -57,8 +58,7 @@ public class Treasure extends JPanel {
     }
     public void drawEvent(Graphics g)
     {
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event/treasure.jpg").getImage();
-        g.drawImage(image,0, 0 , getWidth(), getHeight(), this);
+        g.drawImage(ResReader.treasure,0, 0 , getWidth(), getHeight(), this);
     }
     public void drawConsequence(Graphics g)
     {
@@ -79,9 +79,7 @@ public class Treasure extends JPanel {
                 School.resetshardAmount();
                 break;
         }
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event/treasure_" + id + ".jpg")
-                .getImage();
-        g.drawImage(image,0, 0 , getWidth(), getHeight(), this);
+        g.drawImage(ResReader.treasure_,0, 0 , getWidth(), getHeight(), this);
     }
 
 public void createButton()

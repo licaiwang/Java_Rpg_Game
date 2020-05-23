@@ -64,7 +64,6 @@ public abstract class Item {
                 }
             }
             if (!in_use_item[2].equals("")) {
-
                 if (i == 2) {
                     in_use_item[2] = name;
                     in_use_isAttack[2] = getIsAttack(name);
@@ -102,7 +101,7 @@ public abstract class Item {
                 return i;
             }
         }
-        return i;
+        return i-1;
 	}
 
 }

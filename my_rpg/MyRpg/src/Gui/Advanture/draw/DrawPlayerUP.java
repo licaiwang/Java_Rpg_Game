@@ -1,5 +1,9 @@
 package Gui.Advanture.draw;
+
 import javax.swing.*;
+
+import Basic.ResReader;
+
 import java.awt.*;
 public class DrawPlayerUP extends JPanel{
     private static final long serialVersionUID = 1L;
@@ -18,12 +22,11 @@ public class DrawPlayerUP extends JPanel{
             y--;
             drawSkill(g,y);
         } 
-       
     }
 
     protected void drawSkill(Graphics g, int y)
     {
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/skill/"+ Name +".png").getImage();
+        Image image = new ImageIcon(ResReader.path+"res/battlePanel/skill/"+ Name +".png").getImage();
         g.drawImage(image,0, y, getWidth()/2,getHeight()/2, this);
         validate();
         repaint();

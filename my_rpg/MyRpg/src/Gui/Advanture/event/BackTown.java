@@ -4,13 +4,16 @@ import Gui.Gui;
 import Gui.Advanture.AdvantureBackground;
 
 import javax.swing.*;
+
+import Basic.ResReader;
+
 import java.awt.*;
 import java.awt.event.*;
 
 public class BackTown extends JPanel {
+    private static final long serialVersionUID = 1L;
     JButton btn_move;
     JPanel box;
-
     public BackTown() {
         super();
         this.setFocusable(true);
@@ -26,25 +29,19 @@ public class BackTown extends JPanel {
         btn_move.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AdvantureBackground.advPanel.removeAll();
-                Gui.showTownSidePanel();
+                removeAll();
+				setVisible(false);
+				AdvantureBackground.advPanel.setVisible(false);
+				Gui.mContainer.remove(AdvantureBackground.advPanel);
+				Gui.showTownSidePanel();
 				Gui.resetPannel(6);
             }
         });
 
     }
-
-    private static final long serialVersionUID = 1L;
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawCompass(g);
+        g.drawImage(ResReader.compass, 0, 0, getWidth(), getHeight(), this);
     }
-
-    public void drawCompass(Graphics g) {
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/back.jpg").getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-    }
-
 }

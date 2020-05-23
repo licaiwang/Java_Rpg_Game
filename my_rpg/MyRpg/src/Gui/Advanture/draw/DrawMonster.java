@@ -2,8 +2,8 @@ package Gui.Advanture.draw;
 
 import javax.swing.JPanel;
 
+import Basic.ResReader;
 import phase.BattlePhase;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,10 +16,14 @@ public class DrawMonster extends JPanel{
 
     String monsterName;
     int y=0;
+    int x=0;
+    public Boolean isAtacking = false;
+    public  Image image;
     public static JPanel monsterPanel;
     public DrawMonster(String name) {
         super();
         monsterName = name;
+        image = new ImageIcon(ResReader.path + "res/battlePanel/monster/"+ monsterName +".png").getImage();
         monsterPanel= new JPanel();
         monsterPanel.setPreferredSize(new Dimension(400,400));
         monsterPanel.setOpaque(false);
@@ -40,18 +44,45 @@ public class DrawMonster extends JPanel{
                 }
                 break;
             default:
-                drawMonster(g);
+                if(isAtacking)
+                {
+
+                    if(y > - 100)
+                    {
+                        y -- ;                   
+                    }
+                    if(x < 100)
+                    {
+                        x ++ ;
+                    }
+                    if(x == 20 &&  y == -20) 
+                    {
+                        isAtacking = false;
+                        x = 0;
+                        y = 0;
+                    }
+                    drawMonsterAtk(g);              
+                }
+                else{
+                    drawMonster(g);
+                }         
                 break;
         } 
+
     }
+    
+    private void drawMonsterAtk(Graphics g) {
+        g.drawImage(image, x,y, getWidth(), getHeight(), this);
+        validate();
+        repaint();
+    }
+
     protected void drawMonster(Graphics g)
     {
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/monster/"+ monsterName +".png").getImage();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
     }
     protected void drawMonsterDead(Graphics g, int y)
     {
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/monster/"+ monsterName +".png").getImage();
         g.drawImage(image, 0,y, getWidth(), getHeight(), this);
         validate();
         repaint();

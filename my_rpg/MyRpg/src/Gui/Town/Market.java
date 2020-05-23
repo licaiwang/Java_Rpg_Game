@@ -5,6 +5,7 @@ import Gui.Gui;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import Basic.Player;
+import Basic.ResReader;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.*;
 import java.awt.*;
@@ -19,11 +20,11 @@ public class Market extends JPanel {
         JPanel gridPanel = new JPanel();
         gridPanel.setLayout(new MigLayout("wrap 1", "270[]20[]", "150[]20[]"));
         gridPanel.setOpaque(false);
-        JButton btn_1 = new JButton("痛立停 X 120 NT");
+        JButton btn_1 = new JButton("痛立停 X 100 NT");
         btn_1.setMargin(new Insets(10, 10, 10, 10));
-        JButton btn_2 = new JButton("魔力香爐 X 100 NT");
+        JButton btn_2 = new JButton("魔力香爐 X 200 NT");
         btn_2.setMargin(new Insets(10, 10, 10, 10));
-        JButton btn_3 = new JButton("女神的祝福 X 800 NT");
+        JButton btn_3 = new JButton("女神的祝福 X 2000 NT");
         btn_3.setMargin(new Insets(10, 10, 10, 10));
         JButton btn_4 = new JButton("記憶的光碟 X 500 NT");
         btn_4.setMargin(new Insets(10, 10, 10, 10));
@@ -87,14 +88,8 @@ public class Market extends JPanel {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        drawMarket(g);
+        g.drawImage(ResReader.market, 0, 0, getWidth(), getHeight(), this);
     }
-
-    protected void drawMarket(final Graphics g) {
-        final Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/market.jpg").getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-    }
-
     protected void resetMoney(int i) {
 
         Player.COIN -= i;

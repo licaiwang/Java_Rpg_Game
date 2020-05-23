@@ -1,12 +1,14 @@
 package Gui.Town;
 
 import Gui.Helper.MusicHelper;
+import Magic.MagicBase;
 import Skill.BattleSkillBase;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import Basic.Player;
+import Basic.ResReader;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -33,23 +35,30 @@ public class School extends JPanel {
         JPanel gridPanel = new JPanel();
         gridPanel.setLayout(new MigLayout("wrap 2", "270[]20[]", "150[]20[]"));
         gridPanel.setOpaque(false);
-        JButton btn_1 = new JButton("  隨機戰技 X  1 光碟  ");
+        JButton btn_1 = new JButton("  隨機戰技 X  1 記憶光碟  ");
         btn_1.setMargin(new Insets(10, 10, 10, 10));
-        JButton btn_2 = new JButton("  普通戰技 X 10 碎片 ");
+        JButton btn_2 = new JButton("  基礎戰技 X 10 記憶碎片 ");
         btn_2.setMargin(new Insets(10, 10, 10, 10));
-        JButton btn_3 = new JButton("  進階戰技 X 30 碎片  ");
+        JButton btn_3 = new JButton("  進階戰技 X 30 記憶碎片  ");
         btn_3.setMargin(new Insets(10, 10, 10, 10));
-        JButton btn_4 = new JButton("  大師戰技 X 50 碎片  ");
+        JButton btn_4 = new JButton("  大師戰技 X 50 記憶碎片  ");
         btn_4.setMargin(new Insets(10, 10, 10, 10));
-        JButton btn_5 = new JButton("  隨機魔法 X  1 光碟  ");
+        JButton btn_5 = new JButton("  隨機魔法 X  1 記憶光碟  ");
         btn_5.setMargin(new Insets(10, 10, 10, 10));
-        JButton btn_6 = new JButton("  通常魔法 X 10 碎片  ");
+        JButton btn_6 = new JButton("  基礎魔法 X 10 記憶碎片  ");
         btn_6.setMargin(new Insets(10, 10, 10, 10));
-        JButton btn_7 = new JButton("  高階魔法 X 30 碎片  ");
+        JButton btn_7 = new JButton("  進階魔法 X 30 記憶碎片  ");
         btn_7.setMargin(new Insets(10, 10, 10, 10));
-        JButton btn_8 = new JButton("  冠位魔法 X 50 碎片  ");
+        JButton btn_8 = new JButton("  冠位魔法 X 50 記憶碎片  ");
         btn_8.setMargin(new Insets(10, 10, 10, 10));
-
+        btn_1.setPreferredSize(new Dimension(150, 30));
+        btn_2.setPreferredSize(new Dimension(150, 30));
+        btn_3.setPreferredSize(new Dimension(150, 30));
+        btn_4.setPreferredSize(new Dimension(150, 30));
+        btn_5.setPreferredSize(new Dimension(150, 30));
+        btn_6.setPreferredSize(new Dimension(150, 30));
+        btn_7.setPreferredSize(new Dimension(150, 30));
+        btn_8.setPreferredSize(new Dimension(150, 30));
         btn_1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,21 +97,26 @@ public class School extends JPanel {
         btn_5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                resetCdLabel(1);
+                if(resetCdLabel(1)){
+                    gainRandomMagic();
+                }
             }
         });
         btn_6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                resetshardLabel(10);
-
+                if (resetshardLabel(10)) {
+                    gainBasicMagic();
+                }
             }
         });
 
         btn_7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                resetshardLabel(30);
+                if (resetshardLabel(30)) {
+                    gainAdvanceMagic();
+                }
 
             }
         });
@@ -110,7 +124,9 @@ public class School extends JPanel {
         btn_8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                resetshardLabel(50);
+                if (resetshardLabel(50)) {
+                    gainMasterMagic();
+                }
             }
         });
 
@@ -135,6 +151,8 @@ public class School extends JPanel {
         cDLabel.setFont(new Font("Serif", Font.PLAIN, 28));
         cDLabel.setOpaque(true);
         cDLabel.setBorder(new LineBorder(Color.black, 3));
+      
+
         boxPanel.add(shardLabel);
         boxPanel.add(cDLabel);
 
@@ -142,8 +160,8 @@ public class School extends JPanel {
         this.add(boxPanel);
     }
 
+ 
     boolean resetshardLabel(Integer cost) {
-        // JLabel 無需 repaint()
         if (Player.memoryShard >= 10) {
             Player.memoryShard -= cost;
             shardLabel.setText("持有的記憶碎片:  " + Player.memoryShard);
@@ -151,7 +169,7 @@ public class School extends JPanel {
             playMusic.start();
             return true;
         } else {
-            shardLabel.setText("持有的記憶碎片不足！");
+            shardLabel.setText("記憶碎片不足!");
             return false;
         }
     }
@@ -161,7 +179,6 @@ public class School extends JPanel {
     }
 
     boolean resetCdLabel(Integer cost) {
-        // JLabel 無需 repaint()
         if (Player.memoryCd > 0) {
             Player.memoryCd -= cost;
             cDLabel.setText("持有的記憶光碟:  " + Player.memoryCd);
@@ -169,23 +186,18 @@ public class School extends JPanel {
             playMusic.start();
             return true;
         } else {
-            cDLabel.setText("持有的記憶光碟不足！");
+            cDLabel.setText("記憶光碟不足!");
             return false;
         }
     }
 
     public static void resetCdAmount() {
-        cDLabel.setText("持有的記憶光碟:  " + Player.memoryCd);
+        cDLabel.setText("持有的記憶光碟::  " + Player.memoryCd);
     }
 
-    // TODO: 增加魔法
 
     public static void gainRandomSkill() {
-        /*
-         * 隨機抽選的機率
-         * 
-         * 普通 - 65% 進階 - 30% 大師 - 5%
-         */
+ 
         Random r = new Random();
         int index = r.nextInt(20);
         if (index == 20) {
@@ -200,14 +212,13 @@ public class School extends JPanel {
     private static void gainBasicSkill() {
         Random r = new Random();
         int index = r.nextInt(BattleSkillBase.Basic_skill_name.size());
-        // 比較是否重複抽到
         if (!isGain(index + 0.1)) {
             hasget.add(index + 0.1);
             String gainSkillname = BattleSkillBase.Basic_skill_name.get(index);
             BattleSkillBase.unlockSkill(gainSkillname);
-            JOptionPane.showMessageDialog(null, "獲得了普通戰技  " + gainSkillname);
+            JOptionPane.showMessageDialog(null, "獲得了基礎技能  " + gainSkillname);
         } else {
-            JOptionPane.showMessageDialog(null, "抽到了重複戰技，已轉換成 100 NT");
+            JOptionPane.showMessageDialog(null, "獲得了重複的技能，已轉換為 100 NT");
             Player.COIN += 100;
         }
 
@@ -216,18 +227,17 @@ public class School extends JPanel {
     private static void gainAdvanceSkill() {
         Random r = new Random();
         int index = r.nextInt(BattleSkillBase.Advance_skill_name.size());
-        // 比較是否重複抽到
         if (!isGain(index + 0.2)) {
             hasget.add(index + 0.2);
             String gainSkillname = BattleSkillBase.Advance_skill_name.get(index);
             BattleSkillBase.unlockSkill(gainSkillname);
 
-            JLabel label = new JLabel("獲得了進階戰技  " + gainSkillname);
+            JLabel label = new JLabel("獲得了進階技能  " + gainSkillname);
             label.setForeground(Color.BLUE);
 
             JOptionPane.showMessageDialog(null, label);
         } else {
-            JOptionPane.showMessageDialog(null, "抽到了重複戰技，已轉換成 250 NT");
+            JOptionPane.showMessageDialog(null, "獲得了重複的技能，已轉換為 250 NT");
             Player.COIN += 250;
         }
     }
@@ -235,22 +245,83 @@ public class School extends JPanel {
     private static void gainMasterSkill() {
         Random r = new Random();
         int index = r.nextInt(BattleSkillBase.Master_skill_name.size());
-        // 比較是否重複抽到
         if (!isGain(index + 0.3)) {
             hasget.add(index + 0.3);
             String gainSkillname = BattleSkillBase.Master_skill_name.get(index);
             BattleSkillBase.unlockSkill(gainSkillname);
-            JLabel label = new JLabel("獲得了大師戰技  " + gainSkillname);
+            JLabel label = new JLabel("獲得了大師技能  " + gainSkillname);
             label.setForeground(Color.RED);
             JOptionPane.showMessageDialog(null, label);
         } else {
-            JOptionPane.showMessageDialog(null, "抽到了重複戰技，已轉換成 500 NT");
+            JOptionPane.showMessageDialog(null, "獲得了重複的技能，已轉換為 500 NT");
             Player.COIN += 500;
         }
     }
 
-    private static Boolean isGain(double gain_index) {
 
+    protected void gainRandomMagic() {
+        Random r = new Random();
+        int index = r.nextInt(20);
+        if (index == 20) {
+            gainMasterMagic();
+        } else if (index >= 14 && index < 20) {
+            gainAdvanceMagic();
+        } else {
+            gainBasicMagic();
+        }
+    }
+
+
+    protected void gainBasicMagic() {
+        Random r = new Random();
+        int index = r.nextInt(MagicBase.Basic_Magic_name.size());
+        if (!isGain(index + 0.4)) {
+            hasget.add(index + 0.4);
+            String gainMagicname = MagicBase.Basic_Magic_name.get(index);
+            MagicBase.unlockMagic(gainMagicname);
+            JOptionPane.showMessageDialog(null, "獲得了基礎魔法  " + gainMagicname);
+        } else {
+            JOptionPane.showMessageDialog(null, "獲得了重複的魔法，已轉換為 100 NT");
+            Player.COIN += 250;
+        }
+    }
+
+  
+    
+    protected void gainAdvanceMagic() {
+        Random r = new Random();
+        int index = r.nextInt(MagicBase.Advance_Magic_name.size());
+        if (!isGain(index + 0.5)) {
+            hasget.add(index + 0.5);
+            String gainMagicname = MagicBase.Advance_Magic_name.get(index);
+            MagicBase.unlockMagic(gainMagicname);
+            JLabel label = new JLabel("獲得了進階技能  " +  gainMagicname);
+            label.setForeground(Color.BLUE);
+            JOptionPane.showMessageDialog(null, label);
+        } else {
+            JOptionPane.showMessageDialog(null, "獲得了重複的魔法，已轉換為 250 NT");
+            Player.COIN += 500;
+        }
+    }
+
+
+    protected void gainMasterMagic() {
+        Random r = new Random();
+        int index = r.nextInt(MagicBase.Master_Magic_name.size());
+        if (!isGain(index + 0.6)) {
+            hasget.add(index + 0.6);
+            String gainMagicname = MagicBase.Master_Magic_name.get(index);
+            MagicBase.unlockMagic(gainMagicname);
+            JLabel label = new JLabel("獲得了冠位魔法  " +  gainMagicname);
+            label.setForeground(Color.RED);
+            JOptionPane.showMessageDialog(null, label);
+        } else {
+            JOptionPane.showMessageDialog(null, "獲得了重複的魔法，已轉換為 500 NT");
+            Player.COIN += 100;
+        }
+    }
+
+    private static Boolean isGain(double gain_index) {
         for (int i = 0; i < hasget.size(); i++) {
             if (gain_index == hasget.get(i)) {
                 return true;
@@ -264,12 +335,7 @@ public class School extends JPanel {
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        drawSchool(g);
-    }
-
-    protected void drawSchool(final Graphics g) {
-        final Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/school.jpg").getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(ResReader.school, 0, 0, getWidth(), getHeight(), this);
     }
 
 }

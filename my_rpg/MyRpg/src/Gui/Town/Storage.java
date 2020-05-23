@@ -5,7 +5,10 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import Basic.ResReader;
 import Gui.BottomPanel;
+import Magic.Magic;
+import Magic.MagicBase;
 import Skill.BattleSkillBase;
 import item.Item;
 import net.miginfocom.swing.MigLayout;
@@ -19,6 +22,7 @@ public class Storage extends JPanel {
     private static final long serialVersionUID = 1L;
     static String DEFULT_PATH = "D:/JavaWorkSpace/my_rpg/MyRpg/src/res/storage/";
     static String[] skill_name;
+    static String[] magic_name;
     static String[] item_name;
 
     public static JList<String> list_1;
@@ -27,18 +31,20 @@ public class Storage extends JPanel {
 
     public static String content;
     ImageIcon skillIcon = new ImageIcon(DEFULT_PATH + "skill/1.jpg");
-    ImageIcon magicIcon = new ImageIcon(DEFULT_PATH + "magic/1.jpg");
+    ImageIcon magicIcon = new ImageIcon(DEFULT_PATH + "magic/1.png");
     ImageIcon itemIcon = new ImageIcon(DEFULT_PATH + "item/1.gif");
     JTextArea skill_effect;
     JTextArea magic_effect;
     JTextArea item_effect;
     JLabel skill_icon;
+    JLabel magic_icon;
     JLabel item_icon;
 
     public Storage() {
         super();
         setLayout(new BorderLayout());
         skill_name = BattleSkillBase.unlock_skill_name.stream().toArray(String[]::new);
+        magic_name = MagicBase.unlock_Magic_name.stream().toArray(String[]::new);
         item_name = Item.unlock_item.stream().toArray(String[]::new);
 
         JLabel add_skill = new JLabel("選擇技能");
@@ -70,20 +76,23 @@ public class Storage extends JPanel {
         list_1.setListData(skill_name);
         list_4.setListData(BattleSkillBase.in_use_name);
 
+        // 設置魔法選項數據
+        list_2.setListData(magic_name);
+        list_5.setListData(MagicBase.in_use_name);
+
         // 設置寶具選項數據
         list_3.setListData(item_name);
         list_6.setListData(Item.in_use_item);
 
-        // 添加选项选中状态被改变的监听器
         list_1.setFont(new Font("Serif", Font.BOLD, 16));
         list_1.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                // 获取所有被选中的选项索引
+
                 int[] indices = list_1.getSelectedIndices();
-                // 获取选项数据的 ListModel
+               
                 ListModel<String> listModel = list_1.getModel();
-                // 输出选中的选项
+
                 for (int index : indices) {
                     add_skill.setText(listModel.getElementAt(index));
                     int i = BattleSkillBase.getIndexByName(add_skill.getText());
@@ -117,6 +126,43 @@ public class Storage extends JPanel {
             }
         });
 
+
+        list_2.setFont(new Font("Serif", Font.BOLD, 16));
+        list_2.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int[] indices = list_2.getSelectedIndices();
+                ListModel<String> listModel = list_2.getModel();
+                for (int index : indices) {
+                    add_magic.setText(listModel.getElementAt(index));
+                    int i = MagicBase.getIndexByName(add_magic.getText());
+                    int rarity = Integer.valueOf(MagicBase.Magic_list.get(i)[4].toString());
+                    switch (rarity) {
+                        case 0:
+                            magic_effect.setFont(new Font("Serif", Font.BOLD, 16));
+                            magic_effect.setForeground(Color.BLACK);
+                            content = "等級：" + '\n' + MagicBase.getRarity(rarity) + '\n' + '\n';
+                            break;
+                        case 1:
+                            magic_effect.setFont(new Font("Serif", Font.BOLD, 16));
+                            magic_effect.setForeground(Color.BLUE);
+                            content = "等級：" + '\n' +MagicBase.getRarity(rarity) + '\n' + '\n';
+                            break;
+                        case 2:
+                            magic_effect.setFont(new Font("Serif", Font.BOLD, 16));
+                            magic_effect.setForeground(Color.RED);
+                            content = "等級：" + '\n' + MagicBase.getRarity(rarity) + '\n' + '\n';
+                            break;
+                    }
+                    content += "說明：" + '\n' + MagicBase.Magic_list.get(i)[2].toString() + '\n' + '\n';
+                    magic_effect.setText(content);
+                    magicIcon = new ImageIcon(DEFULT_PATH + "magic/" + (i) + ".png");
+                    magic_icon.setIcon(magicIcon);
+                    magic_icon.repaint();
+                }
+            }
+        });
+
         list_3.setFont(new Font("Serif", Font.BOLD, 16));
         list_3.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -129,8 +175,6 @@ public class Storage extends JPanel {
                     content = "等級：" + Item.item_list.get(i)[1].toString() + " 級寶具" +'\n' + '\n';
                     content += "效果：" + '\n' + Item.item_list.get(i)[3].toString() + '\n' + '\n';
                     content += "說明：" + '\n' + Item.item_list.get(i)[4].toString();
-
-
                     item_effect.setText(content);
                     item_effect.setFont(new Font("Serif", Font.BOLD, 16));
                     itemIcon = new ImageIcon(DEFULT_PATH + "item/" + (i) + ".gif");
@@ -158,9 +202,22 @@ public class Storage extends JPanel {
             }
         });
 
-        // TODO: finish
         list_5.setFont(new Font("Serif", Font.BOLD, 16));
         list_5.setPreferredSize(new Dimension(150, 30));
+        list_5.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int[] indices = list_5.getSelectedIndices();
+                ListModel<String> listModel = list_5.getModel();
+                for (int index : indices) {
+                    int i = MagicBase.getIndexByName(listModel.getElementAt(index));
+                    if (i != 0) {
+                        BottomPanel.content = "效果："+ MagicBase.Magic_list.get(i)[2].toString();
+                        BottomPanel.resetTextArea();
+                    }
+                }
+            }
+        });
 
         list_6.setFont(new Font("Serif", Font.BOLD, 16));
         list_6.setPreferredSize(new Dimension(150, 30));
@@ -193,6 +250,19 @@ public class Storage extends JPanel {
             }
         });
 
+        add_btn_2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int i = MagicBase.getIndexByName(add_magic.getText());
+                if (i > 0) {
+                    // 重設技能
+                    MagicBase.setMagicByIndex(i);
+                    list_5.setListData(MagicBase.in_use_name);
+                    list_5.repaint();
+                }
+            }
+        });
+
         add_btn_3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -218,13 +288,6 @@ public class Storage extends JPanel {
         jScrollPane_3.setPreferredSize(new Dimension(150, 150));
 
        
-   
-      
-
-
-
-
-
         storageJPanel.add(jScrollPane_1);
         storageJPanel.add(jScrollPane_2);
         storageJPanel.add(jScrollPane_3);
@@ -236,6 +299,7 @@ public class Storage extends JPanel {
 
         // 中間 1-1
         JPanel chose_1 = new JPanel();
+        chose_1.setBorder(BorderFactory.createLineBorder(Color.RED,2));
         chose_1.setAlignmentY(Component.TOP_ALIGNMENT);
         chose_1.setBackground(Color.WHITE);
         chose_1.setLayout(new BoxLayout(chose_1, BoxLayout.Y_AXIS));
@@ -247,13 +311,12 @@ public class Storage extends JPanel {
         add_btn_1.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         chose_1.add(add_skill);
-        chose_1.add(Box.createRigidArea(new Dimension(0, 20)));
+        chose_1.add(Box.createRigidArea(new Dimension(0, 10)));
         chose_1.add(skill_icon);
-        chose_1.add(Box.createRigidArea(new Dimension(0, 20)));
+        chose_1.add(Box.createRigidArea(new Dimension(0, 10)));
         chose_1.add(add_btn_1);
 
-        JPanel chose_1_1 = new JPanel();
-        chose_1.setLayout(new BoxLayout(chose_1, BoxLayout.Y_AXIS));
+        JPanel chose_1_1 = new JPanel(); 
         skill_effect = new JTextArea();
         skill_effect.setLineWrap(true);
         skill_effect.setEditable(false);
@@ -266,31 +329,35 @@ public class Storage extends JPanel {
 
         // 中間 1-2
         JPanel chose_2 = new JPanel();
+        chose_2.setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
         chose_2.setAlignmentY(Component.CENTER_ALIGNMENT);
         chose_2.setBackground(Color.WHITE);
         chose_2.setLayout(new BoxLayout(chose_2, BoxLayout.Y_AXIS));
 
-        JLabel magic_icon = new JLabel();
+        magic_icon = new JLabel();
         magic_icon.setIcon(magicIcon);
         magic_icon.setAlignmentX(Component.CENTER_ALIGNMENT);
         add_magic.setAlignmentX(Component.CENTER_ALIGNMENT);
         add_btn_2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         chose_2.add(add_magic);
-        chose_2.add(Box.createRigidArea(new Dimension(0, 20)));
+        chose_2.add(Box.createRigidArea(new Dimension(0, 10)));
         chose_2.add(magic_icon);
-        chose_2.add(Box.createRigidArea(new Dimension(0, 20)));
+        chose_2.add(Box.createRigidArea(new Dimension(0, 10)));
         chose_2.add(add_btn_2);
 
-        // TODO: finish
         JPanel chose_2_1 = new JPanel();
-        magic_effect = new JTextArea(10, 50);
+        magic_effect = new JTextArea();
         magic_effect.setEditable(false);
         chose_2_1.setOpaque(false);
-        chose_2_1.add(magic_effect);
+        JScrollPane jScrollPane_5 = new JScrollPane(magic_effect);
+        jScrollPane_5.setPreferredSize(new Dimension(500, 250)); 
+        chose_2_1.add(jScrollPane_5);
+
 
         // 中間 1-3
         JPanel chose_3 = new JPanel();
+        chose_3.setBorder(BorderFactory.createLineBorder(Color.YELLOW,2));
         chose_3.setLayout(new BoxLayout(chose_3, BoxLayout.Y_AXIS));
         chose_3.setBackground(Color.WHITE);
         chose_3.setAlignmentY(Component.BOTTOM_ALIGNMENT);
@@ -302,9 +369,9 @@ public class Storage extends JPanel {
         add_btn_3.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         chose_3.add(add_item);
-        chose_3.add(Box.createRigidArea(new Dimension(0, 20)));
+        chose_3.add(Box.createRigidArea(new Dimension(0, 10)));
         chose_3.add(item_icon);
-        chose_3.add(Box.createRigidArea(new Dimension(0, 20)));
+        chose_3.add(Box.createRigidArea(new Dimension(0, 10)));
         chose_3.add(add_btn_3);
 
         JPanel chose_3_1 = new JPanel();
@@ -333,32 +400,30 @@ public class Storage extends JPanel {
 
         WearJPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         WearJPanel.add(list_4);
-        WearJPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        WearJPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         list_4.setAlignmentX(CENTER_ALIGNMENT);
         WearJPanel.add(wear_skill);
 
+        WearJPanel.add(Box.createRigidArea(new Dimension(0, 35)));
 
         JButton wear_magic = new JButton("(已裝備)");
         wear_magic.setFont(new Font("Serif", Font.BOLD, 20));
         wear_magic.setAlignmentX(CENTER_ALIGNMENT);
-
-        WearJPanel.add(Box.createRigidArea(new Dimension(0, 130)));
+        WearJPanel.add(Box.createRigidArea(new Dimension(0, 50)));
         WearJPanel.add(list_5);
-        WearJPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        WearJPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         list_5.setAlignmentX(CENTER_ALIGNMENT);
         WearJPanel.add(wear_magic);
+
 
         JButton wear_item = new JButton("(已裝備)");
         wear_item.setFont(new Font("Serif", Font.BOLD, 20));
         wear_item.setAlignmentX(CENTER_ALIGNMENT);
-
-        WearJPanel.add(Box.createRigidArea(new Dimension(0, 130)));
+        WearJPanel.add(Box.createRigidArea(new Dimension(0, 120)));
         WearJPanel.add(list_6);
-        WearJPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        WearJPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         list_6.setAlignmentX(CENTER_ALIGNMENT);
         WearJPanel.add(wear_item);
-
- 
 
         // 最後添入
         add(storageJPanel, BorderLayout.WEST);
@@ -366,15 +431,9 @@ public class Storage extends JPanel {
         add(chosePanel);
 
     }
-
     @Override
     protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
-        drawStorage(g);
-    }
-
-    protected void drawStorage(final Graphics g) {
-        final Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/storage.jpg").getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(ResReader.storage, 0, 0, getWidth(), getHeight(), this);
     }
 }

@@ -1,31 +1,25 @@
 package Gui;
 
 import javax.swing.*;
+
+import Basic.ResReader;
+
 import java.awt.*;
 
 public class Avatar extends JPanel {
-    /*
 
-    繪製頭像
+    private static final long serialVersionUID = 1L;
     
-    */
     public Avatar() {
         super();
-        setPreferredSize( new Dimension( 100, 180 ) );
+        setOpaque(false);
+        setPreferredSize(new Dimension(140,140));
     }
-
-	private static final long serialVersionUID = 1L;
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); 
-        drawAvatar(g);
+        g.drawImage(ResReader.avatar, 10, 10, getWidth()-20, getHeight()-20, this);
+        validate();
+        repaint();
     }
-    protected void drawAvatar(Graphics g)
-    {
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/avatar.jpg").getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-    }
-
-
 }

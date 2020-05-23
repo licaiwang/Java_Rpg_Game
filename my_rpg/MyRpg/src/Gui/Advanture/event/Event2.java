@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import Basic.Player;
+import Basic.ResReader;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
 
@@ -77,8 +78,7 @@ public class Event2 extends JPanel {
     }
 
     public void drawEvent(Graphics g) {
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event/event1_2.jpg").getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(ResReader.event1_2, 0, 0, getWidth(), getHeight(), this);
     }
 
     public void drawConsequence(Graphics g) {
@@ -92,8 +92,6 @@ public class Event2 extends JPanel {
                 BattleSidePanel.resetTp();
                 break;
         }
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/event/event1_2_" + id + ".jpg")
-                .getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(ResReader.event1_2_, 0, 0, getWidth(), getHeight(), this);
     }
 }

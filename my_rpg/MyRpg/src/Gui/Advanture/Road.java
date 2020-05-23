@@ -4,6 +4,9 @@ import java.awt.*;
 import javax.swing.*;
 
 import Basic.Player;
+import Basic.ResReader;
+import Gui.Helper.MusicHelper;
+
 import java.awt.event.*;
 import java.util.Random;
 
@@ -15,9 +18,10 @@ public class Road extends JPanel {
      * 事件 - 30% 寶物 - 10% 怪物 - 60%
      *
      */
+    private static final long serialVersionUID = 1L;
+
     JButton btn_move;
     JPanel box;
-
     public Road() {
         super();
         setVisible(true);
@@ -34,6 +38,8 @@ public class Road extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Player.TP > 1) {
+                    Thread playMusic = new MusicHelper("player/step.wav");
+                    playMusic.start();
                     Player.TP -= 1;
                     BattleSidePanel.travelPointLabel.setText("體力值：" + Player.TP);
                     AdvantureBackground.showRandom(getRandom());
@@ -45,10 +51,6 @@ public class Road extends JPanel {
             }
         });
     }
-
-    private static final long serialVersionUID = 1L;
-
-
 
     private static int getRandom() {
         /*
@@ -67,12 +69,7 @@ public class Road extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawEvent(g);
-    }
-
-    public void drawEvent(Graphics g) {
-        Image image = new ImageIcon("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/road.jpg").getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(ResReader.road, 0, 0, getWidth(), getHeight(), this);
     }
 
 }

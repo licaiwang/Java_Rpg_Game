@@ -68,6 +68,7 @@ public class Skill {
     {
         Thread playMusic = new MusicHelper("/skill/katana1.wav");
         playMusic.start();
+        BattleSkillBase.Strik = 0;
         return BattleTemp.ATK - BattleTemp.M_DEF;     
     }
     public static int Basic_Double_Atk()

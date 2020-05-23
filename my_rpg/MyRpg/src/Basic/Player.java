@@ -27,6 +27,7 @@ public class Player extends Power {
     public static Integer stop_pain;
     public static Integer magic_box;
     public static Integer godness_bless;
+    public static Boolean isDead;
     public Player() throws IOException {
         super();
         readAllData();
@@ -49,6 +50,7 @@ public class Player extends Power {
         stop_pain = 0;
         magic_box = 0;
         godness_bless = 0;
+        isDead = false;
     }
 
     // HP, ATK, DEF, SP_ATK, SP_DEF, SPEED, LUCK, MP, COIN, EXP, LEVEL
