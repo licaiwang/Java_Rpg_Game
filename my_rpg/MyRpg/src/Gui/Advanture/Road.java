@@ -16,10 +16,13 @@ public class Road extends JPanel {
      * 這邊是做隨機選擇發生的是以及檢查劇情的地方
      * 
      * 事件 - 30% 寶物 - 10% 怪物 - 60%
+     * 
+     * 如果累積走了 100 步 - 抵達營火
      *
+     * 
      */
     private static final long serialVersionUID = 1L;
-
+    public static int totalStep = 0;
     JButton btn_move;
     JPanel box;
     public Road() {
@@ -37,6 +40,12 @@ public class Road extends JPanel {
         btn_move.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                totalStep += 1 ;
+                if(totalStep >= 1)
+                {    
+                    AdvantureBackground.showCampFire();
+                    return;
+                }
                 if (Player.TP > 1) {
                     Thread playMusic = new MusicHelper("player/step.wav");
                     playMusic.start();

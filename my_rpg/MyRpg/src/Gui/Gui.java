@@ -1,16 +1,13 @@
 package Gui;
 
 import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import Basic.Player;
-import Basic.ResReader;
+
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
 import Gui.Helper.MusicHelper;
@@ -101,23 +98,11 @@ public class Gui extends JFrame {
 		mContainer.add(mainPage);
 		mContainer.add(townSidePanel, BorderLayout.EAST);
 		mContainer.add(BottomPanel.bottomPanel, BorderLayout.SOUTH);
-		// 背景音樂
-
-		/*
-		try {
-			audioIn = AudioSystem
-					.getAudioInputStream(new File("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/music/firstTown.wav"));
-			Clip clip = AudioSystem.getClip();
-			clip.open(audioIn);
-			clip.start();
-			clip.loop(Clip.LOOP_CONTINUOUSLY);
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-			e1.printStackTrace();
-		}
-		*/
 
 	}
 
+
+	
 	public static void resetPannel(Integer which) {
 		switch (which) {
 			case 1:
@@ -324,7 +309,8 @@ public class Gui extends JFrame {
 				main.remove(p);
 				init();
 				main.validate();
-				mContainer.repaint();
+				mContainer.repaint();			
+				MusicHelper.playBackgroundMusic("firstTown");
 			}
 
 			@Override
@@ -333,9 +319,10 @@ public class Gui extends JFrame {
 				init();
 				main.validate();
 				mContainer.repaint();
+				MusicHelper.playBackgroundMusic("firstTown");
 			}
 		});
-		String file = "res/video/open.wmv";
+		String file = "MyRpg/bin/res/video/open.wmv";
 		emp.prepareMedia(file);
 		emp.play();
 	}
@@ -343,6 +330,8 @@ public class Gui extends JFrame {
 	static void stopVideo() {
 		emp.stop();
 		emp.release();
+		mContainer.repaint();			
+		MusicHelper.playBackgroundMusic("firstTown");
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -388,7 +377,7 @@ public class Gui extends JFrame {
 		});
 
 		
-		main = new Gui("Test");
+		main = new Gui("泰格達");
 		main.setVisible(true);
 
 		mContainer.repaint();

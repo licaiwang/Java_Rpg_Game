@@ -2,6 +2,7 @@ package Gui.Advanture;
 
 import Gui.Gui;
 import Gui.Helper.CreateButton;
+import Gui.Helper.MusicHelper;
 
 import javax.swing.*;
 import Basic.Player;
@@ -111,7 +112,10 @@ public class BattleSidePanel extends JPanel {
 		btn_4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				CreateButton.clickSound();
 				removeAll();
+				MusicHelper.stopBackgroundMusic();
+				MusicHelper.playBackgroundMusic("firstTown");
 				setVisible(false);
 				AdvantureBackground.advPanel.setVisible(false);
 				Gui.mContainer.remove(AdvantureBackground.advPanel);

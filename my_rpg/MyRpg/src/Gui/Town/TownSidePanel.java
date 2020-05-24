@@ -1,12 +1,10 @@
 package Gui.Town;
 
-import Gui.Avatar;
 import Gui.Gui;
 import Gui.Helper.CreateButton;
+import Gui.Helper.MusicHelper;
 
 import javax.swing.*;
-
-
 import Basic.Player;
 import Basic.ResReader;
 import net.miginfocom.swing.MigLayout;
@@ -85,6 +83,9 @@ public class TownSidePanel extends JPanel {
 		btn_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				CreateButton.clickSound();
+				MusicHelper.stopBackgroundMusic();
+				MusicHelper.playBackgroundMusic("void");
 				Gui.resetPannel(1);
 			}
 		});
@@ -92,6 +93,7 @@ public class TownSidePanel extends JPanel {
 		btn_2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				CreateButton.clickSound();
 				Player.TP = 25;
 				Player.HP = Integer.valueOf(Player.Upgrade.get(Player.LEVEL)[2]);
 				Player.Max_HP = Player.HP;
@@ -103,12 +105,14 @@ public class TownSidePanel extends JPanel {
 		btn_3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				CreateButton.clickSound();
 				Gui.resetPannel(3);
 			}
 		});
 		btn_4.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
+							CreateButton.clickSound();
 							Gui.resetPannel(4);							
 						}
 					});
@@ -116,12 +120,14 @@ public class TownSidePanel extends JPanel {
 		btn_5.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				CreateButton.clickSound();
 				Gui.resetPannel(5);
 			}
 		});
 		btn_6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				CreateButton.clickSound();
 				Gui.resetPannel(6);
 			}
 		});

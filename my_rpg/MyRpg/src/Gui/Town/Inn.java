@@ -29,5 +29,4 @@ public class Inn extends JPanel{
         g.drawString(msg, getWidth()/3+getWidth()/12, getHeight()/8);
     }
 
-
 }

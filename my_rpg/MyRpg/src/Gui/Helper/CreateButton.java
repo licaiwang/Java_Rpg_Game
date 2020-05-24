@@ -57,4 +57,10 @@ public class CreateButton extends JButton {
         return shape.contains(x, y);
     }
 
+    public static void clickSound()
+    {
+        Thread playButton = new MusicHelper("button.wav");
+        playButton.start();
+    }
+
 }

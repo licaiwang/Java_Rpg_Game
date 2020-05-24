@@ -128,13 +128,16 @@ public class Event1 extends JPanel {
                 int getShard = r.nextInt(10);
                 Player.memoryShard += shard[getShard];
                 School.resetshardAmount();
+                g.drawImage(ResReader.event1_1_1, 0, 0, getWidth(), getHeight(), this);
                 break;
             case 2:
+                g.drawImage(ResReader.event1_1_2, 0, 0, getWidth(), getHeight(), this);
                 break;
             case 3:
+                g.drawImage(ResReader.event1_1_3, 0, 0, getWidth(), getHeight(), this);
                 break;
         }
-        g.drawImage(ResReader.event1_1_, 0, 0, getWidth(), getHeight(), this);
+        
     }
 
     public void drawSecondConsequence(Graphics g) {
@@ -145,6 +148,7 @@ public class Event1 extends JPanel {
                 Player.COIN /= 10;
                 Player.COIN *= 9;
                 BattleSidePanel.resetCoin();
+                g.drawImage(ResReader.event1_1_2_1, 0, 0, getWidth(), getHeight(), this);
                 break;
             case 1:
                 Player.HP -= 5;
@@ -152,10 +156,10 @@ public class Event1 extends JPanel {
                 if (Player.HP <= 0) {
                     AdvantureBackground.showDead();
                 }
+                g.drawImage(ResReader.event1_1_2_2, 0, 0, getWidth(), getHeight(), this);
                 break;
         }
-        id +=1;
-        g.drawImage(ResReader.event1_1_2_, 0, 0, getWidth(), getHeight(), this);
+       
     }
 
 }

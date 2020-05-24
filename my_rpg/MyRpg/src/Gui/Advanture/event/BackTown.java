@@ -2,6 +2,7 @@ package Gui.Advanture.event;
 
 import Gui.Gui;
 import Gui.Advanture.AdvantureBackground;
+import Gui.Helper.MusicHelper;
 
 import javax.swing.*;
 
@@ -30,6 +31,8 @@ public class BackTown extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 removeAll();
+                MusicHelper.stopBackgroundMusic();
+				MusicHelper.playBackgroundMusic("firstTown");
 				setVisible(false);
 				AdvantureBackground.advPanel.setVisible(false);
 				Gui.mContainer.remove(AdvantureBackground.advPanel);

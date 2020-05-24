@@ -9,6 +9,7 @@ import Gui.Advanture.draw.DrawBlood;
 import Gui.Advanture.draw.DrawMonster;
 import Gui.Advanture.draw.DrawPlayerUP;
 import Gui.Advanture.draw.DrawSpecialEffect;
+import Gui.Helper.CreateButton;
 import Gui.Helper.MusicHelper;
 import Magic.MagicBase;
 import Skill.BattleSkillBase;
@@ -53,9 +54,9 @@ public class Battle extends JPanel {
 
     public Battle() {
         super();
-      
+
         Collections.shuffle(monster_list);
-      
+
         drawMonster = new DrawMonster(monster_list.get(0));
         drawMonster.setOpaque(false);
         drawMonster.validate();
@@ -70,7 +71,6 @@ public class Battle extends JPanel {
         drawPlayer.setLayout(new BoxLayout(drawPlayer, BoxLayout.Y_AXIS));
         drawPlayer.add(Box.createRigidArea(new Dimension(0, 200)));
 
-    
         CreateMonster.createLevelOne(monster_list.get(0));
         BattleTemp.init();
         box = new JPanel();
@@ -105,13 +105,14 @@ public class Battle extends JPanel {
             BattlePhase.playerTurn(type, damage);
         }
     }
+
     static void magicPhase(int type, int id, int damage) {
         if (MagicBase.IsDamage) {
             drawMagicEffect(type, id);
             BattlePhase.playerCastMagic(type, damage);
         } else if (MagicBase.IsEnhance) {
             drawPlayerEffect();
-            BattlePhase.playerCastMagic(999+type, damage);
+            BattlePhase.playerCastMagic(999 + type, damage);
         }
     }
 
@@ -134,32 +135,31 @@ public class Battle extends JPanel {
                             }
                         }, 1000);
                     }
-                } else {                 
+                } else {
                     normalPhase(0, id, damage);
                     damageCountPhase();
                     monsterPhase();
-                    timer.cancel();                
+                    timer.cancel();
                 }
             }
         }, 10, 1000);
 
     }
 
-
     static void castMagic(int id) {
         int damage = MagicBase.getMagic(id - 1);
-        magicPhase(0, id, damage);   
+        magicPhase(0, id, damage);
         damageCountPhase();
     }
 
-    static void monsterPhase() {  
-        drawMonster.isAtacking = true; 
+    static void monsterPhase() {
+        drawMonster.isAtacking = true;
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                BattlePhase.MonsterTurn();     
+                BattlePhase.MonsterTurn();
             }
-        }, 1000);       
+        }, 1000);
     }
 
     public static boolean damageCountPhase() {
@@ -181,11 +181,10 @@ public class Battle extends JPanel {
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     public void run() {
-                        if(!Player.isDead)
-                        {
+                        if (!Player.isDead) {
                             AdvantureBackground.showRoad();
                             DrawBlood.isBattle = false;
-                        }              
+                        }
                     }
                 }, 2000);
                 return false;
@@ -226,21 +225,18 @@ public class Battle extends JPanel {
         drawBlood.repaint();
     }
 
-    public static void playerPause()
-    {
+    public static void playerPause() {
         makeButtonEnable();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
-            public void run() { 
-                makeButtonable();           
+            public void run() {
+                makeButtonable();
             }
         }, 2000);
     }
 
-
-
     public static void drawSkillEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id),0);
+        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id), 0);
         DrawMonster.monsterPanel.add(effect);
         effect.setOpaque(false);
         Timer timer = new Timer();
@@ -254,7 +250,7 @@ public class Battle extends JPanel {
     }
 
     public static void drawMagicEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id),1);
+        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id), 1);
         DrawMonster.monsterPanel.add(effect);
         effect.setOpaque(false);
         Timer timer = new Timer();
@@ -266,8 +262,6 @@ public class Battle extends JPanel {
             }
         }, 250);
     }
-
-
 
     public static void drawPlayerEffect() {
         DrawPlayerUP effect2 = new DrawPlayerUP("def_up");
@@ -284,7 +278,6 @@ public class Battle extends JPanel {
             }
         }, 550);
     }
-
 
     static void buttonCommonSetting() {
         btn_1.setMargin(new Insets(10, 10, 10, 10));
@@ -312,11 +305,11 @@ public class Battle extends JPanel {
         btn_4 = new JButton("  藥物  ");
         buttonCommonSetting();
         btn_1.addActionListener(new ActionListener() {
-          
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                Thread playButton = new MusicHelper("button.wav");
-                playButton.start();
+                CreateButton.clickSound();
+
                 buttonNameSetting(BattleSkillBase.in_use_name);
                 resetGridPanel();
                 btn_1.addActionListener(new ActionListener() {
@@ -352,8 +345,8 @@ public class Battle extends JPanel {
         btn_2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Thread playButton = new MusicHelper("button.wav");
-                playButton.start();
+                CreateButton.clickSound();
+
                 buttonNameSetting(MagicBase.in_use_name);
                 resetGridPanel();
                 btn_1.addActionListener(new ActionListener() {
@@ -392,8 +385,7 @@ public class Battle extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                Thread playButton = new MusicHelper("button.wav");
-                playButton.start();
+                CreateButton.clickSound();
                 int mType = JOptionPane.QUESTION_MESSAGE;
                 int oType = JOptionPane.YES_NO_CANCEL_OPTION;
                 String[] options = Item.in_use_item;
@@ -402,11 +394,10 @@ public class Battle extends JPanel {
             }
         });
         btn_4.addActionListener(new ActionListener() {
-            // ??????
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                Thread playButton = new MusicHelper("button.wav");
-                playButton.start();
+                CreateButton.clickSound();
                 int mType = JOptionPane.QUESTION_MESSAGE;
                 int oType = JOptionPane.YES_NO_CANCEL_OPTION;
                 String[] options = { " 痛立停 ", " 魔力香爐 ", " 女神的祝福 " };
@@ -517,7 +508,7 @@ public class Battle extends JPanel {
     }
 
     public void drawBattleBase(Graphics g) {
-        g.drawImage(ResReader.battleBase,0, 0, getWidth(), getHeight(), this);
+        g.drawImage(ResReader.battleBase, 0, 0, getWidth(), getHeight(), this);
     }
 
     public void drawItem(Graphics g, int id) {

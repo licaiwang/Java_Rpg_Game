@@ -21,17 +21,24 @@ public class ResReader {
     public static final Image buttonFrame = new ImageIcon(path +"res/btnFrame.png").getImage();
     // event 1
     public static final Image event1_1 = new ImageIcon(path+"res/battlePanel/event/event1_1.jpg").getImage();
-    public static final Image event1_1_ = new ImageIcon(path+"res/battlePanel/event/event1_1_.jpg").getImage();
-    public static final Image event1_1_2_ = new ImageIcon(path+"res/battlePanel/event/event1_1_2_.jpg").getImage();
+    public static final Image event1_1_1 = new ImageIcon(path+"res/battlePanel/event/event1_1_1.jpg").getImage();
+    public static final Image event1_1_2 = new ImageIcon(path+"res/battlePanel/event/event1_1_2.jpg").getImage();
+    public static final Image event1_1_3 = new ImageIcon(path+"res/battlePanel/event/event1_1_3.jpg").getImage();
+    public static final Image event1_1_2_1 = new ImageIcon(path+"res/battlePanel/event/event1_1_2_1.jpg").getImage();
+    public static final Image event1_1_2_2 = new ImageIcon(path+"res/battlePanel/event/event1_1_2_2.jpg").getImage();
     // event 2
     public static final Image event1_2 = new ImageIcon(path+"res/battlePanel/event/event1_2.jpg").getImage();
-    public static final Image event1_2_ = new ImageIcon(path+"res/battlePanel/event/event1_2_.jpg").getImage();
+    public static final Image event1_2_1 = new ImageIcon(path+"res/battlePanel/event/event1_2_1.jpg").getImage();
+    public static final Image event1_2_2 = new ImageIcon(path+"res/battlePanel/event/event1_2_2.jpg").getImage();
     // event 3
     public static final Image event1_3 = new ImageIcon(path+"res/battlePanel/event/event1_3.jpg").getImage();
-    public static final Image event1_3_ = new ImageIcon(path+"res/battlePanel/event/event1_3_.jpg").getImage();
+    public static final Image event1_3_1 = new ImageIcon(path+"res/battlePanel/event/event1_3_1.jpg").getImage();
+    public static final Image event1_3_2 = new ImageIcon(path+"res/battlePanel/event/event1_3_2.jpg").getImage();
     // Treasure
     public static final Image treasure = new ImageIcon(path+"res/battlePanel/event/treasure.jpg").getImage();
-    public static final Image treasure_ = new ImageIcon(path+"res/battlePanel/event/treasure_.jpg").getImage();
+    public static final Image treasure_1 = new ImageIcon(path+"res/battlePanel/event/treasure_1.jpg").getImage();
+    public static final Image treasure_2 = new ImageIcon(path+"res/battlePanel/event/treasure_2.jpg").getImage();
+    public static final Image treasure_3 = new ImageIcon(path+"res/battlePanel/event/treasure_3.jpg").getImage();
     // Battle
     public static final Image battleBase = new ImageIcon(path+"res/battlePanel/battleBase.jpg").getImage();
     // Side
@@ -65,5 +72,10 @@ public class ResReader {
 
     // 這個頭像也不會改變
     public static final Avatar topInsidePanel = new Avatar();
+     
+    // CampFire
+    public static final Image campFire = new ImageIcon(path+"res/battlePanel/event/campfire.gif").getImage();
+
+	public static final Image fortress = new ImageIcon(path+"res/battlePanel/event/puzzle/frame.jpg").getImage();;
 }
     

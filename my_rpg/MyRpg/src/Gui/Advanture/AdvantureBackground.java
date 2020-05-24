@@ -3,9 +3,11 @@ package Gui.Advanture;
 import javax.swing.*;
 
 import Gui.Advanture.event.BackTown;
+import Gui.Advanture.event.CampFire;
 import Gui.Advanture.event.Event1;
 import Gui.Advanture.event.Event2;
 import Gui.Advanture.event.Event3;
+import Gui.Advanture.event.Fortress;
 import Gui.Advanture.event.Treasure;
 
 public class AdvantureBackground extends JPanel {
@@ -25,6 +27,8 @@ public class AdvantureBackground extends JPanel {
     static Event3 event3;
     static Treasure treasure;
     static BackTown backTown;
+    static CampFire campfire;
+    static Fortress fortress;
     static Battle battle;
     static Dead dead;
 
@@ -41,7 +45,6 @@ public class AdvantureBackground extends JPanel {
         event3 = new Event3();
         treasure = new Treasure();
         dead = new Dead();
-       
         advPanel.setLayout(new BoxLayout(advPanel, BoxLayout.Y_AXIS));
         advPanel.add(gate);
     }
@@ -69,6 +72,25 @@ public class AdvantureBackground extends JPanel {
         advPanel.validate();
         backTown.repaint();
     }
+
+  public static void showFortress() {
+        advPanel.removeAll();
+        fortress = new Fortress();
+        advPanel.add(fortress);
+        advPanel.validate();
+        fortress.repaint();
+    }
+
+
+    public static void showCampFire() {
+        advPanel.removeAll();
+        campfire = new CampFire();
+        advPanel.add(campfire);
+        advPanel.validate();
+        campfire.repaint();
+    }
+
+
     public static void showDead()
     {
         advPanel.removeAll();

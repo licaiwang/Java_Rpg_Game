@@ -86,12 +86,14 @@ public class Event2 extends JPanel {
         int id = (r.nextInt(2)+1);
         switch (id) {
             case 1:
+                g.drawImage(ResReader.event1_2_1, 0, 0, getWidth(), getHeight(), this);
                 break;
             case 2:
                 Player.TP += 5;
                 BattleSidePanel.resetTp();
+                g.drawImage(ResReader.event1_2_2, 0, 0, getWidth(), getHeight(), this);
                 break;
         }
-        g.drawImage(ResReader.event1_2_, 0, 0, getWidth(), getHeight(), this);
+        
     }
 }

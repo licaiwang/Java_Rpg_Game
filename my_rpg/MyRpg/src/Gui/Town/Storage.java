@@ -7,7 +7,6 @@ import javax.swing.event.ListSelectionListener;
 
 import Basic.ResReader;
 import Gui.BottomPanel;
-import Magic.Magic;
 import Magic.MagicBase;
 import Skill.BattleSkillBase;
 import item.Item;

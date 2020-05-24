@@ -7,6 +7,7 @@ import Basic.Player;
 import Basic.ResReader;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
+import Gui.Helper.MusicHelper;
 import Gui.Town.School;
 
 import java.awt.event.*;
@@ -69,17 +70,22 @@ public class Treasure extends JPanel {
                 int getMoney = r.nextInt(3);
                 Player.COIN += money[getMoney];
                 BattleSidePanel.resetCoin();
+                g.drawImage(ResReader.treasure_1,0, 0 , getWidth(), getHeight(), this);
+                Thread playMusic = new MusicHelper("coin.wav");
+                playMusic.start();
                 break;
             case 2:
                 Player.TP -= 3;
                 BattleSidePanel.resetTp();
+                g.drawImage(ResReader.treasure_2,0, 0 , getWidth(), getHeight(), this);
                 break;
             case 3:
                 Player.memoryShard += 5;
                 School.resetshardAmount();
+                g.drawImage(ResReader.treasure_3,0, 0 , getWidth(), getHeight(), this);
                 break;
         }
-        g.drawImage(ResReader.treasure_,0, 0 , getWidth(), getHeight(), this);
+       
     }
 
 public void createButton()

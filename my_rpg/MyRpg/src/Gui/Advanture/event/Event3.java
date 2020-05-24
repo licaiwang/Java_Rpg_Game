@@ -90,12 +90,13 @@ public class Event3 extends JPanel {
         }
         switch (id) {
             case 1:
+                g.drawImage(ResReader.event1_3_1, 0, 0, getWidth(), getHeight(), this);
                 break;
             case 2:
                 Player.memoryCd += 1;
                 School.resetCdAmount();
+                g.drawImage(ResReader.event1_3_2, 0, 0, getWidth(), getHeight(), this);
                 break;
-        }
-        g.drawImage(ResReader.event1_3_, 0, 0, getWidth(), getHeight(), this);
+        }      
     }
 }
