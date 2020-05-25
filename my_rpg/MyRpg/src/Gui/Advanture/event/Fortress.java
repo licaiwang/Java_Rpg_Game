@@ -10,24 +10,29 @@ import net.miginfocom.swing.MigLayout;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 public class Fortress extends JPanel {
 
     /**
      *
      */
-    JButton btn_back;
+    public static JButton btn_back;
+    public static JPanel gridPanel; 
     JPanel box;
 
-    JPanel puzzle_1 = new Puzzle(1);
-    JPanel puzzle_2 = new Puzzle(2);
-    JPanel puzzle_3 = new Puzzle(3);
-    JPanel puzzle_4 = new Puzzle(4);
-    JPanel puzzle_5 = new Puzzle(5);
-    JPanel puzzle_6 = new Puzzle(6);
-    JPanel puzzle_7 = new Puzzle(7);
-    JPanel puzzle_8 = new Puzzle(8);
-    JPanel puzzle_9 = new Puzzle(9);
+    JPanel puzzle_1;
+    JPanel puzzle_2;
+    JPanel puzzle_3;
+    JPanel puzzle_4;
+    JPanel puzzle_5;
+    JPanel puzzle_6;
+    JPanel puzzle_7;
+    JPanel puzzle_8;
+    JPanel puzzle_9;
+
+    public static int degree[];
+    public static int answer[]; 
 
     private static final long serialVersionUID = 1L;
 
@@ -35,15 +40,34 @@ public class Fortress extends JPanel {
         super();
         setFocusable(true);
         setOpaque(false);
+        degree = new int[10];
+        answer = new int[10];
+        puzzle_1 = new Puzzle(1);
+        initRandomDegree(1);
+        puzzle_2 = new Puzzle(2);
+        initRandomDegree(2);
+        puzzle_3 = new Puzzle(3);
+        initRandomDegree(3);
+        puzzle_4 = new Puzzle(4);
+        initRandomDegree(4);
+        puzzle_5 = new Puzzle(5);
+        initRandomDegree(5);
+        puzzle_6 = new Puzzle(6);
+        initRandomDegree(6);
+        puzzle_7 = new Puzzle(7);
+        initRandomDegree(7);
+        puzzle_8 = new Puzzle(8);
+        initRandomDegree(8);
+        puzzle_9 = new Puzzle(9);
+        initRandomDegree(9);
 
         box = new JPanel();
         box.setOpaque(false);
-
         btn_back = new JButton("  折返  ");
         btn_back.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_back);
 
-        JPanel gridPanel = new JPanel();
+        gridPanel = new JPanel();
         gridPanel.setLayout(new MigLayout("wrap 3", "335[]5[]5[]5", "90[]5[]5[]5"));
         gridPanel.setOpaque(false);
 
@@ -56,7 +80,7 @@ public class Fortress extends JPanel {
         gridPanel.add(puzzle_8);
 
         gridPanel.add(puzzle_3);
-        gridPanel.add(puzzle_6);  
+        gridPanel.add(puzzle_6);
         gridPanel.add(puzzle_9);
 
         this.setLayout(new BorderLayout());
@@ -72,6 +96,35 @@ public class Fortress extends JPanel {
             }
         });
 
+    }
+
+    protected void initRandomDegree(int id) {
+        // 隨機轉 90 , 180 , 270 度，或者不轉
+        Random random = new Random();
+        int chose = random.nextInt(2);
+        int[] opt = { 0, 1, 2 };
+        switch (opt[chose]) {
+            case 0:
+                degree[id - 1] = 90;
+                answer[id - 1] =  1;
+                break;
+            case 1:
+                degree[id - 1] = 180;
+                answer[id - 1] =   2;
+                break;
+            case 2:
+                degree[id - 1] = 270;
+                answer[id - 1] =   3;
+                break;
+            default:
+                degree[id - 1] =   0;
+                break;
+        }
+    }
+
+    public static void removePuzzle()
+    {
+        gridPanel.removeAll();
     }
 
     @Override

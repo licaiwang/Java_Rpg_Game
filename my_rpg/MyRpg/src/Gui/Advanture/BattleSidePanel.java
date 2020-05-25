@@ -155,6 +155,16 @@ public class BattleSidePanel extends JPanel {
 		MpLabel.setText("魔力：" + Player.MP+" ");
 	}
 
+	public static void setBackButtonEnable()
+	{
+		btn_4.setEnabled(false);
+	}
+
+	public static void setBackButtonAble()
+	{
+		btn_4.setEnabled(false);
+	}
+
 	@Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
