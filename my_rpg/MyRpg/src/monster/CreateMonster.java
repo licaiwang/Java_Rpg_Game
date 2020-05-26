@@ -5,7 +5,7 @@ import monster.level_1.GaintRat;
 import monster.level_1.Slime;
 
 public class CreateMonster {
-    static int damage = 0;
+      static int damage = 0;
 
 /*
 hp, atk,  def, sp_atk,  sp_def, 
@@ -33,13 +33,10 @@ level,  rarity
     }
 
 
-
-    public static Integer Movement()
+ public static Integer Movement()
     {
         return damage;
     }
-
-
 
 	public static void clearall() {
 

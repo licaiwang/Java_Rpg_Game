@@ -12,7 +12,6 @@ import Gui.Helper.MusicHelper;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.geom.AffineTransform;
@@ -37,7 +36,7 @@ public class Puzzle extends JPanel {
         isRotate = false;
         setOpaque(false);
         setPreferredSize(new Dimension(pic_size, pic_size));
-        puzzle = new ImageIcon(ResReader.path + "res/battlePanel/event/puzzle/" + id + ".png").getImage();
+        puzzle = new ImageIcon(ResReader.path + "res/battlePanel/event/puzzle/" + (id+1) + ".png").getImage();
         temp_puzzle = convertToBufferedImage(puzzle);
         addMouseListener(new MouseInputAdapter() {
             @Override
@@ -88,36 +87,36 @@ public class Puzzle extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         if (!isRotate) {
-            temp_puzzle = rotateImageByDegrees(temp_puzzle, Fortress.degree[Id - 1]);
+            temp_puzzle = rotateImageByDegrees(temp_puzzle, Fortress.degree[Id]);
             g2.drawImage(temp_puzzle, 0, 0, pic_size, pic_size, this);
         } else {
-            degree = Fortress.degree[Id - 1] + 1;
+            degree = Fortress.degree[Id] + 1;
             BufferedImage temp = convertToBufferedImage(puzzle);
             temp = rotateImageByDegrees(temp, degree);
             g2.drawImage(temp, 0, 0, pic_size, pic_size, this);
             switch (degree) {
                 case 90:
                     isRotate = false;
-                    Fortress.degree[Id - 1] = 90;
+                    Fortress.degree[Id] = 90;
                     checkAnswer();
                     break;
                 case 180:
                     isRotate = false;
-                    Fortress.degree[Id - 1] = 180;
+                    Fortress.degree[Id] = 180;
                     checkAnswer();
                     break;
                 case 270:
                     isRotate = false;
-                    Fortress.degree[Id - 1] = 270;
+                    Fortress.degree[Id] = 270;
                     checkAnswer();
                     break;
                 case 360:
                     isRotate = false;
-                    Fortress.degree[Id - 1] = 0;
+                    Fortress.degree[Id] = 0;
                     checkAnswer();
                     break;
                 default:
-                    Fortress.degree[Id - 1] = Fortress.degree[Id - 1] + 1;
+                    Fortress.degree[Id] = Fortress.degree[Id] + 1;
                     validate();
                     repaint();
             }
@@ -126,10 +125,10 @@ public class Puzzle extends JPanel {
 
     private void checkAnswer() {
         int rightAns = 0;
-        if (Fortress.answer[Id - 1] == 3) {
-            Fortress.answer[Id - 1] = 0;
+        if (Fortress.answer[Id] == 3) {
+            Fortress.answer[Id] = 0;
         } else {
-            Fortress.answer[Id - 1] += 1;
+            Fortress.answer[Id] += 1;
         }
         for (int i = 0; i < Fortress.answer.length; i++) {
             if (Fortress.answer[i] == 0) {
@@ -139,15 +138,17 @@ public class Puzzle extends JPanel {
         if(rightAns == 9)
         {
             Fortress.btn_back.setVisible(false);
-            Fortress.removePuzzle();
+          
             BattleSidePanel.setBackButtonEnable();
             Thread playMusic = new MusicHelper("puzzle/open.wav");
             playMusic.start();
+
             Timer timer = new Timer();
+       
             timer.schedule(new TimerTask() {
                 public void run() {
-                    BattleSidePanel.setBackButtonAble();
-                    AdvantureBackground.showCampFire();
+                    AdvantureBackground.showBoss();
+                    AdvantureBackground.isBoss = true;
                 }
             }, 4000);        
         }

@@ -20,6 +20,7 @@ public class AdvantureBackground extends JPanel {
      */
     private static final long serialVersionUID = 1L;
     public static JPanel advPanel;
+    public static Boolean isBoss = false;
     static Gate gate;
     static Road road;
     static Event1 event1;
@@ -30,6 +31,7 @@ public class AdvantureBackground extends JPanel {
     static CampFire campfire;
     static Fortress fortress;
     static Battle battle;
+    static BossBattleOne bossBattleOne;
     static Dead dead;
 
     public AdvantureBackground() {
@@ -50,6 +52,7 @@ public class AdvantureBackground extends JPanel {
     }
 
     public static void showRoad() {
+        // 主要道路
         advPanel.removeAll();
         road = new Road();
         advPanel.add(road);
@@ -58,6 +61,7 @@ public class AdvantureBackground extends JPanel {
     }
 
     static void showBattle() {
+        // 戰鬥
         advPanel.removeAll();
         battle = new Battle();
         advPanel.add(battle);
@@ -65,7 +69,19 @@ public class AdvantureBackground extends JPanel {
         battle.repaint();
     }
 
+	public static void showBoss() {
+        // 打 Boss
+        advPanel.removeAll();
+        bossBattleOne = new BossBattleOne();
+        advPanel.add(bossBattleOne);
+        advPanel.validate();
+        bossBattleOne.repaint();
+	}
+
+
+
     static void showCampus() {
+        // 體力不足 
         advPanel.removeAll();
         backTown = new BackTown();
         advPanel.add(backTown);
@@ -74,6 +90,7 @@ public class AdvantureBackground extends JPanel {
     }
 
   public static void showFortress() {
+        // 進入要塞
         advPanel.removeAll();
         fortress = new Fortress();
         advPanel.add(fortress);
@@ -83,6 +100,7 @@ public class AdvantureBackground extends JPanel {
 
 
     public static void showCampFire() {
+        // 抵達營火
         advPanel.removeAll();
         campfire = new CampFire();
         advPanel.add(campfire);
@@ -91,8 +109,10 @@ public class AdvantureBackground extends JPanel {
     }
 
 
+
     public static void showDead()
     {
+        // 玩家死亡
         advPanel.removeAll();
         advPanel.add(dead);
         advPanel.validate();
@@ -132,7 +152,4 @@ public class AdvantureBackground extends JPanel {
                 break;
         }
     }
-
-
-
 }

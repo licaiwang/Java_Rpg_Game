@@ -42,9 +42,8 @@ public class BattleTemp extends Player {
     // ATK, DEF, SP_ATK, SP_DEF, SPEED , LUCK;
     public static Integer[] Enhance_counter = {0,0,0,0,0,0};
 
-    public static void init() {
-        Temp_P = Player.getAll();
-        Integer[] Temp_M = Monster.getAll();
+    public static void init(Boolean isBoss) {
+        Temp_P = Player.getAll();      
         ATK = Temp_P[1];
         DEF = Temp_P[2];
         SP_ATK = Temp_P[3];
@@ -55,17 +54,36 @@ public class BattleTemp extends Player {
         COIN = Temp_P[8];
         EXP = Temp_P[9];
         LEVEL = Temp_P[10];
-        M_HP = Temp_M[0];
-        M_ATK = Temp_M[1];
-        M_DEF = Temp_M[2];
-        M_SP_ATK = Temp_M[3];
-        M_SP_DEF = Temp_M[4];
-        M_SPEED = Temp_M[5];
-        M_LUCK = Temp_M[6];
-        M_MP = Temp_M[7];
-        M_COIN = Temp_M[8];
-        M_EXP = Temp_M[9];
-        M_LEVEL = Temp_M[10];
+        if(!isBoss)
+        {
+            Integer[] Temp_M = Monster.getAll();
+            M_HP = Temp_M[0];
+            M_ATK = Temp_M[1];
+            M_DEF = Temp_M[2];
+            M_SP_ATK = Temp_M[3];
+            M_SP_DEF = Temp_M[4];
+            M_SPEED = Temp_M[5];
+            M_LUCK = Temp_M[6];
+            M_MP = Temp_M[7];
+            M_COIN = Temp_M[8];
+            M_EXP = Temp_M[9];
+            M_LEVEL = Temp_M[10];
+        }
+        else
+        {
+            M_HP = 1;
+            M_ATK = 0;
+            M_DEF = 0;
+            M_SP_ATK = 0;
+            M_SP_DEF = 0;
+            M_SPEED = 0;
+            M_LUCK = 0;
+            M_MP = 0;
+            M_COIN = 0;
+            M_EXP = 0;
+            M_LEVEL = 0;
+        }
+    
     }
 
     public static Integer countSpeed() {

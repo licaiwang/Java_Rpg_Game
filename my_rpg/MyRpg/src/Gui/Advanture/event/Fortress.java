@@ -19,6 +19,7 @@ public class Fortress extends JPanel {
      */
     public static JButton btn_back;
     public static JPanel gridPanel; 
+
     JPanel box;
 
     JPanel puzzle_1;
@@ -40,26 +41,26 @@ public class Fortress extends JPanel {
         super();
         setFocusable(true);
         setOpaque(false);
-        degree = new int[10];
-        answer = new int[10];
-        puzzle_1 = new Puzzle(1);
+        degree = new int[9];
+        answer = new int[9];
+        puzzle_1 = new Puzzle(0);
+        initRandomDegree(0);
+        puzzle_2 = new Puzzle(1);
         initRandomDegree(1);
-        puzzle_2 = new Puzzle(2);
+        puzzle_3 = new Puzzle(2);
         initRandomDegree(2);
-        puzzle_3 = new Puzzle(3);
+        puzzle_4 = new Puzzle(3);
         initRandomDegree(3);
-        puzzle_4 = new Puzzle(4);
+        puzzle_5 = new Puzzle(4);
         initRandomDegree(4);
-        puzzle_5 = new Puzzle(5);
+        puzzle_6 = new Puzzle(5);
         initRandomDegree(5);
-        puzzle_6 = new Puzzle(6);
+        puzzle_7 = new Puzzle(6);
         initRandomDegree(6);
-        puzzle_7 = new Puzzle(7);
+        puzzle_8 = new Puzzle(7);
         initRandomDegree(7);
-        puzzle_8 = new Puzzle(8);
+        puzzle_9 = new Puzzle(8);
         initRandomDegree(8);
-        puzzle_9 = new Puzzle(9);
-        initRandomDegree(9);
 
         box = new JPanel();
         box.setOpaque(false);
@@ -105,31 +106,29 @@ public class Fortress extends JPanel {
         int[] opt = { 0, 1, 2 };
         switch (opt[chose]) {
             case 0:
-                degree[id - 1] = 90;
-                answer[id - 1] =  1;
+                degree[id] = 90;
+                answer[id] =  1;
                 break;
             case 1:
-                degree[id - 1] = 180;
-                answer[id - 1] =   2;
+                degree[id] = 180;
+                answer[id] =   2;
                 break;
             case 2:
-                degree[id - 1] = 270;
-                answer[id - 1] =   3;
+                degree[id] = 270;
+                answer[id] =   3;
                 break;
             default:
-                degree[id - 1] =   0;
+                degree[id] =   0;
                 break;
         }
     }
 
-    public static void removePuzzle()
-    {
-        gridPanel.removeAll();
-    }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+     
         g.drawImage(ResReader.fortress, 0, 0, getWidth(), getHeight(), this);
+            
     }
 }

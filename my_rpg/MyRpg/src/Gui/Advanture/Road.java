@@ -41,9 +41,16 @@ public class Road extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 totalStep += 1 ;
+                if(AdvantureBackground.isBoss)
+                {
+                    AdvantureBackground.showBoss();
+                    return;
+                }
                 if(totalStep >= 1)
                 {    
-                    AdvantureBackground.showCampFire();
+                    // TODO: test
+                    AdvantureBackground.showBoss();
+                    //AdvantureBackground.showCampFire();
                     return;
                 }
                 if (Player.TP > 1) {
