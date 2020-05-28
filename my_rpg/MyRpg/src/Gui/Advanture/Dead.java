@@ -1,11 +1,9 @@
 package Gui.Advanture;
 
 import javax.swing.*;
-
 import Basic.Player;
 import Basic.ResReader;
 import Gui.Gui;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -29,7 +27,7 @@ public class Dead extends JPanel {
         btn_move.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
+                try {	
                     Gui.reset();
                 } catch (IOException e1) {
                     e1.printStackTrace();

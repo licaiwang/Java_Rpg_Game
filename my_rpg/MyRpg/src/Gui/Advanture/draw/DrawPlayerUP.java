@@ -8,10 +8,12 @@ import java.awt.*;
 public class DrawPlayerUP extends JPanel{
     private static final long serialVersionUID = 1L;
     String Name;
-    int y=300;
-    public DrawPlayerUP(String name) {
+    Integer Type;
+    int y = 300;
+    public DrawPlayerUP(String name, int type) {
         super();
         Name = name;
+        Type = type;
         setPreferredSize(new Dimension(400,400));
     }
     @Override
@@ -25,9 +27,18 @@ public class DrawPlayerUP extends JPanel{
     }
 
     protected void drawSkill(Graphics g, int y)
-    {
-        Image image = new ImageIcon(ResReader.path+"res/battlePanel/skill/"+ Name +".png").getImage();
-        g.drawImage(image,0, y, getWidth()/2,getHeight()/2, this);
+    { 
+        Image image;
+        switch (Type) {
+            case 4:
+                image = new ImageIcon(ResReader.path+"res/battlePanel/boss/"+ Name +".gif").getImage();
+                g.drawImage(image,100, 0, getWidth(),getHeight(), this);
+                break;
+            default:
+                image = new ImageIcon(ResReader.path+"res/battlePanel/skill/"+ Name +".png").getImage();
+                g.drawImage(image,100, y, getWidth()/2,getHeight()/2, this);
+                break;
+        }
         validate();
         repaint();
     }

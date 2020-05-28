@@ -1,11 +1,16 @@
 package phase;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import Basic.Player;
 import Gui.BottomPanel;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
+import Gui.Advanture.BossBattleOne;
 import Gui.Helper.MusicHelper;
 import monster.CreateMonster;
+import monster.Boss.Boss_1;
 
 public class BattlePhase {
     public static Integer to_M_damage = -1;
@@ -56,7 +61,6 @@ public class BattlePhase {
     }
 
     public static void MonsterTurn() {
-
         M_countDamage(CreateMonster.Movement());
     }
 
@@ -82,17 +86,20 @@ public class BattlePhase {
         if (BattleTemp.countSpeed() == 0 && BattleTemp.Dodge()) {
             damage -= damage;
             BottomPanel.content = "你的攻擊被迴避了!";
+            BattleTemp.M_HP -= damage;
         }
         else if (BattleTemp.countCritical() == 1 && BattleTemp.Critical()) {
             damage += damage;
             BottomPanel.content = "正中要害,造成了" + damage + "點傷害";
+            BattleTemp.M_HP -= damage;
         }
         else if(damage > 0){
             BottomPanel.content = "你的攻擊造成了" + damage + "點傷害";
+            BattleTemp.M_HP -= damage;
         }else{
             BottomPanel.content = "你的攻擊無法對怪物造成傷害！";
         }
-        BattleTemp.M_HP -= damage;
+       
         to_M_damage = Math.round(((BattleTemp.M_HP.floatValue() / (BattleTemp.M_HP.floatValue() + damage))) * 250);
        
         BottomPanel.resetTextArea();
@@ -144,5 +151,49 @@ public class BattlePhase {
         }
         BottomPanel.resetTextArea();
     }
+    public static void Boss_countDamage(int damage){
+        if (BattleTemp.countSpeed() == 1 && BattleTemp.Dodge()) {
+            damage -= damage;
+            BottomPanel.content = "你迴避了敵人的攻擊!";
+        }
+        if (BattleTemp.countCritical() == 0 && BattleTemp.Critical()) {
+            damage += damage;
+            BottomPanel.content = "你受到了致命一擊!";
+        }else{
+            damage -= BattleTemp.DEF;
+            if (damage > 0) {
+                Player.HP -= damage;
+                BottomPanel.content = ("你受到了" + damage + "點傷害" );
+                Thread hurt = new MusicHelper("player/hurt.wav");
+                hurt.start();
+            } 
+        }
+        BattleSidePanel.HpLabel.setText("生命值：" + Player.HP);
+        if (Player.HP <= 0) {
+            AdvantureBackground.showDead();
+            BottomPanel.content = ("你掛了");
+            BossBattleOne.isInit = true;
+        }
+        BottomPanel.resetTextArea();
+        if(BattleTemp.M_isStrike)
+        {   
+            final int d_damage = damage;
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                public void run() {
+                    BattleTemp.M_isStrike = false;
+                    Boss_countDamage(d_damage);  
+                }
+            }, 1000);
+           
+        }
+    }
 
+	public static void BossTurn() {
+        if(BattleTemp.M_HP < 75)
+        {
+            Boss_1.isSecond = true;
+        }
+        Boss_countDamage(Boss_1.Atkskill());
+	}
 }

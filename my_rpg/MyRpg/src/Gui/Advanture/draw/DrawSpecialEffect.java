@@ -5,6 +5,7 @@ import javax.swing.*;
 import Basic.ResReader;
 
 import java.awt.*;
+import java.util.Random;
 
 public class DrawSpecialEffect extends JPanel {
     /*
@@ -28,17 +29,24 @@ public class DrawSpecialEffect extends JPanel {
     }
 
     protected void drawSkillAndMagic(Graphics g) {
-        Image image = null;
+        Image image;
         switch (Type) {
             case 0:
                 image = new ImageIcon(ResReader.path+"res/battlePanel/skill/" + Name + ".gif")
                         .getImage();
+                        g.drawImage(image, 100, 0, getWidth(), getHeight(), this);
                 break;
             case 1:
                 image = new ImageIcon(ResReader.path+"res/battlePanel/magic/" + Name + ".gif")
                         .getImage();
+                        g.drawImage(image, 100, 0, getWidth(), getHeight(), this);
                 break;
+            case 4:
+                image = new ImageIcon(ResReader.path+"res/battlePanel/boss/" + Name + ".gif")
+                        .getImage();
+                        g.drawImage(image, 150, 230 , 400, getHeight()/2, this);
+             break;
         }
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+       
     }
 }

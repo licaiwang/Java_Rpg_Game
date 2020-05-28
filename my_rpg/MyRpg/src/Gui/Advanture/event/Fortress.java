@@ -102,8 +102,8 @@ public class Fortress extends JPanel {
     protected void initRandomDegree(int id) {
         // 隨機轉 90 , 180 , 270 度，或者不轉
         Random random = new Random();
-        int chose = random.nextInt(2);
-        int[] opt = { 0, 1, 2 };
+        int chose = random.nextInt(4);
+        int[] opt = { 0, 1, 2 ,3};
         switch (opt[chose]) {
             case 0:
                 degree[id] = 90;
@@ -127,8 +127,6 @@ public class Fortress extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-     
         g.drawImage(ResReader.fortress, 0, 0, getWidth(), getHeight(), this);
-            
     }
 }

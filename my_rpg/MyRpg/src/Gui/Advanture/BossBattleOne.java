@@ -13,6 +13,7 @@ import Gui.Helper.MusicHelper;
 import Magic.MagicBase;
 import Skill.BattleSkillBase;
 import item.Item;
+import monster.Boss.Boss_1;
 import net.miginfocom.swing.MigLayout;
 import phase.BattlePhase;
 import phase.BattleTemp;
@@ -26,7 +27,7 @@ public class BossBattleOne extends JPanel {
     private static final long serialVersionUID = 1L;
     public static Boolean isInit = true;
     public static DrawBoss drawBoss;
-    public static DrawPlayerUP drawPlayerUP;
+    public static DrawPlayerUP drawPlayerEffect;
     public static JPanel box;
     public static JPanel drawPlayer;
     static JPanel gridPanel;
@@ -42,7 +43,7 @@ public class BossBattleOne extends JPanel {
     JPanel monsterPanel;
     public static Boolean isActivate = false;
     public static Integer id;
-
+   
     public BossBattleOne() {
         super();  
         MusicHelper.stopBackgroundMusic();
@@ -88,24 +89,44 @@ public class BossBattleOne extends JPanel {
     }
 
     static void normalPhase(int type, int id, int damage) {
+      
         if (BattleSkillBase.IsDamage) {
             drawSkillEffect(type, id);
             BattlePhase.playerTurn(type, damage);
         } else if (BattleSkillBase.IsEnhance) {
-            drawPlayerEffect();
+            drawPlayerEffect(type, id);
             BattlePhase.playerTurn(type, damage);
         }
     }
 
     static void magicPhase(int type, int id, int damage) {
+      
         if (MagicBase.IsDamage) {
             drawMagicEffect(type, id);
             BattlePhase.playerCastMagic(type, damage);
         } else if (MagicBase.IsEnhance) {
-            drawPlayerEffect();
+            drawPlayerEffect(type, id);
             BattlePhase.playerCastMagic(999 + type, damage);
         }
     }
+
+    static void castMagic(int id) {
+        int damage = MagicBase.getMagic(id - 1);
+        magicPhase(0, id, damage);
+        damageCountPhase();
+    }
+
+    static void BossPhase() {
+        BattlePhase.BossTurn();
+        if(Boss_1.isAttack)
+        {
+            drawBossToPlayerEffect(4,Boss_1.skillId);
+        }else{
+            drawBossSkillEffect(4, Boss_1.skillId);
+        }
+    }
+
+
 
     static void doBattle(int id) {
         int damage = BattleSkillBase.getSkill(id - 1);
@@ -121,35 +142,27 @@ public class BossBattleOne extends JPanel {
                         timer_M.schedule(new TimerTask() {
                             public void run() {
                                 makeButtonable();
-                                //monsterPhase();
+                                Timer timer_B = new Timer();
+                                timer_B.schedule(new TimerTask() {
+                                    public void run() {
+                                        BossPhase();
+                                    }},1000);
                             }
                         }, 1000);
                     }
                 } else {
                     normalPhase(0, id, damage);
                     damageCountPhase();
-                    //monsterPhase();
+                    Timer timer_B = new Timer();
+                    timer_B.schedule(new TimerTask() {
+                        public void run() {
+                            BossPhase();
+                        }},1000);
                     timer.cancel();
                 }
             }
         }, 10, 1000);
 
-    }
-
-    static void castMagic(int id) {
-        int damage = MagicBase.getMagic(id - 1);
-        magicPhase(0, id, damage);
-        damageCountPhase();
-    }
-
-    static void monsterPhase() {
-        drawBoss.isAtacking = true;
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            public void run() {
-                BattlePhase.MonsterTurn();
-            }
-        }, 1000);
     }
 
     public static boolean damageCountPhase() {
@@ -198,8 +211,6 @@ public class BossBattleOne extends JPanel {
         BattleSidePanel.btn_4.setEnabled(true);
     }
 
-
-
     public static void playerPause() {
         makeButtonEnable();
         Timer timer = new Timer();
@@ -238,8 +249,17 @@ public class BossBattleOne extends JPanel {
         }, 250);
     }
 
-    public static void drawPlayerEffect() {
-        DrawPlayerUP effect2 = new DrawPlayerUP("def_up");
+    public static void drawBossSkillEffect(int type, int id) {
+        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id), 4);
+        DrawBoss.monsterPanel.add(effect);
+        effect.setOpaque(false);
+        DrawBoss.monsterPanel.validate();
+        DrawBoss.monsterPanel.repaint();
+    }
+
+    
+    public static void drawPlayerEffect(int type, int id) {
+        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + String.valueOf(id),0);
         effect2.setOpaque(false);
         drawPlayer.add(effect2);
         drawPlayer.validate();
@@ -251,8 +271,26 @@ public class BossBattleOne extends JPanel {
                 drawPlayer.validate();
                 drawPlayer.repaint();
             }
-        }, 550);
+        }, 1000);
     }
+
+    public static void drawBossToPlayerEffect(int type, int id) {
+        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + String.valueOf(id),4);
+        effect2.setOpaque(false);
+        drawPlayer.add(effect2);
+        drawPlayer.validate();
+        drawPlayer.repaint();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                drawPlayer.remove(effect2);
+                drawPlayer.validate();
+                drawPlayer.repaint();
+            }
+        }, 1000);
+    }
+
+
 
     static void buttonCommonSetting() {
         btn_1.setMargin(new Insets(10, 10, 10, 10));
@@ -369,7 +407,6 @@ public class BossBattleOne extends JPanel {
             }
         });
         btn_4.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 CreateButton.clickSound();
@@ -393,14 +430,12 @@ public class BossBattleOne extends JPanel {
         gridPanel.repaint();
         gridPanel.setFocusable(true);
     }
-
     public static void setGridPanel(boolean isVisible) {
         if (isVisible) {
             gridPanel.setVisible(true);
         } else {
             gridPanel.setVisible(false);
         }
-
     }
 
     protected static void activate(int opt) {

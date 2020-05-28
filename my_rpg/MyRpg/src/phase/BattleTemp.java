@@ -5,6 +5,7 @@ import java.util.Random;
 
 import Basic.Player;
 import monster.Monster;
+import monster.Boss.Boss_1;
 
 public class BattleTemp extends Player {
     public BattleTemp() throws IOException {
@@ -36,7 +37,7 @@ public class BattleTemp extends Player {
     public static Integer M_EXP;
     public static Integer M_LEVEL;
     public static Integer[] Temp_P;
- 
+    public static Boolean M_isStrike;
 
     // 0 ~ 5
     // ATK, DEF, SP_ATK, SP_DEF, SPEED , LUCK;
@@ -56,34 +57,31 @@ public class BattleTemp extends Player {
         LEVEL = Temp_P[10];
         if(!isBoss)
         {
-            Integer[] Temp_M = Monster.getAll();
-            M_HP = Temp_M[0];
-            M_ATK = Temp_M[1];
-            M_DEF = Temp_M[2];
-            M_SP_ATK = Temp_M[3];
-            M_SP_DEF = Temp_M[4];
-            M_SPEED = Temp_M[5];
-            M_LUCK = Temp_M[6];
-            M_MP = Temp_M[7];
-            M_COIN = Temp_M[8];
-            M_EXP = Temp_M[9];
-            M_LEVEL = Temp_M[10];
+            init_M_value();
         }
         else
-        {
-            M_HP = 1;
-            M_ATK = 0;
-            M_DEF = 0;
-            M_SP_ATK = 0;
-            M_SP_DEF = 0;
-            M_SPEED = 0;
-            M_LUCK = 0;
-            M_MP = 0;
-            M_COIN = 0;
-            M_EXP = 0;
-            M_LEVEL = 0;
+        {       
+            new Boss_1(150,0,0,0,7,10,10,0,250,200);
+            init_M_value();
+            M_isStrike = false;
         }
-    
+    }
+
+    public static void init_M_value()
+    {
+        Integer[] Temp_M = Monster.getAll();
+        M_HP = Temp_M[0];
+        M_ATK = Temp_M[1];
+        M_DEF = Temp_M[2];
+        M_SP_ATK = Temp_M[3];
+        M_SP_DEF = Temp_M[4];
+        M_SPEED = Temp_M[5];
+        M_LUCK = Temp_M[6];
+        M_MP = Temp_M[7];
+        M_COIN = Temp_M[8];
+        M_EXP = Temp_M[9];
+        M_LEVEL = Temp_M[10];
+        M_isStrike = false;
     }
 
     public static Integer countSpeed() {

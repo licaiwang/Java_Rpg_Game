@@ -9,6 +9,7 @@ import Gui.Advanture.event.Event2;
 import Gui.Advanture.event.Event3;
 import Gui.Advanture.event.Fortress;
 import Gui.Advanture.event.Treasure;
+import Gui.Helper.MusicHelper;
 
 public class AdvantureBackground extends JPanel {
     /*
@@ -108,11 +109,12 @@ public class AdvantureBackground extends JPanel {
         campfire.repaint();
     }
 
-
-
     public static void showDead()
     {
         // 玩家死亡
+        MusicHelper.stopBackgroundMusic();
+        Thread playdead = new MusicHelper("player/dead.wav");
+        playdead.start();
         advPanel.removeAll();
         advPanel.add(dead);
         advPanel.validate();

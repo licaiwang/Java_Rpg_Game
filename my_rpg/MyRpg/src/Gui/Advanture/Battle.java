@@ -52,6 +52,7 @@ public class Battle extends JPanel {
     JPanel monsterPanel;
     public static Boolean isActivate = false;
     public static Integer id;
+    public static Integer drawPlayerType = 0;
 
     public Battle() {
         super();
@@ -85,6 +86,7 @@ public class Battle extends JPanel {
         gridPanel.add(btn_3);
         gridPanel.add(btn_4);
         gridPanel.setOpaque(false);
+        
         init();
     }
 
@@ -100,11 +102,12 @@ public class Battle extends JPanel {
     }
 
     static void normalPhase(int type, int id, int damage) {
+        drawPlayerType = 0;
         if (BattleSkillBase.IsDamage) {
             drawSkillEffect(type, id);
             BattlePhase.playerTurn(type, damage);
         } else if (BattleSkillBase.IsEnhance) {
-            drawPlayerEffect();
+            drawPlayerEffect(type, id);
             BattlePhase.playerTurn(type, damage);
         }
     }
@@ -114,7 +117,7 @@ public class Battle extends JPanel {
             drawMagicEffect(type, id);
             BattlePhase.playerCastMagic(type, damage);
         } else if (MagicBase.IsEnhance) {
-            drawPlayerEffect();
+            drawPlayerEffect(type, id);
             BattlePhase.playerCastMagic(999 + type, damage);
         }
     }
@@ -157,9 +160,11 @@ public class Battle extends JPanel {
 
     static void monsterPhase() {
         drawMonster.isAtacking = true;
+        
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
+                drawPlayerType = 4;
                 BattlePhase.MonsterTurn();
             }
         }, 1000);
@@ -266,8 +271,8 @@ public class Battle extends JPanel {
         }, 250);
     }
 
-    public static void drawPlayerEffect() {
-        DrawPlayerUP effect2 = new DrawPlayerUP("def_up");
+    public static void drawPlayerEffect(int type, int id) {
+        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + String.valueOf(id),drawPlayerType);
         effect2.setOpaque(false);
         drawPlayer.add(effect2);
         drawPlayer.validate();

@@ -78,7 +78,9 @@ public class ResReader {
     // Fortess
     public static final Image fortress = new ImageIcon(path+"res/battlePanel/event/puzzle/frame.jpg").getImage();
 
+    // Boss_1
     public static final Image boss_init = new ImageIcon(path+"res/battlePanel/boss/init.gif").getImage();
     public static final Image boss_1_background = new ImageIcon(path + "res/battlePanel/boss/boss_1_background.jpg").getImage();
+
 }
     

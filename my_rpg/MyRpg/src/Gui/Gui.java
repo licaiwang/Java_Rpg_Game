@@ -287,6 +287,8 @@ public class Gui extends JFrame {
 
 	public static void reset() throws IOException {
 		Player.UpgradePlayer(Integer.valueOf(Player.LEVEL));
+		MusicHelper.playBackgroundMusic("firstTown");
+		AdvantureBackground.isBoss = false;
 		mContainer.removeAll();
 		init();
 		mContainer.validate();
@@ -337,7 +339,6 @@ public class Gui extends JFrame {
 	public static void main(String[] args) throws IOException {
 		// 先 init player
 		player = new Player();
-	
 		try {
 			Item.readAllData();
 			Player.readAllData();
