@@ -7,6 +7,7 @@ import Basic.Player;
 import Basic.ResReader;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
+import Gui.Helper.CreateButton;
 import Gui.Town.School;
 
 import java.awt.event.*;
@@ -31,11 +32,11 @@ public class Event1 extends JPanel {
         super();
 
         box = new JPanel();
-        btn_hand = new JButton("  伸手 ");
+        btn_hand = new CreateButton("  伸手 ");
         btn_hand.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_hand);
 
-        btn_ignore = new JButton("  無視 ");
+        btn_ignore = new CreateButton("  無視 ");
         btn_ignore.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_ignore);
 

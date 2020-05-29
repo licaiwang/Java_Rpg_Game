@@ -61,7 +61,7 @@ public class BattleTemp extends Player {
         }
         else
         {       
-            new Boss_1(150,0,0,0,7,10,10,0,250,200);
+            new Boss_1(150,17,10,0,5,30,25,0,250,200);
             init_M_value();
             M_isStrike = false;
         }

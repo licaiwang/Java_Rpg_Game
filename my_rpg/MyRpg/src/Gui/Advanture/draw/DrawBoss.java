@@ -4,13 +4,12 @@ import javax.swing.JPanel;
 
 import Basic.ResReader;
 import monster.Boss.Boss_1;
-import phase.BattlePhase;
+
 import phase.BattleTemp;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
+
 public class DrawBoss extends JPanel {
     /*
      * 
@@ -40,8 +39,21 @@ public class DrawBoss extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawBoss(g);
-        drawBlood(g);
+        if(!Boss_1.isdead)
+        {
+            drawBoss(g);
+            drawBlood(g);
+        }
+
+        if(Boss_1.isdead)
+        {
+            Boss_1.isSecond = false;
+            if(y < 800)
+            {
+                y ++; 
+            }
+            drawBossdead(g);
+        }
         if(Boss_1.isSecond)
         {
             if(y>160)
@@ -49,6 +61,7 @@ public class DrawBoss extends JPanel {
                 y --; 
             }
             drawSecondBoss(g);
+            drawBlood(g);
         }
     }
     
@@ -67,7 +80,10 @@ public class DrawBoss extends JPanel {
     {
         g.drawImage(image,360,0,247,419, this);
     }
-
+    protected void drawBossdead(Graphics g)
+    {
+        g.drawImage(image,360,y-160,247,419, this);
+    }
 
     private void drawBlood(Graphics g) {
         g.setFont(new Font("Serif", Font.BOLD, 24));
@@ -76,7 +92,7 @@ public class DrawBoss extends JPanel {
         g.setColor(Color.BLACK);  
         g.drawRect(300,450,500,10);  
         g.setColor(Color.RED);  
-        double hp = 500 * ((double)BattleTemp.M_HP/(150));
+        double hp = 500 * ((double)BattleTemp.M_HP/(100));
         g.fillRect(300,450, (int) Math.round(hp), 10);
     }
 

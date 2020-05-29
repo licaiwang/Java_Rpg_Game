@@ -16,7 +16,7 @@ public class ResReader {
     public static final String path = ResReader.class.getClassLoader().getResource(".").getPath();
 
     // Avatar
-    public static final Image avatar = new ImageIcon(path + "res/avatar.jpg").getImage();
+    public static final Image avatar = new ImageIcon(path + "res/avatar.png").getImage();
     // ButtonFram 
     public static final Image buttonFrame = new ImageIcon(path +"res/btnFrame.png").getImage();
     // event 1
@@ -62,6 +62,9 @@ public class ResReader {
     // Storage
     public static final Image storage = new ImageIcon(path+"res/storage.jpg").getImage();
 
+    // End
+    public static final Image end = new ImageIcon(path+"res/end.jpg").getImage();
+
     // BattleSide - icon
     public static final ImageIcon heartIcon = new ImageIcon(path + "res/battlePanel/heart.png");
     public static final ImageIcon mpIcon = new ImageIcon(path + "res/battlePanel/mp.png");
@@ -70,6 +73,7 @@ public class ResReader {
     public static final ImageIcon lvIcon = new ImageIcon(path + "res/battlePanel/lv.png");
     public static final ImageIcon CoinIcon = new ImageIcon(path + "res/battlePanel/coin.png");
 
+    
     // 這個頭像也不會改變
     public static final Avatar topInsidePanel = new Avatar();
      

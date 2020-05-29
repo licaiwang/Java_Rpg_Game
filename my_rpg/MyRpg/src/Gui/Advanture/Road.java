@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import Basic.Player;
 import Basic.ResReader;
+import Gui.BottomPanel;
+import Gui.Helper.CreateButton;
 import Gui.Helper.MusicHelper;
 
 import java.awt.event.*;
@@ -23,14 +25,17 @@ public class Road extends JPanel {
      */
     private static final long serialVersionUID = 1L;
     public static int totalStep = 0;
+    public static boolean answered = false;
     JButton btn_move;
     JPanel box;
     public Road() {
         super();
+        BottomPanel.readText("Road");
+        BottomPanel.resetTextArea();
         setVisible(true);
         setFocusable(true);
         box = new JPanel();
-        btn_move = new JButton(" 前進 ");
+        btn_move = new CreateButton(" 前進 ");
         btn_move.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_move);
         box.setOpaque(false);
@@ -46,11 +51,13 @@ public class Road extends JPanel {
                     AdvantureBackground.showBoss();
                     return;
                 }
-                if(totalStep >= 1)
+                if(totalStep >= 50)
                 {    
                     // TODO: test
-                    AdvantureBackground.showBoss();
-                    //AdvantureBackground.showCampFire();
+                    //AdvantureBackground.showBoss();
+                    BottomPanel.readText("CampFire");
+                    BottomPanel.resetTextArea();
+                    AdvantureBackground.showCampFire();
                     return;
                 }
                 if (Player.TP > 1) {

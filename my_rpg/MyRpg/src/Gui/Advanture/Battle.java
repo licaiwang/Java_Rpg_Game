@@ -194,7 +194,7 @@ public class Battle extends JPanel {
                             DrawBlood.isBattle = false;
                         }
                     }
-                }, 2000);
+                }, 3000);
                 return false;
             case 1:
                 DrawBlood.isBattle = false;
@@ -240,11 +240,11 @@ public class Battle extends JPanel {
             public void run() {
                 makeButtonable();
             }
-        }, 2000);
+        }, 3000);
     }
 
     public static void drawSkillEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id), 0);
+        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(BattleSkillBase.in_use_skill[id-1]), 0,400,400);
         DrawMonster.monsterPanel.add(effect);
         effect.setOpaque(false);
         Timer timer = new Timer();
@@ -254,11 +254,11 @@ public class Battle extends JPanel {
                 DrawMonster.monsterPanel.validate();
                 DrawMonster.monsterPanel.repaint();
             }
-        }, 250);
+        }, 500);
     }
 
     public static void drawMagicEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id), 1);
+        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(MagicBase.in_use_magic[id-1]), 1,400,400);
         DrawMonster.monsterPanel.add(effect);
         effect.setOpaque(false);
         Timer timer = new Timer();
@@ -268,11 +268,11 @@ public class Battle extends JPanel {
                 DrawMonster.monsterPanel.validate();
                 DrawMonster.monsterPanel.repaint();
             }
-        }, 250);
+        }, 500);
     }
 
     public static void drawPlayerEffect(int type, int id) {
-        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + String.valueOf(id),drawPlayerType);
+        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + String.valueOf(BattleSkillBase.in_use_skill[id-1]),drawPlayerType);
         effect2.setOpaque(false);
         drawPlayer.add(effect2);
         drawPlayer.validate();
@@ -299,18 +299,19 @@ public class Battle extends JPanel {
     }
 
     static void buttonNameSetting(String[] in_use_name) {
-        btn_1 = new JButton(in_use_name[0]);
-        btn_2 = new JButton(in_use_name[1]);
-        btn_3 = new JButton(in_use_name[2]);
-        btn_4 = new JButton(in_use_name[3]);
+        btn_1  = new CreateButton(in_use_name[0]);
+        
+        btn_2 = new CreateButton(in_use_name[1]);
+        btn_3 = new CreateButton(in_use_name[2]);
+        btn_4 = new CreateButton(in_use_name[3]);
         buttonCommonSetting();
     }
 
     static void initButton() {
-        btn_1 = new JButton("  戰技  ");
-        btn_2 = new JButton("  魔法  ");
-        btn_3 = new JButton("  寶具  ");
-        btn_4 = new JButton("  藥物  ");
+        btn_1 = new CreateButton("  戰技  ");
+        btn_2 = new CreateButton("  魔法  ");
+        btn_3 = new CreateButton("  寶具  ");
+        btn_4 = new CreateButton("  藥物  ");
         buttonCommonSetting();
         btn_1.addActionListener(new ActionListener() {
 

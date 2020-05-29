@@ -5,8 +5,10 @@ import javax.swing.*;
 
 import Basic.Player;
 import Basic.ResReader;
+import Gui.BottomPanel;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
+import Gui.Helper.CreateButton;
 import Gui.Helper.MusicHelper;
 import Gui.Town.School;
 
@@ -90,9 +92,10 @@ public class Treasure extends JPanel {
 
 public void createButton()
 {
-    btn_hand = new JButton("  打開 ");
+
+    btn_hand = new CreateButton("  打開 ");
     btn_hand .setMargin(new Insets(10, 10, 10, 10));
-    btn_ignore = new JButton("  無視 ");
+    btn_ignore = new CreateButton("  無視 ");
     btn_ignore.setMargin(new Insets(10, 10, 10, 10));
     btn_ignore.addActionListener(new ActionListener() {
         @Override

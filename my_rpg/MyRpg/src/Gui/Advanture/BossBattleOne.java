@@ -43,7 +43,7 @@ public class BossBattleOne extends JPanel {
     JPanel monsterPanel;
     public static Boolean isActivate = false;
     public static Integer id;
-   
+    public static Integer y_bias = 0;
     public BossBattleOne() {
         super();  
         MusicHelper.stopBackgroundMusic();
@@ -168,6 +168,11 @@ public class BossBattleOne extends JPanel {
     public static boolean damageCountPhase() {
         switch (BattlePhase.checkMonsterDeadOPlayer()) {
             case 0:
+                makeButtonEnable();
+                Boss_1.isdead = true;
+                MusicHelper.stopBackgroundMusic();
+                Thread dead = new MusicHelper("boss/defeat.wav");
+                dead.start();
                 Player.EXP -= BattleTemp.M_EXP;
                 Player.COIN +=  BattleTemp.M_COIN;
                 BattleSidePanel.ExpLabel.setText("下一級：" + Player.EXP);
@@ -181,10 +186,10 @@ public class BossBattleOne extends JPanel {
                 timer.schedule(new TimerTask() {
                     public void run() {
                         if (!Player.isDead) {
-                            AdvantureBackground.showRoad();
+                            AdvantureBackground.showEnd();
                         }
                     }
-                }, 2000);
+                }, 15000);
                 return false;
             case 1:
                 return false;
@@ -216,50 +221,50 @@ public class BossBattleOne extends JPanel {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                makeButtonable();
+                if(!Boss_1.isdead)
+                {
+                    makeButtonable();
+                    Boss_1.isAttack = false;
+                    y_bias = 0;
+                }         
             }
         }, 2000);
     }
 
-    public static void drawSkillEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id), 0);
-        DrawBoss.monsterPanel.add(effect);
-        effect.setOpaque(false);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            public void run() {
-                DrawBoss.monsterPanel.remove(effect);
-                DrawBoss.monsterPanel.validate();
-                DrawBoss.monsterPanel.repaint();
-            }
-        }, 250);
-    }
-
-    public static void drawMagicEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id), 1);
-        DrawBoss.monsterPanel.add(effect);
-        effect.setOpaque(false);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            public void run() {
-                DrawBoss.monsterPanel.remove(effect);
-                DrawBoss.monsterPanel.validate();
-                DrawBoss.monsterPanel.repaint();
-            }
-        }, 250);
-    }
-
-    public static void drawBossSkillEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id), 4);
+    public static  void drawSkillEffect(int type, int id) {
+        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(BattleSkillBase.in_use_skill[id-1]), 0,800,500);
         DrawBoss.monsterPanel.add(effect);
         effect.setOpaque(false);
         DrawBoss.monsterPanel.validate();
         DrawBoss.monsterPanel.repaint();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                DrawBoss.monsterPanel.remove(effect);    
+                DrawBoss.monsterPanel.validate();
+                DrawBoss.monsterPanel.repaint();  
+            }
+        }, 250);
     }
 
-    
+    public static  void drawMagicEffect(int type, int id) {
+        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(BattleSkillBase.in_use_skill[id-1]), 1,800,500);
+        DrawBoss.monsterPanel.add(effect);
+        effect.setOpaque(false);
+        DrawBoss.monsterPanel.validate();
+        DrawBoss.monsterPanel.repaint();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                DrawBoss.monsterPanel.remove(effect);
+                DrawBoss.monsterPanel.validate();
+                DrawBoss.monsterPanel.repaint();
+            }
+        }, 250);
+    }
+
     public static void drawPlayerEffect(int type, int id) {
-        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + String.valueOf(id),0);
+        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" +String.valueOf(BattleSkillBase.in_use_skill[id-1]),0);
         effect2.setOpaque(false);
         drawPlayer.add(effect2);
         drawPlayer.validate();
@@ -273,6 +278,26 @@ public class BossBattleOne extends JPanel {
             }
         }, 1000);
     }
+
+
+    public static  void drawBossSkillEffect(int type, int id) {
+        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id), 4,800,500);
+        DrawBoss.monsterPanel.add(effect);
+        effect.setOpaque(false);
+        DrawBoss.monsterPanel.validate();
+        DrawBoss.monsterPanel.repaint();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                DrawBoss.monsterPanel.remove(effect);
+                DrawBoss.monsterPanel.validate();
+                DrawBoss.monsterPanel.repaint();
+            }
+        }, 2000);
+    }
+
+    
+
 
     public static void drawBossToPlayerEffect(int type, int id) {
         DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + String.valueOf(id),4);
@@ -304,18 +329,18 @@ public class BossBattleOne extends JPanel {
     }
 
     static void buttonNameSetting(String[] in_use_name) {
-        btn_1 = new JButton(in_use_name[0]);
-        btn_2 = new JButton(in_use_name[1]);
-        btn_3 = new JButton(in_use_name[2]);
-        btn_4 = new JButton(in_use_name[3]);
+        btn_1 = new CreateButton(in_use_name[0]);
+        btn_2 = new CreateButton(in_use_name[1]);
+        btn_3 = new CreateButton(in_use_name[2]);
+        btn_4 = new CreateButton(in_use_name[3]);
         buttonCommonSetting();
     }
 
     static void initButton() {
-        btn_1 = new JButton("  戰技  ");
-        btn_2 = new JButton("  魔法  ");
-        btn_3 = new JButton("  寶具  ");
-        btn_4 = new JButton("  藥物  ");
+        btn_1 = new CreateButton("  戰技  ");
+        btn_2 = new CreateButton("  魔法  ");
+        btn_3 = new CreateButton("  寶具  ");
+        btn_4 = new CreateButton("  藥物  ");
         buttonCommonSetting();
         btn_1.addActionListener(new ActionListener() {
 
@@ -395,15 +420,10 @@ public class BossBattleOne extends JPanel {
         });
 
         btn_3.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 CreateButton.clickSound();
-                int mType = JOptionPane.QUESTION_MESSAGE;
-                int oType = JOptionPane.YES_NO_CANCEL_OPTION;
-                String[] options = Item.in_use_item;
-                int opt = JOptionPane.showOptionDialog(null, "寶具", "啟動", oType, mType, null, options, "確定");
-                activate(opt);
+                JOptionPane.showMessageDialog(null, " 你的寶具被不死隊的魔力給禁錮了");
             }
         });
         btn_4.addActionListener(new ActionListener() {
@@ -438,29 +458,6 @@ public class BossBattleOne extends JPanel {
         }
     }
 
-    protected static void activate(int opt) {
-        if (opt == 0) {
-            if (!Item.in_use_isAttack[0]) {
-                JOptionPane.showMessageDialog(null, "");
-            } else {
-                Item.getAbility(Item.in_use_item[0]);
-            }
-            if (opt == 1) {
-                if (!Item.in_use_isAttack[1]) {
-                    JOptionPane.showMessageDialog(null, "");
-                } else {
-                    Item.getAbility(Item.in_use_item[1]);
-                }
-            }
-            if (opt == 2) {
-                if (!Item.in_use_isAttack[2]) {
-                    JOptionPane.showMessageDialog(null, "");
-                } else {
-                    Item.getAbility(Item.in_use_item[2]);
-                }
-            }
-        }
-    }
 
     protected static void choseResult(int opt) {
         Thread playMusic = new MusicHelper("potion.wav");
@@ -522,7 +519,20 @@ public class BossBattleOne extends JPanel {
         {
             g.drawImage(ResReader.boss_init, 0, 0, getWidth(), getHeight(), this);
         }else{
-            g.drawImage(ResReader.boss_1_background, 0, 0, getWidth(), getHeight(), this);
+            if(Boss_1.isAttack)
+            {
+                if( y_bias == 20)
+                {
+                    y_bias --;
+                }
+                if( y_bias < 20)
+                {
+                    y_bias ++;
+                }
+                g.drawImage(ResReader.boss_1_background, 0, 0, (getWidth()) ,(getHeight()+(y_bias)), this);
+            }else{
+                g.drawImage(ResReader.boss_1_background, 0, 0, getWidth(), getHeight(), this);
+            } 
         }    
     }
 

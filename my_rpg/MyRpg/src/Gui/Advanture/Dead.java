@@ -4,6 +4,8 @@ import javax.swing.*;
 import Basic.Player;
 import Basic.ResReader;
 import Gui.Gui;
+import Gui.Helper.CreateButton;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -16,7 +18,7 @@ public class Dead extends JPanel {
         super();
         this.setFocusable(true);
         box = new JPanel();
-        btn_move = new JButton("  重新來過  ");
+        btn_move = new CreateButton("  重新來過  ");
         btn_move.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_move);
         box.setOpaque(false);

@@ -5,8 +5,10 @@ import javax.swing.*;
 
 import Basic.Player;
 import Basic.ResReader;
+import Gui.BottomPanel;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
+import Gui.Helper.CreateButton;
 
 import java.awt.event.*;
 
@@ -18,13 +20,12 @@ public class CampFire extends JPanel{
     JPanel box;
     public CampFire() {
         super();
-
         box = new JPanel();
-        btn_rest = new JButton("  休息  ");
+        btn_rest = new CreateButton("  休息  ");
         btn_rest.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_rest);
 
-        btn_move = new JButton("  往前  ");
+        btn_move = new CreateButton("  往前  ");
         btn_move.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_move);
 

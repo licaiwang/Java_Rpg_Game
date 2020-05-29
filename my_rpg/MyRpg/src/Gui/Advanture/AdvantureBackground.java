@@ -2,6 +2,7 @@ package Gui.Advanture;
 
 import javax.swing.*;
 
+import Gui.BottomPanel;
 import Gui.Advanture.event.BackTown;
 import Gui.Advanture.event.CampFire;
 import Gui.Advanture.event.Event1;
@@ -34,7 +35,7 @@ public class AdvantureBackground extends JPanel {
     static Battle battle;
     static BossBattleOne bossBattleOne;
     static Dead dead;
-
+    static End end;
     public AdvantureBackground() {
         super();
     }
@@ -120,33 +121,53 @@ public class AdvantureBackground extends JPanel {
         advPanel.validate();
         dead.repaint();
     }
+
+
+    public static void showEnd() {
+        advPanel.removeAll();
+        end = new End();
+        advPanel.add(end);
+        advPanel.validate();
+        end.repaint();
+	}
+
     static void showRandom(int id) {
         switch (id) {
             case 1:
+                BottomPanel.content = "遇到了奇怪的老人";
+                BottomPanel.resetTextArea();
                 advPanel.removeAll();
                 advPanel.add(event1);
                 advPanel.validate();
                 event1.repaint();
                 break;
             case 2:
+                BottomPanel.content = "神奇的狗!?";
+                BottomPanel.resetTextArea();
                 advPanel.removeAll();
                 advPanel.add(event2);
                 advPanel.validate();
                 event2.repaint();
                 break;
             case 3:
+                BottomPanel.content = "上天有好生之德";
+                BottomPanel.resetTextArea();
                 advPanel.removeAll();
                 advPanel.add(event3);
                 advPanel.validate();
                 event3.repaint();
                 break;
             case 4:
+                BottomPanel.content = "你找到了寶箱!";
+                BottomPanel.resetTextArea();
                 advPanel.removeAll();
                 advPanel.add(treasure);
                 advPanel.validate();
                 treasure.repaint();
                 break;
             case 5:
+                BottomPanel.content = "遭到了怪物的襲擊!";
+                BottomPanel.resetTextArea();
                 showBattle();
                 break;
             case 6:
@@ -154,4 +175,6 @@ public class AdvantureBackground extends JPanel {
                 break;
         }
     }
+
+
 }

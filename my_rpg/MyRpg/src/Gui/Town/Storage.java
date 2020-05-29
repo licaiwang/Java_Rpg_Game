@@ -65,11 +65,33 @@ public class Storage extends JPanel {
         add_btn_3.setMargin(new Insets(5, 5, 5, 5));
 
         list_1 = new JList<String>();
+        list_1.setOpaque(false);
+        list_1.setBackground(Color.BLACK);
+        list_1.setForeground(Color.WHITE);
         list_2 = new JList<String>();
+        list_2.setOpaque(false);
+        list_2.setBackground(Color.BLACK);
+        list_2.setForeground(Color.WHITE);
         list_3 = new JList<String>();
+        list_3.setOpaque(false);
+        list_3.setBackground(Color.BLACK);
+        list_3.setForeground(Color.WHITE);
         JList<String> list_4 = new JList<String>();
+        list_4.setOpaque(false);
+        list_4.setBackground(Color.BLACK);
+        list_4.setForeground(Color.WHITE);
+        list_4.setBorder(BorderFactory.createLineBorder(Color.WHITE,2));
         JList<String> list_5 = new JList<String>();
+        list_5.setOpaque(false);
+        list_5.setBackground(Color.BLACK);
+        list_5.setForeground(Color.WHITE);
+        list_5.setBorder(BorderFactory.createLineBorder(Color.WHITE,2));
         JList<String> list_6 = new JList<String>();
+        list_6.setOpaque(false);
+        list_6.setBackground(Color.BLACK);
+        list_6.setForeground(Color.WHITE);
+        list_6.setBorder(BorderFactory.createLineBorder(Color.WHITE,2));
+
 
         // 設置技能選項數據
         list_1.setListData(skill_name);
@@ -275,16 +297,20 @@ public class Storage extends JPanel {
         // 添加到内容面板容器 - west
 
         JPanel storageJPanel = new JPanel();
+        storageJPanel.setBackground(Color.BLACK);
         storageJPanel.setLayout(new BoxLayout(storageJPanel, BoxLayout.Y_AXIS));
 
         JScrollPane jScrollPane_1 = new JScrollPane(list_1);
-        jScrollPane_1.setPreferredSize(new Dimension(150, 150));
+        jScrollPane_1.setBackground(Color.BLACK);
+        jScrollPane_1.setPreferredSize(new Dimension(150, 140));
 
         JScrollPane jScrollPane_2 = new JScrollPane(list_2);
-        jScrollPane_2.setPreferredSize(new Dimension(150, 150));
+        jScrollPane_2.setOpaque(false);
+        jScrollPane_2.setPreferredSize(new Dimension(150, 140));
 
         JScrollPane jScrollPane_3 = new JScrollPane(list_3);
-        jScrollPane_3.setPreferredSize(new Dimension(150, 150));
+        jScrollPane_3.setOpaque(false);
+        jScrollPane_3.setPreferredSize(new Dimension(150, 140));
 
        
         storageJPanel.add(jScrollPane_1);
@@ -298,6 +324,7 @@ public class Storage extends JPanel {
 
         // 中間 1-1
         JPanel chose_1 = new JPanel();
+        chose_1.setBackground(Color.BLACK);
         chose_1.setBorder(BorderFactory.createLineBorder(Color.RED,2));
         chose_1.setAlignmentY(Component.TOP_ALIGNMENT);
         chose_1.setBackground(Color.WHITE);
@@ -323,11 +350,12 @@ public class Storage extends JPanel {
         skill_effect.setText(content);
         chose_1_1.setOpaque(false);
         JScrollPane jScrollPane_4 = new JScrollPane(skill_effect);
-        jScrollPane_4.setPreferredSize(new Dimension(500, 250));
+        jScrollPane_4.setPreferredSize(new Dimension(500, 200));
         chose_1_1.add(jScrollPane_4);
 
         // 中間 1-2
         JPanel chose_2 = new JPanel();
+        chose_2.setBackground(Color.BLACK);
         chose_2.setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
         chose_2.setAlignmentY(Component.CENTER_ALIGNMENT);
         chose_2.setBackground(Color.WHITE);
@@ -350,12 +378,13 @@ public class Storage extends JPanel {
         magic_effect.setEditable(false);
         chose_2_1.setOpaque(false);
         JScrollPane jScrollPane_5 = new JScrollPane(magic_effect);
-        jScrollPane_5.setPreferredSize(new Dimension(500, 250)); 
+        jScrollPane_5.setPreferredSize(new Dimension(500, 200)); 
         chose_2_1.add(jScrollPane_5);
 
 
         // 中間 1-3
         JPanel chose_3 = new JPanel();
+        chose_3.setBackground(Color.BLACK);
         chose_3.setBorder(BorderFactory.createLineBorder(Color.YELLOW,2));
         chose_3.setLayout(new BoxLayout(chose_3, BoxLayout.Y_AXIS));
         chose_3.setBackground(Color.WHITE);
@@ -378,7 +407,7 @@ public class Storage extends JPanel {
         item_effect.setEditable(false);
         chose_3_1.setOpaque(false);
         JScrollPane jScrollPane_6 = new JScrollPane(item_effect);
-        jScrollPane_6.setPreferredSize(new Dimension(500, 250));
+        jScrollPane_6.setPreferredSize(new Dimension(500, 200));
         chose_3_1.add(jScrollPane_6);
 
         chosePanel.add(chose_1);
@@ -423,7 +452,6 @@ public class Storage extends JPanel {
         WearJPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         list_6.setAlignmentX(CENTER_ALIGNMENT);
         WearJPanel.add(wear_item);
-
         // 最後添入
         add(storageJPanel, BorderLayout.WEST);
         add(WearJPanel, BorderLayout.EAST);
@@ -431,7 +459,7 @@ public class Storage extends JPanel {
 
     }
     @Override
-    protected void paintComponent(final Graphics g) {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(ResReader.storage, 0, 0, getWidth(), getHeight(), this);
     }

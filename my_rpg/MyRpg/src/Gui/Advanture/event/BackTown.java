@@ -2,6 +2,7 @@ package Gui.Advanture.event;
 
 import Gui.Gui;
 import Gui.Advanture.AdvantureBackground;
+import Gui.Helper.CreateButton;
 import Gui.Helper.MusicHelper;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class BackTown extends JPanel {
         super();
         this.setFocusable(true);
         box = new JPanel();
-        btn_move = new JButton("  傳送回城  ");
+        btn_move = new CreateButton("  傳送回城  ");
         btn_move.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_move);
         box.setOpaque(false);

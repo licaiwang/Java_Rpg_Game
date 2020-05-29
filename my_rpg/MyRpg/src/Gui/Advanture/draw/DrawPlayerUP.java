@@ -32,11 +32,11 @@ public class DrawPlayerUP extends JPanel{
         switch (Type) {
             case 4:
                 image = new ImageIcon(ResReader.path+"res/battlePanel/boss/"+ Name +".gif").getImage();
-                g.drawImage(image,100, 0, getWidth(),getHeight(), this);
+                g.drawImage(image,100, 100, getWidth(),getHeight(), this);
                 break;
             default:
                 image = new ImageIcon(ResReader.path+"res/battlePanel/skill/"+ Name +".png").getImage();
-                g.drawImage(image,100, y, getWidth()/2,getHeight()/2, this);
+                g.drawImage(image,100, y, 240,240, this);
                 break;
         }
         validate();

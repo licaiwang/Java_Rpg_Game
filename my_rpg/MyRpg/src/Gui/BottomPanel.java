@@ -3,7 +3,6 @@ package Gui;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
@@ -26,11 +25,11 @@ public class BottomPanel {
         
         bottomPanel = new JPanel();
         // bottomPanel.setLayout(new FlowLayout(50, 50, 50));
-        bottomPanel.setBackground(Color.white);
-        bottomPanel.setBorder(new LineBorder(Color.BLUE, 3));
+        bottomPanel.setBackground(Color.BLACK);
         // init text on buttom
         jTextArea = new JTextArea();
         jScrollPane = new JScrollPane(jTextArea);
+        jScrollPane.setOpaque(false);
         jScrollPane.setPreferredSize(new Dimension(1000, 80));
         readText("FirstTown");
         resetTextArea();
@@ -38,6 +37,8 @@ public class BottomPanel {
 
     public static void resetTextArea() {
         jTextArea.setFont(new Font("Serif", Font.PLAIN, 20));
+        jTextArea.setBackground(Color.BLACK);
+        jTextArea.setForeground(Color.WHITE);
         jTextArea.setColumns(50);
         jTextArea.setEditable(false);
         jTextArea.setLineWrap(true);

@@ -3,6 +3,8 @@ package Gui.Advanture;
 import javax.swing.*;
 
 import Basic.ResReader;
+
+import Gui.Helper.CreateButton;
 import Gui.Helper.MusicHelper;
 
 import java.awt.*;
@@ -16,7 +18,7 @@ public class Gate extends JPanel {
         super();
         this.setFocusable(true);
         box = new JPanel();
-        btn_move = new JButton("  前進  ");
+        btn_move = new CreateButton("  前進  ");
         btn_move.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_move);
         box.setOpaque(false);

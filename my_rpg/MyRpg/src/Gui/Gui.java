@@ -92,7 +92,7 @@ public class Gui extends JFrame {
 		// Setting
 		mainPage.setFocusable(true);
 		mainPage.setOpaque(true);
-		mainPage.setBorder(new LineBorder(Color.black, 3));
+		mainPage.setBorder(new LineBorder(Color.BLACK, 3));
 		// Add to Container
 		mContainer.add(topPanel, BorderLayout.NORTH);
 		mContainer.add(mainPage);
@@ -106,6 +106,8 @@ public class Gui extends JFrame {
 	public static void resetPannel(Integer which) {
 		switch (which) {
 			case 1:
+				BottomPanel.readText("Gate");
+				BottomPanel.resetTextArea();
 				showBattleSidePanel();
 				showBattleMainPanel();
 				break;
@@ -377,7 +379,6 @@ public class Gui extends JFrame {
 			}
 		});
 
-		
 		main = new Gui("泰格達");
 		main.setVisible(true);
 

@@ -7,6 +7,7 @@ import javax.swing.event.MouseInputAdapter;
 import Basic.ResReader;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
+import Gui.Advanture.Road;
 import Gui.Helper.MusicHelper;
 
 import java.awt.*;
@@ -15,7 +16,7 @@ import java.awt.image.BufferedImage;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.geom.AffineTransform;
-import java.awt.image.*;
+
 
 public class Puzzle extends JPanel {
     /**
@@ -138,7 +139,7 @@ public class Puzzle extends JPanel {
         if(rightAns == 9)
         {
             Fortress.btn_back.setVisible(false);
-          
+            Road.answered = true;
             BattleSidePanel.setBackButtonEnable();
             Thread playMusic = new MusicHelper("puzzle/open.wav");
             playMusic.start();

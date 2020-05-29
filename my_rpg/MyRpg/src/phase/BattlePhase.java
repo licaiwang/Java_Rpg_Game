@@ -96,8 +96,12 @@ public class BattlePhase {
         else if(damage > 0){
             BottomPanel.content = "你的攻擊造成了" + damage + "點傷害";
             BattleTemp.M_HP -= damage;
+            Thread hit = new MusicHelper("boss/hit.wav");
+            hit.start();
         }else{
             BottomPanel.content = "你的攻擊無法對怪物造成傷害！";
+            Thread bounce = new MusicHelper("player/bounce.wav");
+            bounce.start();
         }
        
         to_M_damage = Math.round(((BattleTemp.M_HP.floatValue() / (BattleTemp.M_HP.floatValue() + damage))) * 250);

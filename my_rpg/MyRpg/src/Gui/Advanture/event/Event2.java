@@ -7,6 +7,7 @@ import Basic.Player;
 import Basic.ResReader;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
+import Gui.Helper.CreateButton;
 
 import java.awt.event.*;
 import java.util.Random;
@@ -26,10 +27,10 @@ public class Event2 extends JPanel {
         super();
         box = new JPanel();
 
-        btn_hand = new JButton("  跟隨 ");
+        btn_hand = new CreateButton("  跟隨 ");
         btn_hand.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_hand);
-        btn_ignore = new JButton("  無視 ");
+        btn_ignore = new CreateButton("  無視 ");
         btn_ignore.setMargin(new Insets(10, 10, 10, 10));
         box.add(btn_ignore);
         box.setOpaque(false);

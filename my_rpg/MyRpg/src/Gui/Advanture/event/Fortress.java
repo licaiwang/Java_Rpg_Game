@@ -5,7 +5,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import Basic.ResReader;
+import Gui.BottomPanel;
 import Gui.Advanture.AdvantureBackground;
+import Gui.Advanture.Road;
+import Gui.Helper.CreateButton;
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.*;
@@ -39,6 +42,8 @@ public class Fortress extends JPanel {
 
     public Fortress() {
         super();
+        BottomPanel.readText("puzzle");
+        BottomPanel.resetTextArea();
         setFocusable(true);
         setOpaque(false);
         degree = new int[9];
@@ -64,10 +69,17 @@ public class Fortress extends JPanel {
 
         box = new JPanel();
         box.setOpaque(false);
-        btn_back = new JButton("  折返  ");
-        btn_back.setMargin(new Insets(10, 10, 10, 10));
-        box.add(btn_back);
-
+        if(!Road.answered)
+        {
+            btn_back = new CreateButton("  折返  ");
+            btn_back.setMargin(new Insets(10, 10, 10, 10));
+            box.add(btn_back);
+        }else{
+            btn_back = new CreateButton("  前進  ");
+            btn_back.setMargin(new Insets(10, 10, 10, 10));
+            box.add(btn_back);
+        }
+        
         gridPanel = new JPanel();
         gridPanel.setLayout(new MigLayout("wrap 3", "335[]5[]5[]5", "90[]5[]5[]5"));
         gridPanel.setOpaque(false);
@@ -93,7 +105,14 @@ public class Fortress extends JPanel {
         btn_back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AdvantureBackground.showCampFire();
+                if(!Road.answered)
+                {
+                    AdvantureBackground.showCampFire();
+                }else
+                {
+                    AdvantureBackground.showBoss();
+                }
+                
             }
         });
 
@@ -128,5 +147,11 @@ public class Fortress extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(ResReader.fortress, 0, 0, getWidth(), getHeight(), this);
+        if(Road.answered)
+        {
+            gridPanel.removeAll();
+            validate();
+            repaint();
+        }
     }
 }
