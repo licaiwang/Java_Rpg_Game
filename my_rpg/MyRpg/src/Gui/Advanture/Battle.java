@@ -105,20 +105,21 @@ public class Battle extends JPanel {
         drawPlayerType = 0;
         if (BattleSkillBase.IsDamage) {
             drawSkillEffect(type, id);
-            BattlePhase.playerTurn(type, damage);
+            BattlePhase.playerTurn(damage);
         } else if (BattleSkillBase.IsEnhance) {
             drawPlayerEffect(type, id);
-            BattlePhase.playerTurn(type, damage);
+            BattlePhase.playerTurn(damage);
         }
     }
 
     static void magicPhase(int type, int id, int damage) {
+        drawPlayerType = 1;
         if (MagicBase.IsDamage) {
             drawMagicEffect(type, id);
-            BattlePhase.playerCastMagic(type, damage);
+            BattlePhase.playerCastMagic( damage);
         } else if (MagicBase.IsEnhance) {
             drawPlayerEffect(type, id);
-            BattlePhase.playerCastMagic(999 + type, damage);
+            BattlePhase.playerCastMagic(damage);
         }
     }
 
@@ -154,20 +155,21 @@ public class Battle extends JPanel {
 
     static void castMagic(int id) {
         int damage = MagicBase.getMagic(id - 1);
-        magicPhase(0, id, damage);
+        if(damage != 0 )
+        {
+            magicPhase(1, id, damage);
+        }
         damageCountPhase();
     }
 
     static void monsterPhase() {
         drawMonster.isAtacking = true;
-        
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                drawPlayerType = 4;
                 BattlePhase.MonsterTurn();
             }
-        }, 1000);
+        }, 750);
     }
 
     public static boolean damageCountPhase() {
@@ -202,6 +204,7 @@ public class Battle extends JPanel {
             default:
                 drawBlood();
                 initButton();
+                monsterPhase();
                 playerPause();
                 return true;
         }
@@ -272,7 +275,15 @@ public class Battle extends JPanel {
     }
 
     public static void drawPlayerEffect(int type, int id) {
-        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + String.valueOf(BattleSkillBase.in_use_skill[id-1]),drawPlayerType);
+        String name;
+        if(id == 0 )
+        {
+            name = String.valueOf(BattleSkillBase.in_use_skill[id-1]);
+        }else{
+            name = String.valueOf(MagicBase.in_use_magic[id-1]);
+        }
+
+        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + name,drawPlayerType);
         effect2.setOpaque(false);
         drawPlayer.add(effect2);
         drawPlayer.validate();
@@ -369,21 +380,21 @@ public class Battle extends JPanel {
                 btn_2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        doBattle(2);
+                        castMagic(2);
                         playerPause();
                     }
                 });
                 btn_3.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        doBattle(3);
+                        castMagic(3);
                         playerPause();
                     }
                 });
                 btn_4.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        doBattle(4);
+                        castMagic(4);
                         playerPause();
                     }
                 });

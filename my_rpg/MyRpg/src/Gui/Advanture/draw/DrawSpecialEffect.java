@@ -49,7 +49,6 @@ public class DrawSpecialEffect extends JPanel {
         Image image;
         switch (Type) {
             case 0:
-                
                 image = new ImageIcon(ResReader.path+"res/battlePanel/skill/" + Name + ".gif")
                         .getImage();
                         g.drawImage(image, frame_x, frame_y ,360, 360, this);

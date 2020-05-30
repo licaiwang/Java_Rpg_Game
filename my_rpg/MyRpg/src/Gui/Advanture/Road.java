@@ -53,8 +53,6 @@ public class Road extends JPanel {
                 }
                 if(totalStep >= 50)
                 {    
-                    // TODO: test
-                    //AdvantureBackground.showBoss();
                     BottomPanel.readText("CampFire");
                     BottomPanel.resetTextArea();
                     AdvantureBackground.showCampFire();
@@ -84,6 +82,7 @@ public class Road extends JPanel {
         *
         */
         Integer[] rad = {1,2,3,4,5,5,5,5,5,5};       
+        //Integer[] rad = {1,1,1,1,1,1,1,1,1,1,1,1};       
         Random r = new Random();
         int index = r.nextInt(10);
         return rad[index];

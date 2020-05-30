@@ -11,8 +11,7 @@ import au.com.bytecode.opencsv.CSVReader;
 
 public class BattleSkillBase {
     /*
-    
-    
+     *  技能的資料儲存
     */
     public static List<String[]> skill_list;
     public static String[] in_use_name = { "", "", "", "" };
@@ -27,9 +26,6 @@ public class BattleSkillBase {
     public static List<String> Basic_skill_name = new ArrayList<String>();
     public static List<String> Advance_skill_name = new ArrayList<String>();
     public static List<String> Master_skill_name = new ArrayList<String>();
-
-
-
 
     // 默認技能為純一次傷害
     public static Boolean IsDamage = true;
@@ -150,6 +146,7 @@ public class BattleSkillBase {
     }
 
     public static void resetFlag() {
+        // 重設所有 flag
         IsDamage = true;
         Strik = 0;
         IsEnhance = false;

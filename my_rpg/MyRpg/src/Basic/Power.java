@@ -3,7 +3,7 @@ package Basic;
 import java.util.Random;
 
 public class Power {
-    
+    // 最基礎的能力紀錄
     private Random r = new Random();
     public Integer HP;
     public Integer ATK;
@@ -41,7 +41,7 @@ public class Power {
     }
 
     
-
+    // 讓怪物產生隨機亂數能力
     public void montserPower(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp, int level, int rarity) {
         if (level <= 5) {
             this.LEVEL = r.nextInt(5);

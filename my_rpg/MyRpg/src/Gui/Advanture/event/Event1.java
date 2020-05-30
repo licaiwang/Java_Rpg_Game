@@ -9,6 +9,8 @@ import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
 import Gui.Helper.CreateButton;
 import Gui.Town.School;
+import Gui.Town.Storage;
+import item.Item;
 
 import java.awt.event.*;
 import java.util.Random;
@@ -68,6 +70,13 @@ public class Event1 extends JPanel {
                     validate();
                     repaint();
                 }
+                if(id == 3)
+                {
+                    // 解鎖死告天使
+                    Item.unlock(6);
+                    Storage.resetItem();
+                    JOptionPane.showMessageDialog(null, " 山中的老人給了你 C 級寶具 - 死告天使!");
+                }          
             }
         });
 
@@ -75,7 +84,7 @@ public class Event1 extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Isclick = true;
-                String content[] = { "收下", "掙脫這個瘋子", "調查鐘聲來源" };
+                String content[] = { "收下", "掙脫這瘋子", "調查鐘聲" };
                 btn_ignore.setText(content[id - 1]);
                 box.remove(btn_hand);
                 box.validate();
@@ -92,11 +101,12 @@ public class Event1 extends JPanel {
     private static int getRandom() {
         /*
          *
-         * 1- 獲得 1,2,3,4,5,6,7,8,9,10 記憶碎片 - 50% 2- 50 % 損失持有金幣的 10 %, 20% 或損失 5 點生命 -
-         * 40% 3- 下次觸發此事件將會遇見山中老人 - 10%
+         * 1 - 獲得 1,2,3,4,5,6,7,8,9,10 記憶碎片 - 50 % 
+         * 2 - 損失持有金幣的 10 %, 20% 或損失 5 點生命 - 40 %
+         * 3 - 遇見山中老人 - 10%
          * 
          */
-        Integer[] rad = { 1, 1, 1, 1, 1, 2, 2, 2, 2, 3 };
+        Integer[] rad = { 1, 1, 1, 1, 1, 3, 3, 3, 3, 3 };
         Random r = new Random();
         int index = r.nextInt(10);
         return rad[index];

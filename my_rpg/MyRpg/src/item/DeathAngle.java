@@ -18,13 +18,19 @@ import phase.BattleTemp;
 
 public class DeathAngle extends Item {
 
+    /*
+     *
+     * 寶具 - 死告天使
+     * 
+     * 
+    */
     public DeathAngle(String name, Integer id, String rarity, boolean isattack) {
         super(name, id, rarity, isattack);
     }
 
     @Override
     public void ability() {
-       
+        // 寶具能力
         if (Player.MP == 0) {
             JOptionPane.showMessageDialog(null, "你的魔力不足以發動此寶具！");
         } else {

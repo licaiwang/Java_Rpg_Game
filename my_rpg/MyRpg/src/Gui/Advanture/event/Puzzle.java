@@ -21,6 +21,8 @@ import java.awt.geom.AffineTransform;
 public class Puzzle extends JPanel {
     /**
      *
+     * 拼圖解謎
+     * 
      */
     private static final long serialVersionUID = 1L;
     public Image puzzle;

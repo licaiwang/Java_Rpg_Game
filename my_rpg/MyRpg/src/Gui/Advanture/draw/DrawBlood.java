@@ -7,6 +7,7 @@ import phase.BattlePhase;
 
 import java.awt.*;
 public class DrawBlood extends JPanel {
+    
     public static Boolean isBattle = false;
     public DrawBlood() {
         super();
@@ -20,6 +21,7 @@ public class DrawBlood extends JPanel {
         {
             subBlood(g, BattlePhase.to_M_damage);
         }else{
+            BattlePhase.to_M_damage = 0;
             drawBlood(g);
         }
     } 
@@ -33,8 +35,8 @@ public class DrawBlood extends JPanel {
     private void subBlood(Graphics g, int amount) {
         g.setFont(new Font("Serif", Font.BOLD, 24));
         g.drawString("HP：", 20, 45);
-        g.drawRect(80,30,amount,10);  
+        g.drawRect(80,30,250-amount,10);  
         g.setColor(Color.RED);  
-        g.fillRect(80,30,amount ,10);
+        g.fillRect(80,30,250-amount ,10);
     }
 }

@@ -7,7 +7,12 @@ import monster.CreateMonster;
 import phase.BattleTemp;
 
 public class AllSeeningEye extends Item {
-
+    /*
+     *
+     * 寶具 - 真知晶球
+     * 
+     * 
+    */
     public AllSeeningEye(String name, Integer id, String rarity, boolean isattack) {
         super(name, id, rarity, isattack);
     }

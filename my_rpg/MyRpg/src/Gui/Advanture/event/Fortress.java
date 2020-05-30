@@ -41,6 +41,11 @@ public class Fortress extends JPanel {
     private static final long serialVersionUID = 1L;
 
     public Fortress() {
+         /**
+             *
+             * 拼圖解謎的基底
+             * 
+             */
         super();
         BottomPanel.readText("puzzle");
         BottomPanel.resetTextArea();

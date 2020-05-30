@@ -36,6 +36,7 @@ public class BattleTemp extends Player {
     public static Integer M_COIN;
     public static Integer M_EXP;
     public static Integer M_LEVEL;
+    public static int piceHp;
     public static Integer[] Temp_P;
     public static Boolean M_isStrike;
 
@@ -44,6 +45,7 @@ public class BattleTemp extends Player {
     public static Integer[] Enhance_counter = {0,0,0,0,0,0};
 
     public static void init(Boolean isBoss) {
+        // 初始人物數值
         Temp_P = Player.getAll();      
         ATK = Temp_P[1];
         DEF = Temp_P[2];
@@ -61,6 +63,7 @@ public class BattleTemp extends Player {
         }
         else
         {       
+            // TODO: 改善 Boss 寫法
             new Boss_1(150,17,10,0,5,30,25,0,250,200);
             init_M_value();
             M_isStrike = false;
@@ -69,6 +72,7 @@ public class BattleTemp extends Player {
 
     public static void init_M_value()
     {
+        // 初始怪物數值
         Integer[] Temp_M = Monster.getAll();
         M_HP = Temp_M[0];
         M_ATK = Temp_M[1];
@@ -82,6 +86,7 @@ public class BattleTemp extends Player {
         M_EXP = Temp_M[9];
         M_LEVEL = Temp_M[10];
         M_isStrike = false;
+        piceHp = 250/M_HP;
     }
 
     public static Integer countSpeed() {
@@ -103,6 +108,7 @@ public class BattleTemp extends Player {
     }
 
     public static Boolean Critical() {
+        // 玩家幸運大於怪物回傳 1
         Random r = new Random();
         int check = r.nextInt(100);
         int rate = 0;
@@ -110,10 +116,8 @@ public class BattleTemp extends Player {
             case 0:
                 rate = M_LUCK - LUCK;
                 break;
-            case 1:
-                // 玩家幸運大於怪物回傳 1
+            case 1: 
                 rate = LUCK - M_LUCK;
-
                 break;
         }
         if (rate > check) {
@@ -123,6 +127,7 @@ public class BattleTemp extends Player {
     }
 
     public static Boolean Dodge() {
+        // 玩家速度大於怪物回傳 1
         Random r = new Random();
         int check = r.nextInt(100);
         int rate = 0;
@@ -131,7 +136,6 @@ public class BattleTemp extends Player {
                 rate = M_SPEED - SPEED;
                 break;
             case 1:
-                // 玩家速度大於怪物回傳 1
                 rate = SPEED - M_SPEED;
                 break;
         }
@@ -142,6 +146,7 @@ public class BattleTemp extends Player {
     }
 
     public static Boolean isUpgrade() {
+         // 玩家是否升級
         if (Player.EXP <= 0) {
             return true;
         }
@@ -150,6 +155,7 @@ public class BattleTemp extends Player {
     }
 
     public static void startCounter(String string, int turn) {
+        // 持續性能力計數器
         if (string == "atk") {
             Enhance_counter[0] = turn;
         }
@@ -171,6 +177,7 @@ public class BattleTemp extends Player {
     }
 
     public static void resetPower(int i) {
+        // 持續性能力終了進行重設;
         switch (i) {
             case 0:
                 ATK = Temp_P[1];

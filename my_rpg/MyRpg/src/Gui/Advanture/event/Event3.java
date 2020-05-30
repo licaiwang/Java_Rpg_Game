@@ -78,7 +78,6 @@ public class Event3 extends JPanel {
     }
 
     public void drawEvent(Graphics g) {
-
         g.drawImage(ResReader.event1_3, 0, 0, getWidth(), getHeight(), this);
     }
 

@@ -192,7 +192,7 @@ public class School extends JPanel {
     }
 
     public static void resetCdAmount() {
-        cDLabel.setText("持有的記憶光碟::  " + Player.memoryCd);
+        cDLabel.setText("持有的記憶光碟:  " + Player.memoryCd);
     }
 
 

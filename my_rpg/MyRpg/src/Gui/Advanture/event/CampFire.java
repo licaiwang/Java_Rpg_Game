@@ -5,7 +5,6 @@ import javax.swing.*;
 
 import Basic.Player;
 import Basic.ResReader;
-import Gui.BottomPanel;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
 import Gui.Helper.CreateButton;

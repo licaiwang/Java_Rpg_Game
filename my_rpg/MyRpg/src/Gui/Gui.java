@@ -73,7 +73,6 @@ public class Gui extends JFrame {
 	}
 
 	static void init() {
-
 		// Top
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(Color.black);
@@ -101,8 +100,6 @@ public class Gui extends JFrame {
 
 	}
 
-
-	
 	public static void resetPannel(Integer which) {
 		switch (which) {
 			case 1:

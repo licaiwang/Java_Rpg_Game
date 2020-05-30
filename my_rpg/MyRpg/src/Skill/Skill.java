@@ -11,12 +11,7 @@ public class Skill {
 
 
     /*
-     *   回傳技能
-     * 
-     *   Type1 - 純粹計算傷害
-     *   Type2 - 臨時增強數值
-     *   Type3 - 造成傷害並附加狀態
-     *   Type4 - 特殊 (目前想不到)
+     *   回傳技能傷害並執行技能
      * 
     */
 
@@ -166,10 +161,13 @@ public class Skill {
     }
 
     private static int UnCommon_BiteBlood_Sword() {
-        Player.HP += (BattleTemp.ATK / 4);
-        Player.MP -= 5;
-        BattleSidePanel.resetHp();
-        BattleSidePanel.resetMp();
+        if(Player.MP>0)
+        {
+            Player.MP -= 5;
+            Player.HP += (BattleTemp.ATK / 4);
+            BattleSidePanel.resetHp();
+            BattleSidePanel.resetMp();
+        }
         return BattleTemp.ATK - BattleTemp.M_DEF;  
     }
 

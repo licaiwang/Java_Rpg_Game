@@ -31,7 +31,7 @@ public class Storage extends JPanel {
     public static String content;
     ImageIcon skillIcon = new ImageIcon(DEFULT_PATH + "skill/1.jpg");
     ImageIcon magicIcon = new ImageIcon(DEFULT_PATH + "magic/1.png");
-    ImageIcon itemIcon = new ImageIcon(DEFULT_PATH + "item/1.gif");
+    ImageIcon itemIcon = new ImageIcon(DEFULT_PATH + "item/7.gif");
     JTextArea skill_effect;
     JTextArea magic_effect;
     JTextArea item_effect;
@@ -294,7 +294,7 @@ public class Storage extends JPanel {
             }
         });
 
-        // 添加到内容面板容器 - west
+        // 添加到 - west
 
         JPanel storageJPanel = new JPanel();
         storageJPanel.setBackground(Color.BLACK);
@@ -458,6 +458,11 @@ public class Storage extends JPanel {
         add(chosePanel);
 
     }
+    public static void resetItem()
+    {
+        item_name = Item.unlock_item.stream().toArray(String[]::new);
+    }
+   
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

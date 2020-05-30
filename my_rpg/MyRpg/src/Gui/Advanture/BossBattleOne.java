@@ -12,7 +12,6 @@ import Gui.Helper.CreateButton;
 import Gui.Helper.MusicHelper;
 import Magic.MagicBase;
 import Skill.BattleSkillBase;
-import item.Item;
 import monster.Boss.Boss_1;
 import net.miginfocom.swing.MigLayout;
 import phase.BattlePhase;
@@ -44,6 +43,7 @@ public class BossBattleOne extends JPanel {
     public static Boolean isActivate = false;
     public static Integer id;
     public static Integer y_bias = 0;
+    public static Integer drawPlayerType = 0;
     public BossBattleOne() {
         super();  
         MusicHelper.stopBackgroundMusic();
@@ -89,24 +89,24 @@ public class BossBattleOne extends JPanel {
     }
 
     static void normalPhase(int type, int id, int damage) {
-      
+        drawPlayerType = 0;
         if (BattleSkillBase.IsDamage) {
             drawSkillEffect(type, id);
-            BattlePhase.playerTurn(type, damage);
+            BattlePhase.playerTurn(damage);
         } else if (BattleSkillBase.IsEnhance) {
             drawPlayerEffect(type, id);
-            BattlePhase.playerTurn(type, damage);
+            BattlePhase.playerTurn(damage);
         }
     }
 
     static void magicPhase(int type, int id, int damage) {
-      
+        drawPlayerType = 1;
         if (MagicBase.IsDamage) {
             drawMagicEffect(type, id);
-            BattlePhase.playerCastMagic(type, damage);
+            BattlePhase.playerCastMagic(damage);
         } else if (MagicBase.IsEnhance) {
             drawPlayerEffect(type, id);
-            BattlePhase.playerCastMagic(999 + type, damage);
+            BattlePhase.playerCastMagic(damage);
         }
     }
 
@@ -114,9 +114,11 @@ public class BossBattleOne extends JPanel {
         int damage = MagicBase.getMagic(id - 1);
         magicPhase(0, id, damage);
         damageCountPhase();
+        BossPhase();
     }
 
     static void BossPhase() {
+        drawPlayerType = 4;
         BattlePhase.BossTurn();
         if(Boss_1.isAttack)
         {
@@ -248,7 +250,7 @@ public class BossBattleOne extends JPanel {
     }
 
     public static  void drawMagicEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(BattleSkillBase.in_use_skill[id-1]), 1,800,500);
+        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(MagicBase.in_use_magic[id-1]), 1,800,500);
         DrawBoss.monsterPanel.add(effect);
         effect.setOpaque(false);
         DrawBoss.monsterPanel.validate();
@@ -264,7 +266,15 @@ public class BossBattleOne extends JPanel {
     }
 
     public static void drawPlayerEffect(int type, int id) {
-        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" +String.valueOf(BattleSkillBase.in_use_skill[id-1]),0);
+        String name;
+        if(id == 0 )
+        {
+            name = String.valueOf(BattleSkillBase.in_use_skill[id-1]);
+        }else{
+            name = String.valueOf(MagicBase.in_use_magic[id-1]);
+        }
+
+        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" +name,drawPlayerType);
         effect2.setOpaque(false);
         drawPlayer.add(effect2);
         drawPlayer.validate();
@@ -398,21 +408,21 @@ public class BossBattleOne extends JPanel {
                 btn_2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        doBattle(2);
+                        castMagic(2);
                         playerPause();
                     }
                 });
                 btn_3.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        doBattle(3);
+                        castMagic(3);
                         playerPause();
                     }
                 });
                 btn_4.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        doBattle(4);
+                        castMagic(4);
                         playerPause();
                     }
                 });

@@ -1,5 +1,6 @@
 package status;
 
+// TODO: 實作
 
 public class Status  {
     boolean isGoodStatus;

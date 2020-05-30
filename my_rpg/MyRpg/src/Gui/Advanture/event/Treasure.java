@@ -5,7 +5,6 @@ import javax.swing.*;
 
 import Basic.Player;
 import Basic.ResReader;
-import Gui.BottomPanel;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
 import Gui.Helper.CreateButton;
@@ -16,6 +15,11 @@ import java.awt.event.*;
 import java.util.Random;
 
 public class Treasure extends JPanel {
+     /**
+     *
+     * 寶藏
+     * 
+     */
     JButton btn_hand ;
     JButton btn_ignore ;
     JPanel  box;
