@@ -36,11 +36,11 @@ public class DrawPlayerUP extends JPanel{
                 break;
             case 1:
                 image = new ImageIcon(ResReader.path+"res/battlePanel/magic/"+ Name +".gif").getImage();
-                g.drawImage(image,100, 200, 240,240, this);
+                g.drawImage(image,150,250, 240,240, this);
                 break;
             default:
                 image = new ImageIcon(ResReader.path+"res/battlePanel/skill/"+ Name +".png").getImage();
-                g.drawImage(image,100, y, 240,240, this);
+                g.drawImage(image,0, y, 360,360, this);
                 break;
         }
         validate();

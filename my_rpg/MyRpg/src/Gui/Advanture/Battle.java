@@ -30,7 +30,7 @@ import java.util.TimerTask;
 public class Battle extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    
+
     public static DrawBlood drawBlood;
     public static DrawMonster drawMonster;
     public static DrawPlayerUP drawPlayerUP;
@@ -63,7 +63,7 @@ public class Battle extends JPanel {
         drawMonster.setOpaque(false);
         drawMonster.validate();
         DrawMonster.monsterPanel.repaint();
-        
+
         drawBlood = new DrawBlood();
         drawBlood.setOpaque(false);
         drawBlood.validate();
@@ -75,7 +75,7 @@ public class Battle extends JPanel {
         drawPlayer.add(Box.createRigidArea(new Dimension(0, 200)));
 
         CreateMonster.createLevelOne(monster_list.get(0));
-    
+
         BattleTemp.init(false);
         box = new JPanel();
         gridPanel = new JPanel();
@@ -86,7 +86,7 @@ public class Battle extends JPanel {
         gridPanel.add(btn_3);
         gridPanel.add(btn_4);
         gridPanel.setOpaque(false);
-        
+
         init();
     }
 
@@ -116,7 +116,7 @@ public class Battle extends JPanel {
         drawPlayerType = 1;
         if (MagicBase.IsDamage) {
             drawMagicEffect(type, id);
-            BattlePhase.playerCastMagic( damage);
+            BattlePhase.playerCastMagic(damage);
         } else if (MagicBase.IsEnhance) {
             drawPlayerEffect(type, id);
             BattlePhase.playerCastMagic(damage);
@@ -155,10 +155,7 @@ public class Battle extends JPanel {
 
     static void castMagic(int id) {
         int damage = MagicBase.getMagic(id - 1);
-        if(damage != 0 )
-        {
-            magicPhase(1, id, damage);
-        }
+        magicPhase(1, id, damage);
         damageCountPhase();
     }
 
@@ -247,7 +244,8 @@ public class Battle extends JPanel {
     }
 
     public static void drawSkillEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(BattleSkillBase.in_use_skill[id-1]), 0,400,400);
+        DrawSpecialEffect effect = new DrawSpecialEffect(
+                String.valueOf(type) + "_" + String.valueOf(BattleSkillBase.in_use_skill[id - 1]), 0, 400, 400);
         DrawMonster.monsterPanel.add(effect);
         effect.setOpaque(false);
         Timer timer = new Timer();
@@ -261,7 +259,8 @@ public class Battle extends JPanel {
     }
 
     public static void drawMagicEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(MagicBase.in_use_magic[id-1]), 1,400,400);
+        DrawSpecialEffect effect = new DrawSpecialEffect(
+                String.valueOf(type) + "_" + String.valueOf(MagicBase.in_use_magic[id - 1]), 1, 400, 400);
         DrawMonster.monsterPanel.add(effect);
         effect.setOpaque(false);
         Timer timer = new Timer();
@@ -276,14 +275,13 @@ public class Battle extends JPanel {
 
     public static void drawPlayerEffect(int type, int id) {
         String name;
-        if(id == 0 )
-        {
-            name = String.valueOf(BattleSkillBase.in_use_skill[id-1]);
-        }else{
-            name = String.valueOf(MagicBase.in_use_magic[id-1]);
+        if (id == 0) {
+            name = String.valueOf(BattleSkillBase.in_use_skill[id - 1]);
+        } else {
+            name = String.valueOf(MagicBase.in_use_magic[id - 1]);
         }
 
-        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + name,drawPlayerType);
+        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + name, drawPlayerType);
         effect2.setOpaque(false);
         drawPlayer.add(effect2);
         drawPlayer.validate();
@@ -310,8 +308,8 @@ public class Battle extends JPanel {
     }
 
     static void buttonNameSetting(String[] in_use_name) {
-        btn_1  = new CreateButton(in_use_name[0]);
-        
+        btn_1 = new CreateButton(in_use_name[0]);
+
         btn_2 = new CreateButton(in_use_name[1]);
         btn_3 = new CreateButton(in_use_name[2]);
         btn_4 = new CreateButton(in_use_name[3]);
@@ -449,26 +447,30 @@ public class Battle extends JPanel {
     }
 
     protected static void activate(int opt) {
-        if (opt == 0) {
-            if (!Item.in_use_isAttack[0]) {
-                JOptionPane.showMessageDialog(null, "");
-            } else {
-                Item.getAbility(Item.in_use_item[0]);
-            }
-            if (opt == 1) {
+
+        switch (opt) {
+            case 0:
+                if (!Item.in_use_isAttack[0]) {
+                    JOptionPane.showMessageDialog(null, "此為被動式寶具!");
+                } else {
+                    Item.getAbility(Item.in_use_item[0]);
+                }
+                break;
+            case 1:
                 if (!Item.in_use_isAttack[1]) {
-                    JOptionPane.showMessageDialog(null, "");
+                    JOptionPane.showMessageDialog(null, "此為被動式寶具!");
                 } else {
                     Item.getAbility(Item.in_use_item[1]);
                 }
-            }
-            if (opt == 2) {
+                break;
+            case 2:
                 if (!Item.in_use_isAttack[2]) {
-                    JOptionPane.showMessageDialog(null, "");
+                    JOptionPane.showMessageDialog(null, "此為被動式寶具!");
                 } else {
                     Item.getAbility(Item.in_use_item[2]);
                 }
-            }
+                break;
+
         }
     }
 
@@ -532,7 +534,9 @@ public class Battle extends JPanel {
     }
 
     public void drawItem(Graphics g, int id) {
-        Image image = new ImageIcon(ResReader.path + "res/item/" + id + ".gif").getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+        Image image = new ImageIcon(ResReader.path + "res/storage/item/" + id+"_1"+".gif").getImage();
+        g.drawImage(image, 0, 0, 1200, 800, this);
+        validate();
+        repaint();
     }
 }

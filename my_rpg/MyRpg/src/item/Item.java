@@ -21,7 +21,7 @@ public abstract class Item {
     static DeathAngle deathAngle;
     static AllSeeningEye allSeeningEye;
     public static String[] in_use_item = { "", "", "" };
-    public static boolean[] in_use_isAttack = { false, false, false };
+    public static boolean[] in_use_isAttack = { true, true, true };
     public static List<String> unlock_item = new ArrayList<String>();
     public static List<String> item = new ArrayList<String>();
 
@@ -53,6 +53,8 @@ public abstract class Item {
         deathAngle = new DeathAngle(item_list.get(6)[0], 0, item_list.get(6)[1], true);
         allSeeningEye = new AllSeeningEye(item_list.get(7)[0], 1, item_list.get(7)[1], true);
         in_use_item[0] = item_list.get(7)[0];
+        in_use_isAttack[0] = true;
+        unlock_item.add(item_list.get(7)[0]);
     }
 
     public static void unlock(int index) {

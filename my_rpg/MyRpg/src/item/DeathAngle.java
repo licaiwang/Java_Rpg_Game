@@ -49,14 +49,11 @@ public class DeathAngle extends Item {
                     public void run() {
                         Battle.isActivate = false;
                     }
-                }, 14850);
-                timer.schedule(new TimerTask() {
-                    public void run() {
-                        Battle.drawBlood();
-                        Thread playMusic = new MusicHelper("/monster/" + Battle.monster_list.get(0) + ".wav");
-                        playMusic.start();
-                    }
-                }, 13500);
+                }, 2000);
+    
+                Battle.drawBlood();
+                Thread play = new MusicHelper("/monster/" + Battle.monster_list.get(0) + ".wav");
+                play.start();
                 timer.schedule(new TimerTask() {
                     public void run() { 
                         BattleTemp.M_HP = 0;
@@ -79,7 +76,7 @@ public class DeathAngle extends Item {
                             }
                         }, 2000);// 2 秒
                     }
-                }, 14500);
+                }, 3000);
 
             } else {
                 JOptionPane.showMessageDialog(null, "山中的老人沒有回應你的祈禱！");
