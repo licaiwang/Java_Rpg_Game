@@ -5,8 +5,17 @@ import java.io.IOException;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
-
+    /**
+     * 
+     * 
+     * @author  Rorschach
+     * 
+     * 生成玩家以及紀錄玩家數據
+     * 
+     **
+     */
 public class Player extends Power {
+
     public static List<String[]> Upgrade;
     public static Integer Max_HP;
     public static Integer HP;
@@ -169,9 +178,8 @@ public class Player extends Power {
     }
 
     public static void readAllData() throws IOException {
-        CSVReader reader = new CSVReader(new FileReader("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/data/player.csv"));
+        CSVReader reader = new CSVReader(new FileReader(ResReader.Current_Dic+("/res/data/player.csv")));
         Upgrade = reader.readAll();
-        // System.out.println(Upgrade.get(1)[1]); 
     }
 
 	public static void UpgradePlayer(int i) {

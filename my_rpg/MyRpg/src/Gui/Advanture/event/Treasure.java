@@ -13,13 +13,22 @@ import Gui.Town.School;
 
 import java.awt.event.*;
 import java.util.Random;
-
-public class Treasure extends JPanel {
-     /**
-     *
-     * 寶藏
+   /**
      * 
+     * 
+     * @author  Rorschach
+     * 
+     *  特殊事件 - 寶藏
+     * 
+     *  隨機獲得 250 , 500 , 750 , 1000 元 - 40%
+     * 
+     *  浪費 3 體力 - 40%
+     * 
+     *  獲得 5 記憶碎片 - 20%
+     * 
+     **
      */
+public class Treasure extends JPanel {
     JButton btn_hand ;
     JButton btn_ignore ;
     JPanel  box;
@@ -40,13 +49,6 @@ public class Treasure extends JPanel {
     private static final long serialVersionUID = 1L;
    
     private static int getRandom() {
-        /*
-        *
-        * 1- 隨機獲得 250 , 500 , 750 , 1000 元 - 40%
-        * 2- 浪費 3 體力 - 40%
-        * 3- 獲得 5 記憶碎片 - 20%
-        *
-        */
         Integer[] rad = {1,1,1,1,2,2,2,2,3,3};
         Random r = new Random();
         int index = r.nextInt(10);

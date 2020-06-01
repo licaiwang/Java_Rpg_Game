@@ -1,9 +1,16 @@
 package Basic;
 
 import java.util.Random;
-
+   /**
+     * 
+     * 
+     * @author  Rorschach
+     * 
+     * 最基礎的能力類別，給其他類 Extend 用
+     * 
+     **
+     */
 public class Power {
-    // 最基礎的能力紀錄
     private Random r = new Random();
     public Integer HP;
     public Integer ATK;

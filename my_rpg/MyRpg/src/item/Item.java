@@ -2,6 +2,7 @@ package item;
 
 import java.util.List;
 
+import Basic.ResReader;
 import Gui.Town.Storage;
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -39,7 +40,7 @@ public abstract class Item {
 
     public static void readAllData() throws IOException {
         CSVReader reader = new CSVReader(new InputStreamReader(
-                new FileInputStream("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/data/item.csv"), "MS950"));
+                new FileInputStream(ResReader.Current_Dic+("/res/data/item.csv")), "MS950"));
         item_list = reader.readAll();
         for (int i = 1; i < item_list.size(); i++) {
             all_lock.add(Integer.valueOf(item_list.get(i)[5].toString()));

@@ -5,6 +5,15 @@ import javax.swing.*;
 import Basic.ResReader;
 
 import java.awt.*;
+    /**
+     * 
+     * 
+     * @author  Rorschach
+     * 
+     * 畫玩家身上的特效或怪物對玩家特效
+     * 
+     **
+     */
 public class DrawPlayerUP extends JPanel{
     private static final long serialVersionUID = 1L;
     String Name;
@@ -31,15 +40,15 @@ public class DrawPlayerUP extends JPanel{
         Image image;
         switch (Type) {
             case 4:
-                image = new ImageIcon(ResReader.path+"res/battlePanel/boss/"+ Name +".gif").getImage();
+                image = new ImageIcon(ResReader.loader.getResource("res/battlePanel/boss/"+ Name +".gif")).getImage();
                 g.drawImage(image,0, 0, getWidth(),getHeight(), this);
                 break;
             case 1:
-                image = new ImageIcon(ResReader.path+"res/battlePanel/magic/"+ Name +".gif").getImage();
+                image = new ImageIcon(ResReader.loader.getResource("res/battlePanel/magic/"+ Name +".gif")).getImage();
                 g.drawImage(image,150,250, 240,240, this);
                 break;
             default:
-                image = new ImageIcon(ResReader.path+"res/battlePanel/skill/"+ Name +".png").getImage();
+                image = new ImageIcon(ResReader.loader.getResource("res/battlePanel/skill/"+ Name +".png")).getImage();
                 g.drawImage(image,0, y, 360,360, this);
                 break;
         }

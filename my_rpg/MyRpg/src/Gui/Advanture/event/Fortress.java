@@ -15,11 +15,19 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
-public class Fortress extends JPanel {
-
-    /**
-     *
+   /**
+     * 
+     * 
+     * @author  Rorschach
+     * 
+     *  邊境要塞
+     * 
+     *  生成隨機角度的拼圖
+     *  
+     **
      */
+
+public class Fortress extends JPanel {
     public static JButton btn_back;
     public static JPanel gridPanel; 
 
@@ -41,11 +49,6 @@ public class Fortress extends JPanel {
     private static final long serialVersionUID = 1L;
 
     public Fortress() {
-         /**
-             *
-             * 拼圖解謎的基底
-             * 
-             */
         super();
         BottomPanel.readText("puzzle");
         BottomPanel.resetTextArea();

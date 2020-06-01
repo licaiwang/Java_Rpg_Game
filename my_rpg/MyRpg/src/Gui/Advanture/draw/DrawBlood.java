@@ -6,6 +6,17 @@ import phase.BattlePhase;
 
 
 import java.awt.*;
+
+    /**
+     * 
+     * 
+     * @author  Rorschach
+     * 
+     * 畫怪物的血量
+     * 
+     **
+     */
+
 public class DrawBlood extends JPanel {
     
     public static Boolean isBattle = false;

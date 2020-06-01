@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import Basic.Player;
-
+import Basic.ResReader;
 import Gui.Advanture.AdvantureBackground;
 import Gui.Advanture.BattleSidePanel;
 import Gui.Helper.MusicHelper;
@@ -57,7 +57,6 @@ public class Gui extends JFrame {
 	static Canvas c;
 	static JPanel p;
 	static EmbeddedMediaPlayer emp;
-
 	static AudioInputStream audioIn;
 
 	public Gui(final String title) {
@@ -297,7 +296,8 @@ public class Gui extends JFrame {
 	}
 
 	static void playVideo() {
-		NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files/VideoLAN/VLC");
+		// TODO：　Correct path
+		NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), ResReader.Current_Dic+("/res/video/VideoLAN/VLC"));
 		Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
 		MediaPlayerFactory mpf = new MediaPlayerFactory();
 		emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(main));
@@ -307,31 +307,40 @@ public class Gui extends JFrame {
 		emp.addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
 			@Override
 			public void finished(MediaPlayer mediaPlayer) {
-				main.remove(p);
-				init();
-				main.validate();
-				mContainer.repaint();			
-				MusicHelper.playBackgroundMusic("firstTown");
+				stopVideo();
+				showMain();
 			}
 
 			@Override
 			public void error(MediaPlayer mediaPlayer) {
-				main.remove(p);
-				init();
-				main.validate();
-				mContainer.repaint();
-				MusicHelper.playBackgroundMusic("firstTown");
-			}
+				stopVideo();
+				showMain();
+			}		
 		});
-		String file = "MyRpg/bin/res/video/open.wmv";
-		emp.prepareMedia(file);
-		emp.play();
+		try{
+			emp.prepareMedia(ResReader.Current_Dic+("/res/video/open.wmv"));
+			emp.play();
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			stopVideo();
+			showMain();
+		}
 	}
 
 	static void stopVideo() {
 		emp.stop();
-		emp.release();
-		mContainer.repaint();			
+		emp.release();		
+	}
+	static void showMain()
+	{
+		// TODO: test
+		main.remove(p);
+		main.validate();
+		main.repaint();
+		init();
+		mContainer.validate();
+		mContainer.repaint();
 		MusicHelper.playBackgroundMusic("firstTown");
 	}
 
@@ -339,8 +348,8 @@ public class Gui extends JFrame {
 		// 先 init player
 		player = new Player();
 		try {
-			Item.readAllData();
 			Player.readAllData();
+			Item.readAllData();
 			BattleSkillBase.readAllData();
 			BattleSkillBase.initSkill();
 			MagicBase.readAllData();
@@ -349,13 +358,13 @@ public class Gui extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		// TODO: test
+	
 		// 開頭動畫
 		c = new Canvas();
 		c.setBackground(Color.BLACK);
 		c.setFocusable(true);
 		c.addKeyListener(new KeyListener() {
-
 			@Override
 			public void keyTyped(KeyEvent e) {
 			}
@@ -363,28 +372,26 @@ public class Gui extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				stopVideo();
-				main.remove(p);
-				main.validate();
-				init();
-				main.validate();
-				mContainer.repaint();
+				showMain();
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-
 			}
 		});
-
+		
+		
 		main = new Gui("泰格達");
 		main.setVisible(true);
-
 		mContainer.repaint();
+		// TODO: test
+
 		p = new JPanel();
 		p.setLayout(new BorderLayout());
 		p.add(c);
 		main.add(p);
 		playVideo();
+		
 	}
 
 }

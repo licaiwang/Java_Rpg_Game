@@ -11,13 +11,22 @@ import Gui.Helper.CreateButton;
 
 import java.awt.event.*;
 import java.util.Random;
-
-public class Event2 extends JPanel {
-    /*
+   /**
      * 
-     * 狗狗引路
      * 
+     * @author  Rorschach
+     * 
+     *  事件二  小狗帶路
+     * 
+     * 
+     *  帶錯路 玩家幸運下降 5 - 50 %
+     * 
+     *  帶對路 玩家體力上升五，幸運上升 5 - 50 %
+     * 
+     **
      */
+public class Event2 extends JPanel {
+
     JButton btn_hand;
     JButton btn_ignore;
     JPanel box;
@@ -87,10 +96,12 @@ public class Event2 extends JPanel {
         int id = (r.nextInt(2)+1);
         switch (id) {
             case 1:
+                Player.LUCK -= 5;
                 g.drawImage(ResReader.event1_2_1, 0, 0, getWidth(), getHeight(), this);
                 break;
             case 2:
                 Player.TP += 5;
+                Player.LUCK += 5;
                 BattleSidePanel.resetTp();
                 g.drawImage(ResReader.event1_2_2, 0, 0, getWidth(), getHeight(), this);
                 break;

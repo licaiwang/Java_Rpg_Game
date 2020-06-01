@@ -15,16 +15,17 @@ import java.io.File;
 import java.io.IOException;
 
 
+
 public class MusicHelper extends Thread {
-    private String music;
+    private String effect;
     private static Clip clip;
 
-    public MusicHelper(String music) {
-        this.music = ResReader.path + "/res/music/" + music;
+    public MusicHelper(String soundEffect) {
+        // 音樂的部分額外抽出
+        this.effect = ResReader.Current_Dic+("/res/soundEffect/"+soundEffect);
     }
-
     public void run() {
-        play(music);
+        play(effect);
     }
 
     public void play(String filePath) {
@@ -63,7 +64,7 @@ public class MusicHelper extends Thread {
         // 背景音樂
         try {
             AudioInputStream audioIn = AudioSystem
-                    .getAudioInputStream(new File(ResReader.path + "res/music/backgroundMusic/" + name + ".wav"));
+                    .getAudioInputStream(new File(ResReader.Current_Dic+("/res/backgroundMusic/"+name+".wav")));
             clip = AudioSystem.getClip();
 			clip.open(audioIn);
 			clip.start();

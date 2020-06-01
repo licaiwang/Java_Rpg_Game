@@ -17,13 +17,16 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.geom.AffineTransform;
 
-
-public class Puzzle extends JPanel {
-    /**
-     *
-     * 拼圖解謎
+    /** 
      * 
+     * @author  Rorschach
+     * 
+     *  拼圖解謎
+     *  
+     **
      */
+    
+public class Puzzle extends JPanel {
     private static final long serialVersionUID = 1L;
     public Image puzzle;
     public Integer Id;
@@ -39,7 +42,7 @@ public class Puzzle extends JPanel {
         isRotate = false;
         setOpaque(false);
         setPreferredSize(new Dimension(pic_size, pic_size));
-        puzzle = new ImageIcon(ResReader.path + "res/battlePanel/event/puzzle/" + (id+1) + ".png").getImage();
+        puzzle = new ImageIcon(ResReader.loader.getResource("res/battlePanel/event/puzzle/" + (id+1) + ".png")).getImage();
         temp_puzzle = convertToBufferedImage(puzzle);
         addMouseListener(new MouseInputAdapter() {
             @Override

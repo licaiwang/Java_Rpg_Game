@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import Basic.ResReader;
 import Gui.Town.Storage;
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -31,7 +32,7 @@ public class MagicBase {
     public static void readAllData() throws IOException {
         // 加 "MS950" 才讀得懂中文
         CSVReader reader = new CSVReader(new InputStreamReader(
-                new FileInputStream("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/data/magic.csv"), "MS950"));
+                new FileInputStream(ResReader.Current_Dic+("/res/data/magic.csv")), "MS950"));
         Magic_list = reader.readAll();
         for (int i = 1; i < Magic_list.size(); i++) {
             int rarity = Integer.valueOf(Magic_list.get(i)[4].toString());
@@ -63,7 +64,7 @@ public class MagicBase {
     public static int getIndexByName(String name) {
         int i = 0;
         for (i = 1; i < Magic_list.size(); i++) {
-            if (name.equals(Magic_list.get(i)[1].toString())) {
+            if (Magic_list.get(i)[1].toString() == name) {
                 return i;
             }
         }

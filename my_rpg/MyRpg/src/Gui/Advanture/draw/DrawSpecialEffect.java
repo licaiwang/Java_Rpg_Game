@@ -6,10 +6,16 @@ import Basic.ResReader;
 
 import java.awt.*;
 
-public class DrawSpecialEffect extends JPanel {
-    /*
-     * 畫技能
+    /**
+     * 
+     * 
+     * @author  Rorschach
+     * 
+     *  畫對怪物特效效或怪物自身特效
+     * 
+     **
      */
+public class DrawSpecialEffect extends JPanel {
     private static final long serialVersionUID = 1L;
     String Name;
     Integer Type;
@@ -49,17 +55,17 @@ public class DrawSpecialEffect extends JPanel {
         Image image;
         switch (Type) {
             case 0:
-                image = new ImageIcon(ResReader.path+"res/battlePanel/skill/" + Name + ".gif")
+                image = new ImageIcon(ResReader.loader.getResource("res/battlePanel/skill/" + Name + ".gif"))
                         .getImage();
                         g.drawImage(image, frame_x, frame_y ,360, 360, this);
                 break;
             case 1:
-                image = new ImageIcon(ResReader.path+"res/battlePanel/magic/" + Name + ".gif")
+                image = new ImageIcon(ResReader.loader.getResource("res/battlePanel/magic/" + Name + ".gif"))
                         .getImage();
                         g.drawImage(image, frame_x, frame_y,360, 360, this);
                 break;
             case 4:
-                image = new ImageIcon(ResReader.path+"res/battlePanel/boss/" + Name + ".gif")
+                image = new ImageIcon(ResReader.loader.getResource("res/battlePanel/boss/" + Name + ".gif"))
                         .getImage();
                         g.drawImage(image, 150, 230 , 400, getHeight()/2, this);
              break;

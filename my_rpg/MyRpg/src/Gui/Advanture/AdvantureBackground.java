@@ -11,15 +11,18 @@ import Gui.Advanture.event.Event3;
 import Gui.Advanture.event.Fortress;
 import Gui.Advanture.event.Treasure;
 import Gui.Helper.MusicHelper;
-
-public class AdvantureBackground extends JPanel {
-    /*
+  /** 
      * 
-     * 註冊以及控制旅行時候主畫面
+     * @author  Rorschach
      * 
-     * 事件 - 30%   寶物  - 10%   怪物 - 60%
+     *   註冊以及控制旅行時候主畫面
      * 
+     *  事件 - 30%   寶物  - 10%   怪物 - 60%
+     *  
+     **
      */
+public class AdvantureBackground extends JPanel {
+
     private static final long serialVersionUID = 1L;
     public static JPanel advPanel;
     public static Boolean isBoss = false;

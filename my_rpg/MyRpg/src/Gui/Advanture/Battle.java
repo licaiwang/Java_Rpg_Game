@@ -27,6 +27,16 @@ import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 
+  /** 
+     * 
+     * @author  Rorschach
+     * 
+     *   發生戰鬥時的畫面
+     * 
+     *  
+     **
+     */
+
 public class Battle extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -534,7 +544,7 @@ public class Battle extends JPanel {
     }
 
     public void drawItem(Graphics g, int id) {
-        Image image = new ImageIcon(ResReader.path + "res/storage/item/" + id+"_1"+".gif").getImage();
+        Image image = new ImageIcon(ResReader.loader.getResource("res/storage/item/" + id+"_1"+".gif")).getImage();
         g.drawImage(image, 0, 0, 1200, 800, this);
         validate();
         repaint();

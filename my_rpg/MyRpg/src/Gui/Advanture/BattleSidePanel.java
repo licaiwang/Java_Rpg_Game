@@ -1,5 +1,6 @@
 package Gui.Advanture;
 
+import Gui.Avatar;
 import Gui.Gui;
 import Gui.Helper.CreateButton;
 import Gui.Helper.MusicHelper;
@@ -42,7 +43,9 @@ public class BattleSidePanel extends JPanel {
 		sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
 		sidePanel.setAlignmentY(java.awt.Component.TOP_ALIGNMENT);
 		// Inside the Side - Top
-		sidePanel.add(ResReader.topInsidePanel);
+
+		Avatar topInsidePanel = new Avatar();
+		sidePanel.add(topInsidePanel);
 		sidePanel.add(Box.createRigidArea(new Dimension(100, 0)));
 		// 體力值
 		
@@ -112,6 +115,7 @@ public class BattleSidePanel extends JPanel {
 		btn_4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// TODO：　reset monster hp
 				CreateButton.clickSound();
 				removeAll();
 				MusicHelper.stopBackgroundMusic();

@@ -547,7 +547,7 @@ public class BossBattleOne extends JPanel {
     }
 
     public void drawItem(Graphics g, int id) {
-        Image image = new ImageIcon(ResReader.path + "res/item/" + id + ".gif").getImage();
+        Image image = new ImageIcon(ResReader.loader.getResource("res/item/" + id + ".gif")).getImage();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
     }
 }

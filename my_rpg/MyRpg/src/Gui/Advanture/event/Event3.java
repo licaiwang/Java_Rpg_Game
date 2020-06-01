@@ -10,13 +10,19 @@ import Gui.Helper.CreateButton;
 import Gui.Town.School;
 
 import java.awt.event.*;
-
-public class Event3 extends JPanel {
-    /*
+   /**
      * 
-     * 受虛空吸引的人
      * 
+     * @author  Rorschach
+     * 
+     *  事件三  被虛空吸引的人
+     * 
+     *  累積嘗試拯救 5 次後得到一片記憶的光碟
+     *  
+     **
      */
+public class Event3 extends JPanel {
+
     JButton btn_hand;
     JButton btn_ignore;
     JPanel box;

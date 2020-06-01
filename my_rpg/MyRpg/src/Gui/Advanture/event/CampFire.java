@@ -10,7 +10,15 @@ import Gui.Advanture.BattleSidePanel;
 import Gui.Helper.CreateButton;
 
 import java.awt.event.*;
-
+    /**
+     * 
+     * 
+     * @author  Rorschach
+     * 
+     * 畫營火
+     * 
+     **
+     */
 
 public class CampFire extends JPanel{
     private static final long serialVersionUID = 1L;

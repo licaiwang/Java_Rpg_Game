@@ -1,8 +1,13 @@
 package Gui.Helper;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+
+import Basic.ResReader;
+
+
 
 public class FileReaderHelper {
     /*
@@ -11,7 +16,8 @@ public class FileReaderHelper {
 
     */
     public static String readTextFromTxt(String filename) throws IOException {
-        FileReader fr = new FileReader("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/intro/"+filename+".txt");
+        String res =   ResReader.Current_Dic+("/res/intro/"+filename+".txt");
+        InputStreamReader fr = new InputStreamReader(new FileInputStream(res), "UTF-8");
         BufferedReader br = new BufferedReader(fr);
         String words = "";
 		while (br.ready()) {

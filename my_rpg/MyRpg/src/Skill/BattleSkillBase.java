@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import Basic.ResReader;
 import Gui.Town.Storage;
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -36,7 +37,7 @@ public class BattleSkillBase {
     public static void readAllData() throws IOException {
         //  加 "MS950" 才讀得懂中文 
         CSVReader reader = new CSVReader(new InputStreamReader(
-                new FileInputStream("D:/JavaWorkSpace/my_rpg/MyRpg/src/res/data/skill.csv"), "MS950"));
+                new FileInputStream(ResReader.Current_Dic+("/res/data/skill.csv")), "MS950"));
         skill_list = reader.readAll();
         for (int i = 1; i < skill_list.size(); i++) {
             int rarity = Integer.valueOf(skill_list.get(i)[5].toString());

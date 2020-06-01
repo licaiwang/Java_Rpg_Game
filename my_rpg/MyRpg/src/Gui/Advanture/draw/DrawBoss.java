@@ -10,12 +10,16 @@ import phase.BattleTemp;
 import javax.swing.*;
 import java.awt.*;
 
-public class DrawBoss extends JPanel {
-    /*
+    /**
      * 
-     * 畫怪物
      * 
+     * @author  Rorschach
+     * 
+     * 畫 Boss
+     * 
+     **
      */
+public class DrawBoss extends JPanel {
 
     String bossname;
     int y = 400;
@@ -26,7 +30,7 @@ public class DrawBoss extends JPanel {
     public DrawBoss(String name) {
         super();
         bossname = name;
-    image = new ImageIcon(ResReader.path + "res/battlePanel/boss/"+ bossname +".png").getImage();
+    image = new ImageIcon(ResReader.loader.getResource("res/battlePanel/boss/"+ bossname +".png")).getImage();
         //image = new ImageIcon(ResReader.path +"res/battlePanel/boss/b_1.png").getImage();
         monsterPanel= new JPanel();
         monsterPanel.setPreferredSize(new Dimension(800,500));
@@ -66,10 +70,9 @@ public class DrawBoss extends JPanel {
     }
     
     private void drawSecondBoss(Graphics g) {
-        Image secondBoss = new ImageIcon(ResReader.path +"res/battlePanel/boss/b_1.png").getImage();
-        Image thirdBoss = new ImageIcon(ResReader.path +"res/battlePanel/boss/b_2.png").getImage();
-        Image fire = new ImageIcon(ResReader.path+"res/battlePanel/boss/4_3.gif")
-        .getImage();
+        Image secondBoss = new ImageIcon(ResReader.loader.getResource("res/battlePanel/boss/b_1.png")).getImage();
+        Image thirdBoss = new ImageIcon(ResReader.loader.getResource("res/battlePanel/boss/b_2.png")).getImage();
+        Image fire = new ImageIcon(ResReader.loader.getResource("res/battlePanel/boss/4_3.gif")).getImage();
         g.drawImage(secondBoss, 150,y,180,220, this);
         g.drawImage(fire,100, 150 , 300, getHeight()/2, this);
         g.drawImage(thirdBoss, 600,y,180,220, this);

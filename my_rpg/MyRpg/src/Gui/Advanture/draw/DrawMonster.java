@@ -6,14 +6,16 @@ import Basic.ResReader;
 import phase.BattlePhase;
 import javax.swing.*;
 import java.awt.*;
-
+    /**
+     * 
+     * 
+     * @author  Rorschach
+     * 
+     * 畫怪物
+     * 
+     **
+     */
 public class DrawMonster extends JPanel{
-    /*
-
-    畫怪物
-    
-    */
-
     String monsterName;
     int y=0;
     int x=0;
@@ -23,7 +25,7 @@ public class DrawMonster extends JPanel{
     public DrawMonster(String name) {
         super();
         monsterName = name;
-        image = new ImageIcon(ResReader.path + "res/battlePanel/monster/"+ monsterName +".png").getImage();
+        image = new ImageIcon(ResReader.loader.getResource("res/battlePanel/monster/"+ monsterName +".png")).getImage();
         monsterPanel= new JPanel();
         monsterPanel.setPreferredSize(new Dimension(400,400));
         monsterPanel.setOpaque(false);

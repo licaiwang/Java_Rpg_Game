@@ -11,7 +11,15 @@ import Basic.ResReader;
 
 import java.awt.*;
 import java.awt.event.*;
-
+    /**
+     * 
+     * 
+     * @author  Rorschach
+     * 
+     * 傳送回城
+     * 
+     **
+     */
 public class BackTown extends JPanel {
     private static final long serialVersionUID = 1L;
     JButton btn_move;

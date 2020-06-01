@@ -14,13 +14,23 @@ import item.Item;
 
 import java.awt.event.*;
 import java.util.Random;
-
-public class Event1 extends JPanel {
-    /*
+   /**
      * 
-     * 德魯伊向玩家伸手
      * 
+     * @author  Rorschach
+     * 
+     *  事件一  山中老人
+     * 
+     * 獲得 1,2,3,4,5,6,7,8,9,10 記憶碎片 - 50 % 
+     * 
+     * 損失持有金幣的 (10 %) 或損失 5 點生命 (20%)- 40 %
+     * 
+     * 遇見山中老人 - 10%
+     * 
+     **
      */
+public class Event1 extends JPanel {
+   
 
     JButton btn_hand;
     JButton btn_ignore;

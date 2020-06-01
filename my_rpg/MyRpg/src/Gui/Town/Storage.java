@@ -19,7 +19,6 @@ import java.awt.event.ActionListener;
 public class Storage extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    static String DEFULT_PATH = "D:/JavaWorkSpace/my_rpg/MyRpg/src/res/storage/";
     static String[] skill_name;
     static String[] magic_name;
     static String[] item_name;
@@ -29,9 +28,9 @@ public class Storage extends JPanel {
     public static JList<String> list_3;
 
     public static String content;
-    ImageIcon skillIcon = new ImageIcon(DEFULT_PATH + "skill/1.jpg");
-    ImageIcon magicIcon = new ImageIcon(DEFULT_PATH + "magic/1.png");
-    ImageIcon itemIcon = new ImageIcon(DEFULT_PATH + "item/7.gif");
+    ImageIcon skillIcon = new ImageIcon(ResReader.loader.getResource("res/storage/skill/1.jpg"));
+    ImageIcon magicIcon = new ImageIcon(ResReader.loader.getResource("res/storage/magic/1.png"));
+    ImageIcon itemIcon = new ImageIcon(ResReader.loader.getResource("res/storage/item/7.gif"));
     JTextArea skill_effect;
     JTextArea magic_effect;
     JTextArea item_effect;
@@ -80,18 +79,17 @@ public class Storage extends JPanel {
         list_4.setOpaque(false);
         list_4.setBackground(Color.BLACK);
         list_4.setForeground(Color.WHITE);
-        list_4.setBorder(BorderFactory.createLineBorder(Color.WHITE,2));
+        list_4.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
         JList<String> list_5 = new JList<String>();
         list_5.setOpaque(false);
         list_5.setBackground(Color.BLACK);
         list_5.setForeground(Color.WHITE);
-        list_5.setBorder(BorderFactory.createLineBorder(Color.WHITE,2));
+        list_5.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
         JList<String> list_6 = new JList<String>();
         list_6.setOpaque(false);
         list_6.setBackground(Color.BLACK);
         list_6.setForeground(Color.WHITE);
-        list_6.setBorder(BorderFactory.createLineBorder(Color.WHITE,2));
-
+        list_6.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
 
         // 設置技能選項數據
         list_1.setListData(skill_name);
@@ -111,7 +109,7 @@ public class Storage extends JPanel {
             public void valueChanged(ListSelectionEvent e) {
 
                 int[] indices = list_1.getSelectedIndices();
-               
+
                 ListModel<String> listModel = list_1.getModel();
 
                 for (int index : indices) {
@@ -139,14 +137,13 @@ public class Storage extends JPanel {
                     content += "說明：" + '\n' + BattleSkillBase.skill_list.get(i)[2].toString() + '\n' + '\n';
                     content += "效果：" + '\n' + BattleSkillBase.skill_list.get(i)[3].toString();
                     skill_effect.setText(content);
-                    skillIcon = new ImageIcon(DEFULT_PATH + "skill/" + (i) + ".jpg");
+                    skillIcon = new ImageIcon(ResReader.loader.getResource("res/storage/skill/" + (i) + ".jpg"));
                     skill_icon.setIcon(skillIcon);
                     skill_icon.repaint();
                 }
 
             }
         });
-
 
         list_2.setFont(new Font("Serif", Font.BOLD, 16));
         list_2.addListSelectionListener(new ListSelectionListener() {
@@ -167,7 +164,7 @@ public class Storage extends JPanel {
                         case 1:
                             magic_effect.setFont(new Font("Serif", Font.BOLD, 16));
                             magic_effect.setForeground(Color.BLUE);
-                            content = "等級：" + '\n' +MagicBase.getRarity(rarity) + '\n' + '\n';
+                            content = "等級：" + '\n' + MagicBase.getRarity(rarity) + '\n' + '\n';
                             break;
                         case 2:
                             magic_effect.setFont(new Font("Serif", Font.BOLD, 16));
@@ -177,7 +174,7 @@ public class Storage extends JPanel {
                     }
                     content += "說明：" + '\n' + MagicBase.Magic_list.get(i)[2].toString() + '\n' + '\n';
                     magic_effect.setText(content);
-                    magicIcon = new ImageIcon(DEFULT_PATH + "magic/" + (i) + ".png");
+                    magicIcon = new ImageIcon(ResReader.loader.getResource("res/storage/magic/" + (i) + ".png"));
                     magic_icon.setIcon(magicIcon);
                     magic_icon.repaint();
                 }
@@ -187,18 +184,18 @@ public class Storage extends JPanel {
         list_3.setFont(new Font("Serif", Font.BOLD, 16));
         list_3.addListSelectionListener(new ListSelectionListener() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {             
-                int[] indices = list_3.getSelectedIndices();         
+            public void valueChanged(ListSelectionEvent e) {
+                int[] indices = list_3.getSelectedIndices();
                 ListModel<String> listModel = list_3.getModel();
                 int i = Item.getIndexByName(add_item.getText());
                 for (int index : indices) {
                     add_item.setText(listModel.getElementAt(index));
-                    content = "等級：" + Item.item_list.get(i)[1].toString() + " 級寶具" +'\n' + '\n';
+                    content = "等級：" + Item.item_list.get(i)[1].toString() + " 級寶具" + '\n' + '\n';
                     content += "效果：" + '\n' + Item.item_list.get(i)[3].toString() + '\n' + '\n';
                     content += "說明：" + '\n' + Item.item_list.get(i)[4].toString();
                     item_effect.setText(content);
                     item_effect.setFont(new Font("Serif", Font.BOLD, 16));
-                    itemIcon = new ImageIcon(DEFULT_PATH + "item/" + (i) + ".gif");
+                    itemIcon = new ImageIcon(ResReader.loader.getResource("res/storage/item/" + (i) + ".gif"));
                     item_icon.setIcon(itemIcon);
                     item_icon.repaint();
                 }
@@ -233,7 +230,7 @@ public class Storage extends JPanel {
                 for (int index : indices) {
                     int i = MagicBase.getIndexByName(listModel.getElementAt(index));
                     if (i != 0) {
-                        BottomPanel.content = "效果："+ MagicBase.Magic_list.get(i)[2].toString();
+                        BottomPanel.content = "效果：" + MagicBase.Magic_list.get(i)[2].toString();
                         BottomPanel.resetTextArea();
                     }
                 }
@@ -312,7 +309,6 @@ public class Storage extends JPanel {
         jScrollPane_3.setOpaque(false);
         jScrollPane_3.setPreferredSize(new Dimension(150, 140));
 
-       
         storageJPanel.add(jScrollPane_1);
         storageJPanel.add(jScrollPane_2);
         storageJPanel.add(jScrollPane_3);
@@ -325,7 +321,7 @@ public class Storage extends JPanel {
         // 中間 1-1
         JPanel chose_1 = new JPanel();
         chose_1.setBackground(Color.BLACK);
-        chose_1.setBorder(BorderFactory.createLineBorder(Color.RED,2));
+        chose_1.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
         chose_1.setAlignmentY(Component.TOP_ALIGNMENT);
         chose_1.setBackground(Color.WHITE);
         chose_1.setLayout(new BoxLayout(chose_1, BoxLayout.Y_AXIS));
@@ -342,7 +338,7 @@ public class Storage extends JPanel {
         chose_1.add(Box.createRigidArea(new Dimension(0, 10)));
         chose_1.add(add_btn_1);
 
-        JPanel chose_1_1 = new JPanel(); 
+        JPanel chose_1_1 = new JPanel();
         skill_effect = new JTextArea();
         skill_effect.setLineWrap(true);
         skill_effect.setEditable(false);
@@ -356,7 +352,7 @@ public class Storage extends JPanel {
         // 中間 1-2
         JPanel chose_2 = new JPanel();
         chose_2.setBackground(Color.BLACK);
-        chose_2.setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
+        chose_2.setBorder(BorderFactory.createLineBorder(Color.BLUE, 2));
         chose_2.setAlignmentY(Component.CENTER_ALIGNMENT);
         chose_2.setBackground(Color.WHITE);
         chose_2.setLayout(new BoxLayout(chose_2, BoxLayout.Y_AXIS));
@@ -378,14 +374,13 @@ public class Storage extends JPanel {
         magic_effect.setEditable(false);
         chose_2_1.setOpaque(false);
         JScrollPane jScrollPane_5 = new JScrollPane(magic_effect);
-        jScrollPane_5.setPreferredSize(new Dimension(500, 200)); 
+        jScrollPane_5.setPreferredSize(new Dimension(500, 200));
         chose_2_1.add(jScrollPane_5);
-
 
         // 中間 1-3
         JPanel chose_3 = new JPanel();
         chose_3.setBackground(Color.BLACK);
-        chose_3.setBorder(BorderFactory.createLineBorder(Color.YELLOW,2));
+        chose_3.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 2));
         chose_3.setLayout(new BoxLayout(chose_3, BoxLayout.Y_AXIS));
         chose_3.setBackground(Color.WHITE);
         chose_3.setAlignmentY(Component.BOTTOM_ALIGNMENT);
@@ -443,7 +438,6 @@ public class Storage extends JPanel {
         list_5.setAlignmentX(CENTER_ALIGNMENT);
         WearJPanel.add(wear_magic);
 
-
         JButton wear_item = new JButton("(已裝備)");
         wear_item.setFont(new Font("Serif", Font.BOLD, 20));
         wear_item.setAlignmentX(CENTER_ALIGNMENT);
@@ -458,11 +452,11 @@ public class Storage extends JPanel {
         add(chosePanel);
 
     }
-    public static void resetItem()
-    {
+
+    public static void resetItem() {
         item_name = Item.unlock_item.stream().toArray(String[]::new);
     }
-   
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
