@@ -9,11 +9,16 @@ import java.util.List;
 import Basic.ResReader;
 import Gui.Town.Storage;
 import au.com.bytecode.opencsv.CSVReader;
-
+    /** 
+		* 
+		* @author  Rorschach
+		* 
+		* 生成管理紀錄技能
+		* 
+		* 
+		**
+		*/
 public class BattleSkillBase {
-    /*
-     *  技能的資料儲存
-    */
     public static List<String[]> skill_list;
     public static String[] in_use_name = { "", "", "", "" };
     public static Integer[] in_use_skill = { 0, 0, 0, 0 };

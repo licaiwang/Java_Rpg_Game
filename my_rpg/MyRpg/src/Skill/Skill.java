@@ -7,14 +7,17 @@ import Gui.Advanture.BattleSidePanel;
 import Gui.Helper.MusicHelper;
 import phase.BattleTemp;
 
+
+/**
+ * 
+ * @author Rorschach
+ * 
+ *  實做技能方法並執行技能
+ * 
+ **
+ */
+
 public class Skill {
-
-
-    /*
-     *   回傳技能傷害並執行技能
-     * 
-    */
-
     public static int CommonSkill(Integer id)
     {
         switch (id) {

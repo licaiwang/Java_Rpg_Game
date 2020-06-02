@@ -5,7 +5,16 @@ import javax.swing.*;
 import Basic.ResReader;
 
 import java.awt.*;
-
+   /** 
+     * 
+     * @author  Rorschach
+     * 
+     *  
+     * 畫旅店
+     *  
+     * 
+     **
+     */
 public class Inn extends JPanel{
  
     public Inn() {

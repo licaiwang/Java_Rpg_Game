@@ -11,11 +11,15 @@ import Basic.ResReader;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.*;
 import java.awt.*;
-
+  /** 
+     * 
+     * @author  Rorschach
+     * 
+     * 在城鎮的時候旁邊的面板
+     *  
+     **
+     */
 public class TownSidePanel extends JPanel {
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	String DEFULT_PATH = "D:/JavaWorkSpace/my_rpg/MyRpg/src/res/battlePanel/";
 	ImageIcon travelIcon = new ImageIcon(DEFULT_PATH + "travel.png");

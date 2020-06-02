@@ -9,7 +9,14 @@ import Gui.Helper.MusicHelper;
 
 import java.awt.*;
 import java.awt.event.*;
-
+   /** 
+     * 
+     * @author  Rorschach
+     * 
+     * 剛出去的大門
+     *  
+     **
+     */
 public class Gate extends JPanel {
     private static final long serialVersionUID = 1L;
     JButton btn_move;

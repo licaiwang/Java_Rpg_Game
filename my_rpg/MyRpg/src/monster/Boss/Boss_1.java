@@ -7,22 +7,31 @@ import Gui.Helper.MusicHelper;
 import monster.Monster;
 import phase.BattleTemp;
 
-public class Boss_1 extends Monster {
-    /*
-     *
-     * Boss_1 - 泰格達不死隊
+/**
+ * 
+ * @author Rorschach
+ * 
+ * Boss_1 - 泰格達不死隊
      * 
      * 招式：
      * 
-     * 1. 普通攻擊 - 40 % 2. 二連擊 - 30 % 3. 提升攻擊力(中) - 10 % 4. 
-     * 提升速度 (小)，防禦力 (小) - 20 %
+     *      第一階段： 
+     *              普通攻擊 - 40 %  
+     *              二連擊 - 30 % 
+     *              提升攻擊力(小)+回血 - 30 % 
      * 
-     * 特殊： 在未持有死告天使的情況下，這個 Boss 不會死 且每被玩家擊倒一次會再生成一個不死隊隊員，然後攻擊力 * 2
+     *      第二階段：
+     *              普通攻擊 - 20 %  
+     *              二連擊 - 30 % 
+     *              提升攻擊力(小)+回血 - 20 % 
+     *              提升速度 (小)，防禦力 (小) - 30 %
      * 
-     * 在持有死告天使且發動的時候必發動成功，但玩家還是必須再擊倒" "正常版" 的不死隊
+     *      備註：　血量一半以下會進入第二階段
      * 
      * 
-     */
+ **
+ */
+public class Boss_1 extends Monster {
     public static Boolean isStrike = false;
     public static Boolean isAttack = false;
     public static Boolean isSecond = false;
@@ -35,8 +44,6 @@ public class Boss_1 extends Monster {
     }
 
     public static Integer Atkskill() {
-        // 一階段 1 ~ 3
-        // 二階段 2 ~ 4
         if(!isdead)
         {
               

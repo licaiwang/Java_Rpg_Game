@@ -39,6 +39,16 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 import uk.co.caprica.vlcj.player.embedded.windows.Win32FullScreenStrategy;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
+  /** 
+		* 
+		* @author  Rorschach
+		* 
+		* 程式的進入口
+		* 
+		* 顯示城鎮的地方
+		*  
+		**
+		*/
 public class Gui extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -296,7 +306,6 @@ public class Gui extends JFrame {
 	}
 
 	static void playVideo() {
-		// TODO：　Correct path
 		NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), ResReader.Current_Dic+("/res/video/VideoLAN/VLC"));
 		Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
 		MediaPlayerFactory mpf = new MediaPlayerFactory();
@@ -334,7 +343,6 @@ public class Gui extends JFrame {
 	}
 	static void showMain()
 	{
-		// TODO: test
 		main.remove(p);
 		main.validate();
 		main.repaint();
@@ -345,7 +353,7 @@ public class Gui extends JFrame {
 	}
 
 	public static void main(String[] args) throws IOException {
-		// 先 init player
+		// 先 init player 跟遊戲的所有數據
 		player = new Player();
 		try {
 			Player.readAllData();
@@ -358,9 +366,8 @@ public class Gui extends JFrame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// TODO: test
 	
-		// 開頭動畫
+		// 生成畫開頭動畫的畫布
 		c = new Canvas();
 		c.setBackground(Color.BLACK);
 		c.setFocusable(true);
@@ -383,9 +390,10 @@ public class Gui extends JFrame {
 		
 		main = new Gui("泰格達");
 		main.setVisible(true);
+		mContainer.validate();
 		mContainer.repaint();
-		// TODO: test
 
+		// 把畫布加進 JPanel 裡
 		p = new JPanel();
 		p.setLayout(new BorderLayout());
 		p.add(c);

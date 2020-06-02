@@ -9,7 +9,16 @@ import Basic.ResReader;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.*;
 import java.awt.*;
-
+   /** 
+     * 
+     * @author  Rorschach
+     * 
+     *  
+     * 畫市場，可以購買東西
+     *  
+     * 
+     **
+     */
 public class Market extends JPanel {
     JLabel moneyLabel;
 

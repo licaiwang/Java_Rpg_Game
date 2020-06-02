@@ -10,7 +10,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
+     /** 
+		* 
+		* @author  Rorschach
+		* 
+		* 生成管理紀錄寶具
+		* 
+		* 
+		**
+		*/
 public abstract class Item {
 
     String Name;
@@ -35,7 +43,7 @@ public abstract class Item {
         IsAttack = isattack;
         item.add(name);
     }
-
+    // 每個寶具的功能不同
     public abstract void ability();
 
     public static void readAllData() throws IOException {

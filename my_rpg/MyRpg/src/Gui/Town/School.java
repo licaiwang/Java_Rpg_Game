@@ -17,7 +17,16 @@ import java.util.Random;
 
 import net.miginfocom.swing.MigLayout;
 import java.awt.*;
-
+   /** 
+     * 
+     * @author  Rorschach
+     * 
+     *  
+     * 畫學校，可以抽取技能跟魔法
+     *  
+     * 
+     **
+     */
 public class School extends JPanel {
     static JLabel shardLabel;
     static JLabel cDLabel;

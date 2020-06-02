@@ -9,7 +9,15 @@ import java.util.List;
 import Basic.ResReader;
 import Gui.Town.Storage;
 import au.com.bytecode.opencsv.CSVReader;
-
+    /** 
+		* 
+		* @author  Rorschach
+		* 
+		* 生成管理紀錄魔法
+		* 
+		* 
+		**
+		*/
 public class MagicBase {
 
     public static List<String[]> Magic_list;

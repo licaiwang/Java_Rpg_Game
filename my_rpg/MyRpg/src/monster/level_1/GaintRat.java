@@ -1,7 +1,15 @@
 package monster.level_1;
 
 import monster.Monster;
-
+import phase.BattleTemp;
+/**
+ * 
+ * @author Rorschach
+ * 
+ * 生成巨鼠
+ * 
+ **
+ */
 public class GaintRat extends Monster 
 {
    
@@ -12,7 +20,7 @@ public class GaintRat extends Monster
         }
         public Integer Atkskill()
         {
-            return Monster.ATK;
+            return BattleTemp.M_ATK;
         }
     
 }

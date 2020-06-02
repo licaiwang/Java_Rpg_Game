@@ -8,12 +8,16 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.awt.Font;
 import Gui.Helper.FileReaderHelper;
+  /** 
+     * 
+     * @author  Rorschach
+     * 
+     * 底下提供文字訊息的地方
+     *  
+     **
+     */
 public class BottomPanel {
-	/*
 
-    底下顯示文字的地方
-    
-    */
     static JPanel bottomPanel;
     static JTextArea jTextArea;
     static JScrollPane jScrollPane;
@@ -21,10 +25,7 @@ public class BottomPanel {
   
     public BottomPanel() {
         super();
-        // buttom
-        
         bottomPanel = new JPanel();
-        // bottomPanel.setLayout(new FlowLayout(50, 50, 50));
         bottomPanel.setBackground(Color.BLACK);
         // init text on buttom
         jTextArea = new JTextArea();
@@ -36,6 +37,7 @@ public class BottomPanel {
     }
 
     public static void resetTextArea() {
+        //重設文字區域
         jTextArea.setFont(new Font("Serif", Font.PLAIN, 20));
         jTextArea.setBackground(Color.BLACK);
         jTextArea.setForeground(Color.WHITE);
@@ -49,6 +51,7 @@ public class BottomPanel {
 
 
     public static void readText(String name) {
+        // 讀取文本
         try {
             content = FileReaderHelper.readTextFromTxt(name);
 		} catch (IOException e) {

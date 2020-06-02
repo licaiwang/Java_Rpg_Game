@@ -5,14 +5,17 @@ import Gui.BottomPanel;
 import Gui.Advanture.BattleSidePanel;
 import monster.CreateMonster;
 import phase.BattleTemp;
-
+      /** 
+		* 
+		* @author  Rorschach
+		* 
+		* 寶具 - 真知晶球
+		* 
+		* 得知下回合受到的傷害情況
+		*  
+		**
+		*/
 public class AllSeeningEye extends Item {
-    /*
-     *
-     * 寶具 - 真知晶球
-     * 
-     * 
-    */
     public AllSeeningEye(String name, Integer id, String rarity, boolean isattack) {
         super(name, id, rarity, isattack);
     }

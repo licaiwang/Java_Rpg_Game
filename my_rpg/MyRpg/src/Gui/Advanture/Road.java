@@ -11,18 +11,20 @@ import Gui.Helper.MusicHelper;
 
 import java.awt.event.*;
 import java.util.Random;
-
-public class Road extends JPanel {
-    /*
-     *
-     * 這邊是做隨機選擇發生的是以及檢查劇情的地方
+  /** 
      * 
-     * 事件 - 30% 寶物 - 10% 怪物 - 60%
+     * @author  Rorschach
      * 
-     * 如果累積走了 100 步 - 抵達營火
-     *
+     *  這邊是做隨機選擇發生的是以及檢查劇情的地方
      * 
+     *  事件 - 30% 寶物 - 10% 怪物 - 60%
+     * 
+     *  如果累積走了 30 步 - 抵達營火
+     *  
+     **
      */
+public class Road extends JPanel {
+
     private static final long serialVersionUID = 1L;
     public static int totalStep = 0;
     public static boolean answered = false;
@@ -51,7 +53,7 @@ public class Road extends JPanel {
                     AdvantureBackground.showBoss();
                     return;
                 }
-                if(totalStep >= 50)
+                if(totalStep >= 30)
                 {    
                     BottomPanel.readText("CampFire");
                     BottomPanel.resetTextArea();

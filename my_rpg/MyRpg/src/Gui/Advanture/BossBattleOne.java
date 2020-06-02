@@ -20,7 +20,14 @@ import phase.BattleTemp;
 import java.awt.event.*;
 import java.util.Timer;
 import java.util.TimerTask;
-
+  /** 
+     * 
+     * @author  Rorschach
+     * 
+     * Boss 戰的面板
+     *  
+     **
+     */
 public class BossBattleOne extends JPanel {
 
     private static final long serialVersionUID = 1L;

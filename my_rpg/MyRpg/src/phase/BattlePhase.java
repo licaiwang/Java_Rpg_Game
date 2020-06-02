@@ -14,6 +14,16 @@ import Skill.BattleSkillBase;
 import monster.CreateMonster;
 import monster.Boss.Boss_1;
 
+
+/**
+ * 
+ * @author Rorschach
+ * 
+ * 戰鬥階段的實際傷害運算方法
+ * 
+ **
+ */
+
 public class BattlePhase {
     public static Integer to_M_damage = -1;
 

@@ -11,13 +11,15 @@ import Basic.ResReader;
 import net.miginfocom.swing.MigLayout;
 import java.awt.event.*;
 import java.awt.*;
-
+  /** 
+     * 
+     * @author  Rorschach
+     * 
+     * 進入旅行後旁邊的面板
+     *  
+     **
+     */
 public class BattleSidePanel extends JPanel {
-	/*
-	 * 
-	 * 進入旅行後旁邊的面板
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	public static JPanel sidePanel;
 	public static JLabel travelPointLabel;

@@ -15,15 +15,18 @@ import Gui.Helper.MusicHelper;
 import monster.Monster;
 import phase.BattlePhase;
 import phase.BattleTemp;
-
+      /** 
+		* 
+		* @author  Rorschach
+		* 
+		* 寶具 - 死告天使
+		* 
+		* 有機率讓敵人即死
+		*  
+		**
+		*/
 public class DeathAngle extends Item {
 
-    /*
-     *
-     * 寶具 - 死告天使
-     * 
-     * 
-    */
     public DeathAngle(String name, Integer id, String rarity, boolean isattack) {
         super(name, id, rarity, isattack);
     }

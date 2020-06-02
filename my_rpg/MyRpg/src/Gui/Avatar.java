@@ -5,7 +5,14 @@ import javax.swing.*;
 import Basic.ResReader;
 
 import java.awt.*;
-
+  /** 
+     * 
+     * @author  Rorschach
+     * 
+     * 畫腳色頭像
+     *  
+     **
+     */
 public class Avatar extends JPanel {
 
     private static final long serialVersionUID = 1L;

@@ -9,7 +9,14 @@ import Gui.Helper.CreateButton;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-
+    /** 
+     * 
+     * @author  Rorschach
+     * 
+     * 暫時用來顯示 DEMO　結束，請期待下次更新
+     *  
+     **
+     */
 public class End extends JPanel {
         private static final long serialVersionUID = 1L;
         JButton btn_move;

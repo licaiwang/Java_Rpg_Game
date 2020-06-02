@@ -3,6 +3,14 @@ package monster;
 import Basic.Power;
 import java.util.Random;
 
+/**
+ * 
+ * @author Rorschach
+ * 
+ * 怪物的基本資訊與生成方法
+ * 
+ **
+ */
 public class Monster extends Power {
     public static Integer HP;
     public static Integer ATK;
@@ -15,8 +23,6 @@ public class Monster extends Power {
     public static Integer COIN;
     public static Integer EXP;
     public static Integer LEVEL;
-
-
     public Monster(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp)
     {
         // 這個是拿來建 Boss 的，數據是固定的
@@ -32,8 +38,11 @@ public class Monster extends Power {
         EXP = exp; 
     }
 
+
+
     public Monster(int hp, int atk, int def, int sp_atk, int sp_def, int speed, int luck, int mp, int coin, int exp,
             int level, int rarity) {
+        // 這個是拿來建 一般的怪物，數據是根據稀有度宇等級雜湊的
         Random r = new Random();
         LEVEL = r.nextInt(level);
         COIN = ((r.nextInt(10) + 2*LEVEL) * (1 + (rarity / 10)));
@@ -50,6 +59,8 @@ public class Monster extends Power {
 
 
     public static Integer DropCoin(Integer level) {
+        //TODO：看能不能擴充成計算掉落物
+        //另外一種計算掉落錢的方法
         Random r = new Random();
         if (level < 5) {
             Integer money = r.nextInt(10);

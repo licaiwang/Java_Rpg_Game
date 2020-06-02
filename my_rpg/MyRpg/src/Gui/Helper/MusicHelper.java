@@ -14,7 +14,16 @@ import Basic.ResReader;
 import java.io.File;
 import java.io.IOException;
 
-
+   /** 
+     * 
+     * @author  Rorschach
+     * 
+     *  
+     * 處理各種音效，播放以及控制背景音樂
+     *  
+     * 
+     **
+     */
 
 public class MusicHelper extends Thread {
     private String effect;

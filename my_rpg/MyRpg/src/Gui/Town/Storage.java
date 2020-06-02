@@ -15,7 +15,16 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+   /** 
+     * 
+     * @author  Rorschach
+     * 
+     *  
+     * 裝備你的技能魔法寶具
+     *  
+     * 
+     **
+     */
 public class Storage extends JPanel {
 
     private static final long serialVersionUID = 1L;

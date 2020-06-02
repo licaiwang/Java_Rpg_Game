@@ -6,15 +6,18 @@ import java.util.Random;
 import Basic.Player;
 import monster.Monster;
 import monster.Boss.Boss_1;
-
+/**
+ * 
+ * @author Rorschach
+ * 
+ * 存旅行時戰鬥的臨時數據，除了 玩家的 HP 以外其他數值每次進入戰鬥皆會刷新
+ * 
+ **
+ */
 public class BattleTemp extends Player {
     public BattleTemp() throws IOException {
         super();
     }
-    /*
-     * 存旅行時戰鬥的數據，除了 HP 以外其他數值每次進入戰鬥皆會刷新
-     */
-
     public static Integer ATK;
     public static Integer DEF;
     public static Integer SP_ATK;
