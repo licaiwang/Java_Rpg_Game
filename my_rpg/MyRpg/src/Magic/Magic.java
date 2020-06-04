@@ -38,11 +38,15 @@ public class Magic {
                 return peaceWalk();
             case 8:
                 return armorExplode();
+            case 9:
+                return speedEnhance();
         }
         return 0;
     }
 
     // TODO: 實作更多魔法
+
+ 
 
     public static int UnCommonMagic(Integer integer) {
         return 20;
@@ -50,6 +54,17 @@ public class Magic {
 
     public static int MasterMagic(Integer integer) {
         return 50;
+    }
+    private static int speedEnhance() {
+        if (checkMp(7)) {
+            MagicBase.IsDamage = false;
+            MagicBase.IsEnhance = true;
+            Thread playMusic = new MusicHelper("/magic/psy_up.wav");
+            playMusic.start();
+            BattleTemp.M_SPEED += 15;
+            BattleTemp.startCounter("speed", 3);
+        }
+        return 0;
     }
 
     private static int armorExplode() {
@@ -79,7 +94,7 @@ public class Magic {
             Thread playMusic = new MusicHelper("/magic/lightning.wav");
             playMusic.start();
             BattleTemp.M_SP_DEF -= 3;
-            return Player.SP_ATK;
+            return Player.SP_ATK - BattleTemp.M_SP_DEF;
         }
         return 0;
     }
@@ -117,8 +132,12 @@ public class Magic {
         MagicBase.IsEnhance = true;
         Thread playMusic = new MusicHelper("/magic/fireball.wav");
         playMusic.start();
-        Player.Max_HP -= 2;
-        Player.HP = Player.Max_HP;
+        Player.Max_HP -= 7;
+        if(Player.HP > Player.Max_HP)
+        {
+            Player.HP = Player.Max_HP;
+        }
+ 
         BattleSidePanel.resetHp();
         BattleTemp.startCounter("atk", 2);
         BattleTemp.ATK = (int) (BattleTemp.ATK * 1.5);

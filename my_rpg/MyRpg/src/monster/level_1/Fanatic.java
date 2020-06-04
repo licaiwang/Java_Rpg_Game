@@ -2,6 +2,7 @@ package monster.level_1;
 
 import java.util.Random;
 
+import Gui.Helper.MusicHelper;
 import monster.Monster;
 import phase.BattleTemp;
 
@@ -30,6 +31,8 @@ public class Fanatic extends Monster {
             case 1:
                 return BattleTemp.M_SP_ATK;              
             default:
+                Thread playMusic = new MusicHelper("/monster/roar.wav");
+                playMusic.start();
                BattleTemp.M_LUCK += 10;
                return BattleTemp.M_ATK;  
         }

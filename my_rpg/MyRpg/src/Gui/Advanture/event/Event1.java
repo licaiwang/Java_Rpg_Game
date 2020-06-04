@@ -116,7 +116,7 @@ public class Event1 extends JPanel {
          * 3 - 遇見山中老人 - 10%
          * 
          */
-        Integer[] rad = { 1, 1, 1, 1, 1, 3, 3, 3, 3, 3 };
+        Integer[] rad = { 1, 1, 1, 1,1, 2, 2, 2, 2, 3 };
         Random r = new Random();
         int index = r.nextInt(10);
         return rad[index];

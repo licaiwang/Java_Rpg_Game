@@ -163,12 +163,12 @@ public class BattleSidePanel extends JPanel {
 
 	public static void setBackButtonEnable()
 	{
-		btn_4.setEnabled(false);
+		btn_4.setEnabled(false);	
 	}
 
 	public static void setBackButtonAble()
 	{
-		btn_4.setEnabled(false);
+		btn_4.setEnabled(true);
 	}
 
 	@Override

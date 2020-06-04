@@ -27,15 +27,15 @@ import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 
-  /** 
-     * 
-     * @author  Rorschach
-     * 
-     *   發生戰鬥時的畫面
-     * 
-     *  
-     **
-     */
+/**
+ * 
+ * @author Rorschach
+ * 
+ *         發生戰鬥時的畫面
+ * 
+ * 
+ **
+ */
 
 public class Battle extends JPanel {
 
@@ -63,7 +63,7 @@ public class Battle extends JPanel {
     public static Boolean isActivate = false;
     public static Integer id;
     public static Integer drawPlayerType = 0;
-
+    public static Boolean isBattleOver = false;
     public Battle() {
         super();
 
@@ -85,8 +85,8 @@ public class Battle extends JPanel {
         drawPlayer.add(Box.createRigidArea(new Dimension(0, 200)));
 
         CreateMonster.createLevelOne(monster_list.get(0));
-
         BattleTemp.init(false);
+
         box = new JPanel();
         gridPanel = new JPanel();
         initButton();
@@ -125,8 +125,11 @@ public class Battle extends JPanel {
     static void magicPhase(int type, int id, int damage) {
         drawPlayerType = 1;
         if (MagicBase.IsDamage) {
-            drawMagicEffect(type, id);
-            BattlePhase.playerCastMagic(damage);
+            if(damage > 0)
+            {
+                drawMagicEffect(type, id);
+                BattlePhase.playerCastMagic(damage);
+            }
         } else if (MagicBase.IsEnhance) {
             drawPlayerEffect(type, id);
             BattlePhase.playerCastMagic(damage);
@@ -135,38 +138,29 @@ public class Battle extends JPanel {
 
     static void doBattle(int id) {
         int damage = BattleSkillBase.getSkill(id - 1);
+        // 每一秒檢查一次你是否還在攻擊狀態，如果是則繼續攻擊，否則結束這個 Timer
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                if (BattleSkillBase.Strik > 0) {
-                    makeButtonEnable();
+                if (BattleSkillBase.Strik > 0 ) {
                     BattleSkillBase.Strik -= 1;
-                    normalPhase(0, id, damage);
-                    if (!damageCountPhase()) {
-                        timer.cancel();
-                        Timer timer_M = new Timer();
-                        timer_M.schedule(new TimerTask() {
-                            public void run() {
-                                makeButtonable();
-                                monsterPhase();
-                            }
-                        }, 1000);
-                    }
-                } else {
-                    normalPhase(0, id, damage);
+                    normalPhase(0, id, damage);   
+                    damageCountPhase();
+                } else if (BattleSkillBase.Strik == 0) {
+                    normalPhase(0, id, damage);                     
                     damageCountPhase();
                     monsterPhase();
                     timer.cancel();
                 }
             }
         }, 10, 1000);
-
     }
 
     static void castMagic(int id) {
         int damage = MagicBase.getMagic(id - 1);
         magicPhase(1, id, damage);
         damageCountPhase();
+        monsterPhase();
     }
 
     static void monsterPhase() {
@@ -183,6 +177,7 @@ public class Battle extends JPanel {
 
         switch (BattlePhase.checkMonsterDeadOPlayer()) {
             case 0:
+                isBattleOver = true;
                 drawBlood();
                 Player.EXP -= Monster.EXP;
                 Player.COIN += Monster.DropCoin(Monster.LEVEL);
@@ -203,15 +198,16 @@ public class Battle extends JPanel {
                             DrawBlood.isBattle = false;
                         }
                     }
-                }, 3000);
+                }, 3500);
                 return false;
             case 1:
+                isBattleOver = true;
                 DrawBlood.isBattle = false;
                 return false;
             default:
+                isBattleOver = false;
+                //計算傷害後如果你還活著就換敵人攻擊()
                 drawBlood();
-                initButton();
-                monsterPhase();
                 playerPause();
                 return true;
         }
@@ -222,7 +218,6 @@ public class Battle extends JPanel {
         btn_2.setEnabled(false);
         btn_3.setEnabled(false);
         btn_4.setEnabled(false);
-        BattleSidePanel.btn_4.setEnabled(false);
     }
 
     public static void makeButtonable() {
@@ -230,7 +225,6 @@ public class Battle extends JPanel {
         btn_2.setEnabled(true);
         btn_3.setEnabled(true);
         btn_4.setEnabled(true);
-        BattleSidePanel.btn_4.setEnabled(true);
     }
 
     public static void drawBlood() {
@@ -244,13 +238,16 @@ public class Battle extends JPanel {
     }
 
     public static void playerPause() {
-        makeButtonEnable();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
-            public void run() {
-                makeButtonable();
+            public void run() {  
+                if(!isBattleOver)
+                {
+                    initButton();
+                    makeButtonable();  
+                }              
             }
-        }, 3000);
+        }, 1000);
     }
 
     public static void drawSkillEffect(int type, int id) {
@@ -285,7 +282,7 @@ public class Battle extends JPanel {
 
     public static void drawPlayerEffect(int type, int id) {
         String name;
-        if (id == 0) {
+        if (type == 0) {
             name = String.valueOf(BattleSkillBase.in_use_skill[id - 1]);
         } else {
             name = String.valueOf(MagicBase.in_use_magic[id - 1]);
@@ -303,7 +300,7 @@ public class Battle extends JPanel {
                 drawPlayer.validate();
                 drawPlayer.repaint();
             }
-        }, 550);
+        }, 500);
     }
 
     static void buttonCommonSetting() {
@@ -344,28 +341,28 @@ public class Battle extends JPanel {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         doBattle(1);
-                        playerPause();
+                        makeButtonEnable();
                     }
                 });
                 btn_2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         doBattle(2);
-                        playerPause();
+                        makeButtonEnable();
                     }
                 });
                 btn_3.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         doBattle(3);
-                        playerPause();
+                        makeButtonEnable();
                     }
                 });
                 btn_4.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         doBattle(4);
-                        playerPause();
+                        makeButtonEnable();
                     }
                 });
             }
@@ -381,7 +378,7 @@ public class Battle extends JPanel {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         castMagic(1);
-                        playerPause();
+                        makeButtonEnable();
                     }
 
                 });
@@ -389,21 +386,21 @@ public class Battle extends JPanel {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         castMagic(2);
-                        playerPause();
+                        makeButtonEnable();
                     }
                 });
                 btn_3.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         castMagic(3);
-                        playerPause();
+                        makeButtonEnable();
                     }
                 });
                 btn_4.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         castMagic(4);
-                        playerPause();
+                        makeButtonEnable();
                     }
                 });
             }

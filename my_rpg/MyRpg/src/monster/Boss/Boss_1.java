@@ -87,6 +87,10 @@ public class Boss_1 extends Monster {
         if(BattleTemp.M_HP < 150)
         {
             BattleTemp.M_HP += 15;
+            if(BattleTemp.M_HP > 150)
+            {
+                BattleTemp.M_HP  = 150;
+            }
         }   
         BattleTemp.ATK += 5;
         BottomPanel.content = ("不死隊的身上出現了紅色的火焰！");

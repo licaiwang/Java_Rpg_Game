@@ -39,7 +39,7 @@ public class BattleTemp extends Player {
     public static Integer M_COIN;
     public static Integer M_EXP;
     public static Integer M_LEVEL;
-    public static int piceHp;
+    public static int piceHp = 0;
     public static Integer[] Temp_P;
     public static Boolean M_isStrike;
 

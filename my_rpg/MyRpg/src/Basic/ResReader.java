@@ -40,15 +40,15 @@ public class ResReader {
     public static final Image event1_1 = new ImageIcon(
             Event1.class.getClassLoader().getResource(DEFAULT_PATH + "event/event1_1.jpg")).getImage();
     public static final Image event1_1_1 = new ImageIcon(
-            Event1.class.getClassLoader().getResource(DEFAULT_PATH + "event/event1_2.jpg")).getImage();
+            Event1.class.getClassLoader().getResource(DEFAULT_PATH + "event/event1_1_1.jpg")).getImage();
     public static final Image event1_1_2 = new ImageIcon(
-            Event1.class.getClassLoader().getResource(DEFAULT_PATH + "event/event1_3.jpg")).getImage();
+            Event1.class.getClassLoader().getResource(DEFAULT_PATH + "event/event1_1_2.jpg")).getImage();
     public static final Image event1_1_3 = new ImageIcon(
-            Event1.class.getClassLoader().getResource(DEFAULT_PATH + "event/event1_1.jpg")).getImage();
+            Event1.class.getClassLoader().getResource(DEFAULT_PATH + "event/event1_1_3.jpg")).getImage();
     public static final Image event1_1_2_1 = new ImageIcon(
-            Event1.class.getClassLoader().getResource(DEFAULT_PATH + "event/event1_2_1.jpg")).getImage();
+            Event1.class.getClassLoader().getResource(DEFAULT_PATH + "event/event1_1_2_1.jpg")).getImage();
     public static final Image event1_1_2_2 = new ImageIcon(
-            Event1.class.getClassLoader().getResource(DEFAULT_PATH + "event/event1_2_2.jpg")).getImage();
+            Event1.class.getClassLoader().getResource(DEFAULT_PATH + "event/event1_1_2_2.jpg")).getImage();
     // event 2
     public static final Image event1_2 = new ImageIcon(
             Event2.class.getClassLoader().getResource(DEFAULT_PATH + "event/event1_2.jpg")).getImage();
@@ -95,6 +95,9 @@ public class ResReader {
     public static final Image compass = new ImageIcon(
             BackTown.class.getClassLoader().getResource(DEFAULT_PATH + "back.jpg")).getImage();
 
+    // Open
+    public static final Image open = new ImageIcon(loader.getResource("res/open.jpg")).getImage();
+    public static final Image notice = new ImageIcon(loader.getResource("res/notice.gif")).getImage();
     // First Town
     public static final Image firstTown = new ImageIcon(loader.getResource("res/first_town.jpg")).getImage();
     // Inn
@@ -132,10 +135,11 @@ public class ResReader {
             .getImage();
 
     // Boss_1
-    public static final Image boss_init = new ImageIcon(Boss_1.class.getClassLoader().getResource(DEFAULT_PATH + "boss/init.gif")).getImage();
-    public static final Image boss_1_background = new ImageIcon(
-            Boss_1.class.getClassLoader().getResource(DEFAULT_PATH + "boss/boss_1_background.jpg")).getImage();
 
+    public static final Image boss_init = new ImageIcon(Boss_1.class.getClassLoader().getResource(DEFAULT_PATH + "boss/init.gif")).getImage();
+    public static final Image boss_1_background = new ImageIcon(Boss_1.class.getClassLoader().getResource(DEFAULT_PATH + "boss/boss_1_background.jpg")).getImage();
+  
+            
 
     public static String getCurrentDirectory() {
         // 取得當前目錄

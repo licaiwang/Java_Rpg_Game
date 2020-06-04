@@ -20,14 +20,15 @@ import phase.BattleTemp;
 import java.awt.event.*;
 import java.util.Timer;
 import java.util.TimerTask;
-  /** 
-     * 
-     * @author  Rorschach
-     * 
-     * Boss 戰的面板
-     *  
-     **
-     */
+
+/**
+ * 
+ * @author Rorschach
+ * 
+ *         Boss 戰的面板
+ * 
+ **
+ */
 public class BossBattleOne extends JPanel {
 
     private static final long serialVersionUID = 1L;
@@ -51,10 +52,12 @@ public class BossBattleOne extends JPanel {
     public static Integer id;
     public static Integer y_bias = 0;
     public static Integer drawPlayerType = 0;
+    public static Boolean isBattleOver = false;
+
     public BossBattleOne() {
-        super();  
+        super();
         MusicHelper.stopBackgroundMusic();
-        MusicHelper.playBackgroundMusic("bossBattle"); 
+        MusicHelper.playBackgroundMusic("bossBattle");
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
@@ -62,11 +65,11 @@ public class BossBattleOne extends JPanel {
                 timer.cancel();
                 init();
             }
-        }, 8500); 
+        }, 8500);
     }
 
     void init() {
-        drawBoss = new DrawBoss("UndeadLengend");
+        drawBoss = new DrawBoss();
         drawBoss.setOpaque(false);
         drawBoss.validate();
         DrawBoss.monsterPanel.repaint();
@@ -109,8 +112,10 @@ public class BossBattleOne extends JPanel {
     static void magicPhase(int type, int id, int damage) {
         drawPlayerType = 1;
         if (MagicBase.IsDamage) {
-            drawMagicEffect(type, id);
-            BattlePhase.playerCastMagic(damage);
+            if (damage > 0) {
+                drawMagicEffect(type, id);
+                BattlePhase.playerCastMagic(damage);
+            }
         } else if (MagicBase.IsEnhance) {
             drawPlayerEffect(type, id);
             BattlePhase.playerCastMagic(damage);
@@ -119,23 +124,28 @@ public class BossBattleOne extends JPanel {
 
     static void castMagic(int id) {
         int damage = MagicBase.getMagic(id - 1);
-        magicPhase(0, id, damage);
+        magicPhase(1, id, damage);
         damageCountPhase();
         BossPhase();
     }
 
     static void BossPhase() {
-        drawPlayerType = 4;
-        BattlePhase.BossTurn();
-        if(Boss_1.isAttack)
-        {
-            drawBossToPlayerEffect(4,Boss_1.skillId);
-        }else{
-            drawBossSkillEffect(4, Boss_1.skillId);
-        }
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                drawPlayerType = 4;
+                BattlePhase.BossTurn();
+                if (Boss_1.isAttack) {
+                    drawBossToPlayerEffect(4, Boss_1.skillId);
+                } else {
+                    drawBossSkillEffect(4, Boss_1.skillId);
+                }
+
+            }
+        }, 1000);
+
     }
-
-
 
     static void doBattle(int id) {
         int damage = BattleSkillBase.getSkill(id - 1);
@@ -143,47 +153,29 @@ public class BossBattleOne extends JPanel {
         timer.schedule(new TimerTask() {
             public void run() {
                 if (BattleSkillBase.Strik > 0) {
-                    makeButtonEnable();
                     BattleSkillBase.Strik -= 1;
                     normalPhase(0, id, damage);
-                    if (!damageCountPhase()) {         
-                        Timer timer_M = new Timer();
-                        timer_M.schedule(new TimerTask() {
-                            public void run() {
-                                makeButtonable();
-                                Timer timer_B = new Timer();
-                                timer_B.schedule(new TimerTask() {
-                                    public void run() {
-                                        BossPhase();
-                                    }},1000);
-                            }
-                        }, 1000);
-                    }
-                } else {
+                    damageCountPhase();
+                } else if (BattleSkillBase.Strik == 0) {
                     normalPhase(0, id, damage);
                     damageCountPhase();
-                    Timer timer_B = new Timer();
-                    timer_B.schedule(new TimerTask() {
-                        public void run() {
-                            BossPhase();
-                        }},1000);
+                    BossPhase();
                     timer.cancel();
                 }
             }
         }, 10, 1000);
-
     }
 
     public static boolean damageCountPhase() {
         switch (BattlePhase.checkMonsterDeadOPlayer()) {
             case 0:
-                makeButtonEnable();
+                isBattleOver = true;
                 Boss_1.isdead = true;
                 MusicHelper.stopBackgroundMusic();
                 Thread dead = new MusicHelper("boss/defeat.wav");
                 dead.start();
                 Player.EXP -= BattleTemp.M_EXP;
-                Player.COIN +=  BattleTemp.M_COIN;
+                Player.COIN += BattleTemp.M_COIN;
                 BattleSidePanel.ExpLabel.setText("下一級：" + Player.EXP);
                 BattleSidePanel.coinLabel.setText("金幣：" + Player.COIN);
                 if (BattleTemp.isUpgrade()) {
@@ -201,9 +193,10 @@ public class BossBattleOne extends JPanel {
                 }, 15000);
                 return false;
             case 1:
+                isBattleOver = true;
                 return false;
             default:
-                initButton();
+                isBattleOver = false;
                 playerPause();
                 return true;
         }
@@ -214,7 +207,6 @@ public class BossBattleOne extends JPanel {
         btn_2.setEnabled(false);
         btn_3.setEnabled(false);
         btn_4.setEnabled(false);
-        BattleSidePanel.btn_4.setEnabled(false);
     }
 
     public static void makeButtonable() {
@@ -222,7 +214,6 @@ public class BossBattleOne extends JPanel {
         btn_2.setEnabled(true);
         btn_3.setEnabled(true);
         btn_4.setEnabled(true);
-        BattleSidePanel.btn_4.setEnabled(true);
     }
 
     public static void playerPause() {
@@ -230,18 +221,21 @@ public class BossBattleOne extends JPanel {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                if(!Boss_1.isdead)
-                {
+                if (!isBattleOver) {
+                    initButton();
                     makeButtonable();
+                }
+                if (!Boss_1.isdead) {
                     Boss_1.isAttack = false;
                     y_bias = 0;
-                }         
+                }
             }
         }, 2000);
     }
 
-    public static  void drawSkillEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(BattleSkillBase.in_use_skill[id-1]), 0,800,500);
+    public static void drawSkillEffect(int type, int id) {
+        DrawSpecialEffect effect = new DrawSpecialEffect(
+                String.valueOf(type) + "_" + String.valueOf(BattleSkillBase.in_use_skill[id - 1]), 0, 800, 500);
         DrawBoss.monsterPanel.add(effect);
         effect.setOpaque(false);
         DrawBoss.monsterPanel.validate();
@@ -249,15 +243,16 @@ public class BossBattleOne extends JPanel {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             public void run() {
-                DrawBoss.monsterPanel.remove(effect);    
+                DrawBoss.monsterPanel.remove(effect);
                 DrawBoss.monsterPanel.validate();
-                DrawBoss.monsterPanel.repaint();  
+                DrawBoss.monsterPanel.repaint();
             }
         }, 250);
     }
 
-    public static  void drawMagicEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(MagicBase.in_use_magic[id-1]), 1,800,500);
+    public static void drawMagicEffect(int type, int id) {
+        DrawSpecialEffect effect = new DrawSpecialEffect(
+                String.valueOf(type) + "_" + String.valueOf(MagicBase.in_use_magic[id - 1]), 1, 800, 500);
         DrawBoss.monsterPanel.add(effect);
         effect.setOpaque(false);
         DrawBoss.monsterPanel.validate();
@@ -274,14 +269,12 @@ public class BossBattleOne extends JPanel {
 
     public static void drawPlayerEffect(int type, int id) {
         String name;
-        if(id == 0 )
-        {
-            name = String.valueOf(BattleSkillBase.in_use_skill[id-1]);
-        }else{
-            name = String.valueOf(MagicBase.in_use_magic[id-1]);
+        if (type == 0) {
+            name = String.valueOf(BattleSkillBase.in_use_skill[id - 1]);
+        } else {
+            name = String.valueOf(MagicBase.in_use_magic[id - 1]);
         }
-
-        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" +name,drawPlayerType);
+        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + name, drawPlayerType);
         effect2.setOpaque(false);
         drawPlayer.add(effect2);
         drawPlayer.validate();
@@ -296,9 +289,8 @@ public class BossBattleOne extends JPanel {
         }, 1000);
     }
 
-
-    public static  void drawBossSkillEffect(int type, int id) {
-        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id), 4,800,500);
+    public static void drawBossSkillEffect(int type, int id) {
+        DrawSpecialEffect effect = new DrawSpecialEffect(String.valueOf(type) + "_" + String.valueOf(id), 4, 800, 500);
         DrawBoss.monsterPanel.add(effect);
         effect.setOpaque(false);
         DrawBoss.monsterPanel.validate();
@@ -313,11 +305,8 @@ public class BossBattleOne extends JPanel {
         }, 2000);
     }
 
-    
-
-
     public static void drawBossToPlayerEffect(int type, int id) {
-        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + String.valueOf(id),4);
+        DrawPlayerUP effect2 = new DrawPlayerUP(String.valueOf(type) + "_" + String.valueOf(id), 4);
         effect2.setOpaque(false);
         drawPlayer.add(effect2);
         drawPlayer.validate();
@@ -331,8 +320,6 @@ public class BossBattleOne extends JPanel {
             }
         }, 1000);
     }
-
-
 
     static void buttonCommonSetting() {
         btn_1.setMargin(new Insets(10, 10, 10, 10));
@@ -467,6 +454,7 @@ public class BossBattleOne extends JPanel {
         gridPanel.repaint();
         gridPanel.setFocusable(true);
     }
+
     public static void setGridPanel(boolean isVisible) {
         if (isVisible) {
             gridPanel.setVisible(true);
@@ -474,7 +462,6 @@ public class BossBattleOne extends JPanel {
             gridPanel.setVisible(false);
         }
     }
-
 
     protected static void choseResult(int opt) {
         Thread playMusic = new MusicHelper("potion.wav");
@@ -526,35 +513,24 @@ public class BossBattleOne extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawBattleBase(g);
-        if (Battle.isActivate) {
-            drawItem(g, Battle.id);
-        }
     }
 
     public void drawBattleBase(Graphics g) {
-        if(isInit)
-        {
+        if (isInit) {
             g.drawImage(ResReader.boss_init, 0, 0, getWidth(), getHeight(), this);
-        }else{
-            if(Boss_1.isAttack)
-            {
-                if( y_bias == 20)
-                {
-                    y_bias --;
+        } else {
+            if (Boss_1.isAttack) {
+                if (y_bias == 20) {
+                    y_bias--;
                 }
-                if( y_bias < 20)
-                {
-                    y_bias ++;
+                if (y_bias < 20) {
+                    y_bias++;
                 }
-                g.drawImage(ResReader.boss_1_background, 0, 0, (getWidth()) ,(getHeight()+(y_bias)), this);
-            }else{
+                g.drawImage(ResReader.boss_1_background, 0, 0, (getWidth()), (getHeight() + (y_bias)), this);
+            } else {
                 g.drawImage(ResReader.boss_1_background, 0, 0, getWidth(), getHeight(), this);
-            } 
-        }    
+            }
+        }
     }
 
-    public void drawItem(Graphics g, int id) {
-        Image image = new ImageIcon(ResReader.loader.getResource("res/item/" + id + ".gif")).getImage();
-        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
-    }
 }

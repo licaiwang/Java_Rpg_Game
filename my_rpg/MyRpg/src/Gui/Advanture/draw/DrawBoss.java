@@ -1,5 +1,6 @@
 package Gui.Advanture.draw;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import Basic.ResReader;
@@ -7,7 +8,6 @@ import monster.Boss.Boss_1;
 
 import phase.BattleTemp;
 
-import javax.swing.*;
 import java.awt.*;
 
     /**
@@ -20,18 +20,13 @@ import java.awt.*;
      **
      */
 public class DrawBoss extends JPanel {
-
-    String bossname;
     int y = 400;
     int x = 0;
-    public Image image;
-    public static JPanel monsterPanel;
+    public static JPanel monsterPanel; 
 
-    public DrawBoss(String name) {
+    public DrawBoss() {
         super();
-        bossname = name;
-    image = new ImageIcon(ResReader.loader.getResource("res/battlePanel/boss/"+ bossname +".png")).getImage();
-        //image = new ImageIcon(ResReader.path +"res/battlePanel/boss/b_1.png").getImage();
+       
         monsterPanel= new JPanel();
         monsterPanel.setPreferredSize(new Dimension(800,500));
         monsterPanel.setOpaque(false);
@@ -65,14 +60,14 @@ public class DrawBoss extends JPanel {
                 y --; 
             }
             drawSecondBoss(g);
-            drawBlood(g);
         }
     }
     
     private void drawSecondBoss(Graphics g) {
-        Image secondBoss = new ImageIcon(ResReader.loader.getResource("res/battlePanel/boss/b_1.png")).getImage();
-        Image thirdBoss = new ImageIcon(ResReader.loader.getResource("res/battlePanel/boss/b_2.png")).getImage();
-        Image fire = new ImageIcon(ResReader.loader.getResource("res/battlePanel/boss/4_3.gif")).getImage();
+
+        Image secondBoss = new ImageIcon(ResReader.Current_Dic + ("/res/boss/b_1.png")).getImage();
+        Image thirdBoss = new ImageIcon(ResReader.Current_Dic + ("/res/boss/b_2.png")).getImage();
+        Image fire = new ImageIcon(ResReader.Current_Dic + ("/res/boss/4_3.gif")).getImage();
         g.drawImage(secondBoss, 150,y,180,220, this);
         g.drawImage(fire,100, 150 , 300, getHeight()/2, this);
         g.drawImage(thirdBoss, 600,y,180,220, this);
@@ -81,11 +76,13 @@ public class DrawBoss extends JPanel {
 
     protected void drawBoss(Graphics g)
     {
-        g.drawImage(image,360,0,247,419, this);
+        Image boss_1 = new ImageIcon(ResReader.Current_Dic+("/res/boss/boss_1.png")).getImage();
+        g.drawImage(boss_1,360,0,247,419, this);
     }
     protected void drawBossdead(Graphics g)
     {
-        g.drawImage(image,360,y-160,247,419, this);
+        Image boss_1 = new ImageIcon(ResReader.Current_Dic+("/res/boss/boss_1.png")).getImage();
+        g.drawImage(boss_1,360,y-160,247,419, this);
     }
 
     private void drawBlood(Graphics g) {
@@ -95,7 +92,7 @@ public class DrawBoss extends JPanel {
         g.setColor(Color.BLACK);  
         g.drawRect(300,450,500,10);  
         g.setColor(Color.RED);  
-        double hp = 500 * ((double)BattleTemp.M_HP/(100));
+        double hp = 500 * ((double)BattleTemp.M_HP/(150));
         g.fillRect(300,450, (int) Math.round(hp), 10);
     }
 

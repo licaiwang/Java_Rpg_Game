@@ -150,7 +150,6 @@ public class Puzzle extends JPanel {
             playMusic.start();
 
             Timer timer = new Timer();
-       
             timer.schedule(new TimerTask() {
                 public void run() {
                     AdvantureBackground.showBoss();

@@ -48,19 +48,13 @@ public class Road extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 totalStep += 1 ;
-                if(AdvantureBackground.isBoss)
-                {
-                    AdvantureBackground.showBoss();
-                    return;
-                }
-                if(totalStep >= 30)
+                if(totalStep > 7)
                 {    
                     BottomPanel.readText("CampFire");
                     BottomPanel.resetTextArea();
                     AdvantureBackground.showCampFire();
-                    return;
                 }
-                if (Player.TP > 1) {
+                else if (Player.TP > 1 ) {
                     Thread playMusic = new MusicHelper("player/step.wav");
                     playMusic.start();
                     Player.TP -= 1;
@@ -83,7 +77,8 @@ public class Road extends JPanel {
         * 5      - 怪獸
         *
         */
-        Integer[] rad = {1,2,3,4,5,5,5,5,5,5};       
+        Integer[] rad = {1,2,3,4,5,5,5,5,5,5};  
+        //Integer[] rad = {1,1,1,1,1,1,5,5,5,5,5};        
         Random r = new Random();
         int index = r.nextInt(10);
         return rad[index];

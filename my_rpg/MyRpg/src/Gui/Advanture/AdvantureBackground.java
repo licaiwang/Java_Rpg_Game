@@ -77,6 +77,7 @@ public class AdvantureBackground extends JPanel {
 	public static void showBoss() {
         // 打 Boss
         advPanel.removeAll();
+        BattleSidePanel.setBackButtonEnable();
         bossBattleOne = new BossBattleOne();
         advPanel.add(bossBattleOne);
         advPanel.validate();

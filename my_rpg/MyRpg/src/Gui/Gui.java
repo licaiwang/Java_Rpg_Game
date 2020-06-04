@@ -20,6 +20,7 @@ import Gui.Town.TownSidePanel;
 import Magic.MagicBase;
 import Skill.BattleSkillBase;
 import item.Item;
+import phase.BattlePhase;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -68,7 +69,7 @@ public class Gui extends JFrame {
 	static JPanel p;
 	static EmbeddedMediaPlayer emp;
 	static AudioInputStream audioIn;
-
+	static WelcomPage welcomPage;
 	public Gui(final String title) {
 		super(title);
 		this.setSize(1280, 840);
@@ -82,6 +83,7 @@ public class Gui extends JFrame {
 	}
 
 	static void init() {
+	
 		// Top
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(Color.black);
@@ -96,7 +98,6 @@ public class Gui extends JFrame {
 		market = new Market();
 		// bottom - init
 		bottomPanel = new BottomPanel();
-
 		// Setting
 		mainPage.setFocusable(true);
 		mainPage.setOpaque(true);
@@ -140,6 +141,7 @@ public class Gui extends JFrame {
 				BottomPanel.resetTextArea();
 				break;
 			case 6:
+				BattlePhase.to_M_damage = -1;
 				showTown();
 				BottomPanel.readText("FirstTown");
 				BottomPanel.resetTextArea();
@@ -352,22 +354,10 @@ public class Gui extends JFrame {
 		MusicHelper.playBackgroundMusic("firstTown");
 	}
 
-	public static void main(String[] args) throws IOException {
-		// 先 init player 跟遊戲的所有數據
-		player = new Player();
-		try {
-			Player.readAllData();
-			Item.readAllData();
-			BattleSkillBase.readAllData();
-			BattleSkillBase.initSkill();
-			MagicBase.readAllData();
-			MagicBase.initMagic();
+	static void createVideo()
+	{
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	
-		// 生成畫開頭動畫的畫布
+		MusicHelper.stopBackgroundMusic();
 		c = new Canvas();
 		c.setBackground(Color.BLACK);
 		c.setFocusable(true);
@@ -386,20 +376,59 @@ public class Gui extends JFrame {
 			public void keyReleased(KeyEvent e) {
 			}
 		});
-		
-		
-		main = new Gui("泰格達");
-		main.setVisible(true);
-		mContainer.validate();
-		mContainer.repaint();
-
 		// 把畫布加進 JPanel 裡
 		p = new JPanel();
 		p.setLayout(new BorderLayout());
 		p.add(c);
+		main.remove(welcomPage);
 		main.add(p);
+		main.validate();
+		main.repaint();
 		playVideo();
-		
 	}
 
+	public static void main(String[] args) throws IOException {
+		// 先 init player 跟遊戲的所有數據
+		player = new Player();
+		try {
+			Player.readAllData();
+			Item.readAllData();
+			BattleSkillBase.readAllData();
+			BattleSkillBase.initSkill();
+			MagicBase.readAllData();
+			MagicBase.initMagic();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+		// 生成畫開頭動畫的畫布
+	
+		main = new Gui("泰格達");
+		main.setVisible(true);
+		MusicHelper.playBackgroundMusic("menu");
+		welcomPage =  new WelcomPage();
+		main.add(welcomPage);
+		main.setFocusable(true);
+		main.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()== KeyEvent.VK_ENTER)
+				{
+					createVideo();	
+					main.removeKeyListener(this);
+					main.setFocusable(false);
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+		});
+		main.validate();
+		main.repaint();
+	}
 }

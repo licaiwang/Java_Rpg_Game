@@ -181,7 +181,7 @@ public class Skill {
 
 
     private static int Master_Sword_Dance() {
-        BattleSkillBase.Strik = 4;
+        BattleSkillBase.Strik = 3;
         return (BattleTemp.ATK+BattleTemp.SPEED)/2 - BattleTemp.M_DEF;
     }
 

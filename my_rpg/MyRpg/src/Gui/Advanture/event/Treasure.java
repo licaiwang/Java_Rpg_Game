@@ -62,6 +62,7 @@ public class Treasure extends JPanel {
              drawEvent(g);
         }else{
             drawConsequence(g);
+            Isclick = false;
         }
        
     }
@@ -101,19 +102,17 @@ public void createButton()
 
     btn_hand = new CreateButton("  打開 ");
     btn_hand .setMargin(new Insets(10, 10, 10, 10));
+    
     btn_ignore = new CreateButton("  無視 ");
     btn_ignore.setMargin(new Insets(10, 10, 10, 10));
     btn_ignore.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             AdvantureBackground.showRoad();
-            Isclick = false;
-            btn_ignore.setText(" 無視 ");
+            box.remove(btn_ignore);
+            createButton();
             box.add(btn_hand);
             box.add(btn_ignore);
-            box.repaint();
-            validate();
-            repaint();
         }
     });
     btn_hand.addActionListener(new ActionListener() {
